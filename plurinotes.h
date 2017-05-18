@@ -66,40 +66,43 @@ public:
 };
 
 //Class Note
-class note { //C'est une classe abstraite
-protected:
-    string m_id;
-	string m_title;
-	date m_creation;
-	date m_last_modif;
-	enum m_status
-   {
-      active,
-      archive,
-      trash
-   };
-
-
-public:
-    note(const string& id, const string& title) : m_id(id), m_title(title) {}
-    virtual ~note();
-    virtual string getId() const { return m_id; }
-	virtual string getTitle() const { return m_title; }
-	virtual void setTitle(const string& t) {m_title=t;}
-	setDateLastModif(const date& dateLastModif) : m_last_modif(dateLastModif){}
-	const date getDateLastModif(){return m_last_modif;}
-	setStatus(const string& status);
-	const string getStatus(){return m_status;}
-	virtual void show() const = 0;
-};
-class article : public Note{
+class article : public note{
 private:
 	string m_text;
 	public :
-	Article(id : const int&, title : const string&, text : const string&)
+	Article(const int& id,const string& title,const string&  text)
 	virtual ~Article();
 	setText(const string& text):m_text(text)
 	const string& getText() const {return m_text;}
 	virtual show();
 
+};
+class task : public note{
+private:
+	string m_action;
+	int m_priority;
+	int m_deadline;
+public:
+	Task(const int& id,const string&  title,const string& action,const int& priority);
+	virtual ~Task();
+	setAction(const string& action);
+	setPriority(const int& priority);
+	setDeadline(const int& deadline);
+	const string& getAction() const {return m_action;}  
+	const int& getPriority() const {return m_priority;}
+	const int& getDeadline() const {return m_deadline;}
+	virtual show(); 
+};
+class media :public note{
+private:
+	string m_description; 
+	string m_imageFileName;
+public:
+	media(const string& id,const string&  title, const string&description,const string&  imageFileName);
+	virtual ~media()  const = 0;
+	setDescription(const string& description):m_description(description){}
+	setImageFilename(const string& imageFileName):m_imageFileName(imageFileName){}
+	const string& getDescription() const {return m_description;}
+	const string& getImageFilename() const{return m_imageFileName;}
+	virtual show();
 };
