@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//On crée le template pour iterator
+
 //On crée les classes de base
 
 //Classe pour la date 
