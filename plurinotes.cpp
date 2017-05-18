@@ -2,9 +2,6 @@
 #include<iostream>
 #include"plurinotes.h"
 using namespace std;
-=======
-#include <iostream>
-#include "plurinotes.cpp"
 
 //Méthode de la classe Date
 date::date(int j, int m, int a) : jour(j), mois(m), annee(a) {}
@@ -22,4 +19,4 @@ void article::show() const{
     std::cout << "Titre de l'article: " << title << "\n";
     std::cout << "Contenu de l'article: " << text << "\n";
 }
->>>>>>> 0d0582975783de6e92d8cd4ac22db1903b87308e
+
