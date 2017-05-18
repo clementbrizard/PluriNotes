@@ -106,3 +106,31 @@ public:
 	const string& getImageFilename() const{return m_imageFileName;}
 	virtual show();
 };
+class image : public media{
+	public :
+	~image();
+};
+class video : public media{
+	public :
+	~video();
+};
+class audio : public media{
+	public :
+	~audio();
+};
+
+class couple{
+private:
+	Note m_referencingNote; 
+	Note m_referencedNote;
+	string label;
+public:
+	couple(const Note& referencingNote,const Note& referencedNote,const string& label ='');
+	~couple();
+	setReferencingNote(const Note& referencingNote):m_referencingNote(referencingNote){}
+	setReferencedNote(const Note& referencedNote):m_referencedNote(referencedNote){}
+setLabel(const string& label):label(label){}
+const Note& getReferencingNote() const {return m_referencingNote;}
+const Note& getReferencedNote() const  {return m_referencedNote;}
+const string&  getLabel() const {return label;}
+};
