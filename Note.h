@@ -1,56 +1,11 @@
-#ifndef FONCTION_H_INCLUDED
-#define FONCTION_H_INCLUDED
-
+#ifndef NOTE_H_INCLUDED
+#define NOTE_H_INCLUDED
 #include <iostream>
 #include <string>
-#include <fstream>
+#include "Exception.h"
 #include "timing.h"
-
 using namespace std;
 
-class NotesException{
-private:
-	string info;
-public:
-	NotesException(const string& message) : info(message){}
-	string getInfo() const { return info; }
-};
-
-template <class T> class Manager{
-private:
-	static T* m_uniqueInstance;
-	T** m_notes;
-	int m_nb;
-	int m_nbMax;
-	string m_fileName;
-	Manager() : m_tab(nullptr), m_nb(0), m_nbMax(0), m_fileName(""){}
-	Manager(const Manager& nm);
-	~Manager();
-	const Manager& operator=(const Manager& nm);
-	void addNote(T* t);
-public:
-	int getNb() {return m_nb; };
-	static Manager& giveInstance();
-	static freeInstance();
-	T& getNewNote(const int& id);
-	T& getNote(const int& id);
-	void load (const string& f);
-	void save();
-	//void restore(const int& id);
-		//Class iterator
-    template <class T> class iteratorManager{
-    private:
-        T** m_current;
-        int m_remain;
-        iterator(T** current, int remain);
-        friend class Manager;
-    public:
-        const bool isDone(return remain==0; );
-        void next(){m_current++; m_remain--; return *this; }
-        const T& currentValue(){return **m_current; }
-    };
-	iterator begin()const {return iteratorManager(m_notes, m_nb); }
-};
 
 class Note{
 private:
@@ -128,21 +83,9 @@ public :
 };
 
 class Audio : public Media{
-
-class Couple{
-private:
-	Note m_referencingNote;
-	Note m_referencedNote;
-	string label;
-public:
-	Couple(const Note& referencingNote,const Note& referencedNote,const string& label ='') : m_referencingNote(referencingNote), m_referencedNote(referencedNote) {}
-	~Couple();
-	setReferencingNote(const Note& referencingNote){m_referencingNote=referencingNote; }
-	setReferencedNote(const Note& referencedNote){m_referencedNote=referencedNote; }
-    setLabel(const string& label){m_label=label; }
-    const Note& getReferencingNote() const {return m_referencingNote; }
-    const Note& getReferencedNote() const  {return m_referencedNote; }
-    const string& getLabel() const {return label; }
-};
+    Audio(const int& id, const string& title, const string& description, const string& imageFileName) : Media(id,title,description,imageFileName){}
+	~Audio();
+}
 
 
+#endif // NOTE_H_INCLUDED
