@@ -1,23 +1,24 @@
-#include<iostream>
-#include"Note.h"
+#include "Note.h"
+#include <iostream>
 using namespace std;
 
-void Article::show(){
+void Article::show()const{
     cout << "Id : " << getId() << "\n";
     cout << "Titre : " << getTitle() << "\n";
     cout << "Contenu : " << m_text << "\n";
 }
 
-void Task::show(){
+void Task::show()const{
     cout << "Id : " << getId() << "\n";
     cout << "Titre: " << getTitle() << "\n";
-    if (m_priority != 0) cout << "Priorité :" << m_priority;
-    //if(m_deadline != Date(0,0,0)) cout << "Deadline : "<<m_deadline; reféfinir l'opérateur différent pour la classe Date
+    cout << "Action: " << m_action <<"\n";
+    if (m_priority != 0) cout << "Priorité : " << m_priority <<"\n";
+    if(!(m_deadline == Date(1,1,2000))) cout << "Deadline : "<<m_deadline;
 }
 
-void Media::show(){
+void Media::show()const{
     cout << "Id : " << getId() << "\n";
     cout << "Titre: " << getTitle() << "\n";
     cout << "Description: " << m_description << "\n";
-    cout << "Titre: " << m_imageFileName << "\n";
+    cout << "Media: " << m_imageFileName << "\n";
 }
