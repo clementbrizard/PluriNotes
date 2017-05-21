@@ -33,6 +33,19 @@ public:
 	Note& getNote(const int& id);
 	void load(const string& f);
 	void save() const;
+	
+	class iteratorManager{
+    private:
+        T** m_current;
+        int m_remain;
+        iteratorManager(Note** current, int remain);
+        friend class Manager;
+    public:
+        const bool isDone(){return m_remain==0; };
+        void next(){m_current++; m_remain--; return *this; }
+        const Note& currentValue(){return **m_current; }
+    };
+	iteratorManager begin()const {return iteratorManager(m_notes, m_nb); }
 };
 
 ostream& operator<<(ostream& f, const Note& n);
