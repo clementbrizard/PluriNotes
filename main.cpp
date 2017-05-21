@@ -1,12 +1,15 @@
-#include <iostream>
-#include "Note.h"
-#include "Manager.h"
+#include "Notes.h"
 
-using namespace std;
+int main() {
+	try {
+        NotesManager& m=NotesManager::getManager();
+        m.addArticle("ta mère","","");
+        cout<<m;
 
-int main()
-{
-    ManagerarticlesManager=Manager::giveInstance();
-    articlesManager.freeInstance();
-    return 0;
+	}
+	catch(NotesException& e){
+		std::cout<<e.getInfo()<<"\n";
+	}
+	system("pause");
+	return 0;
 }
