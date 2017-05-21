@@ -86,6 +86,6 @@ public:
 	~Audio(){};
 };
 
-
+ostream& operator<<(ostream& f, Note& n);
 
 #endif // NOTE_H_INCLUDED

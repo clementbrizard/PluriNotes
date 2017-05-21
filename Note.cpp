@@ -22,3 +22,8 @@ void Media::show()const{
     cout << "Description: " << m_description << "\n";
     cout << "Media: " << m_imageFileName << "\n";
 }
+
+ostream& operator<<(ostream& f, Note& n){
+    n.show();
+    return f;
+}

@@ -1,45 +1,40 @@
 #ifndef MANAGER_H_INCLUDED
 #define MANAGER_H_INCLUDED
 #include <string>
-#include "Exception.h"
 #include "timing.h"
+#include "Note.h"
 using namespace std;
 
-template <class T> class Manager{
+class Exception{
 private:
-	static T* m_uniqueInstance;
-	T** m_notes;
-	int m_nb;
-	int m_nbMax;
-	string m_fileName;
-	Manager() : m_tab(nullptr), m_nb(0), m_nbMax(0), m_fileName(""){}
-	Manager(const Manager& nm);
-	~Manager();
-	const Manager& operator=(const Manager& nm);
-	void addNote(T* t);
+	string info;
 public:
-	int getNb() {return m_nb; };
-	static Manager& giveInstance();
-	static freeInstance();
-	T& getNewNote(const int& id);
-	T& getNote(const int& id);
-	void load (const string& f);
-	void save();
-	//void restore(const int& id);
-		//Class iterator
-    template <class T> class iteratorManager{
-    private:
-        T** m_current;
-        int m_remain;
-        iterator(T** current, int remain);
-        friend class Manager;
-    public:
-        const bool isDone(return remain==0; );
-        void next(){m_current++; m_remain--; return *this; }
-        const T& currentValue(){return **m_current; }
-    };
-	iterator begin()const {return iteratorManager(m_notes, m_nb); }
+	Exception(const string& message) : info(message){}
+	string getInfo() const { return info; }
 };
 
+class Manager {
+private:
+    static Manager* m_uniqueInstance;
+	Note** m_notes;
+	int m_nb;
+    int m_nbMax;
+	void addNote(Note* n);
+	string m_filename;
+	Manager() : m_notes(nullptr),m_nb(0),m_nbMax(0),m_filename("tmp.dat"){}
+	Manager(const Manager& m);
+	Manager& operator=(const Manager& m);
+	~Manager();
+public:
+    unsigned int getNb() {return m_nb;}
+	static Manager& giveInstance();
+	static void freeInstance();
+	Note& getNewNote(const int& id);
+	Note& getNote(const int& id);
+	void load(const string& f);
+	void save() const;
+};
 
-#endif // MANAGER_H_INCLUDED
+ostream& operator<<(ostream& f, const Note& n);
+
+#endif
