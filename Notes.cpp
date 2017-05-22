@@ -4,15 +4,19 @@
 /*****************NOTE**************************/
 
 Note::Note(const string& id, const string& title):
-    m_id(id),m_title(title)
+    m_id(id),m_title(title),m_dateCreation(time(0)),m_dateLastModif(time(0))
 {}
 
 void Note::setTitle(const string& title) {
 	m_title=title;
 }
 
-ostream& operator<<(ostream&f, const Note& n){
-    n.show();
+void Note::setDateLastModif(time_t dateLastModif){
+    m_dateLastModif=dateLastModif;
+}
+
+ofstream& operator<<(ofstream&f, const Note& n){
+    n.write(f);
     return f;
 }
 
@@ -28,12 +32,16 @@ void Article::setText(const string& text) {
 }
 
 void Article::show()const{
-    cout<<getId()<<endl<<getTitle()<<endl<<m_text<<endl;
+    time_t dateCreation=getDateCreation();
+    time_t dateLastModif = getDateLastModif();
+    cout<<getId()<<endl<<getTitle()<<endl<<m_text<<endl<<ctime(&dateCreation)<<ctime(&dateLastModif)<<endl;
 }
 
-ostream& operator<<(ostream& f, const Article& a){
-	a.show();
-	return f;
+ofstream& Article::write(ofstream& f)const{
+    time_t dateCreation=getDateCreation();
+    time_t dateLastModif = getDateLastModif();
+    f<<getId()<<endl<<getTitle()<<endl<<m_text<<endl<<ctime(&dateCreation)<<ctime(&dateLastModif);
+    return f;
 }
 
 
@@ -57,15 +65,24 @@ Image::Image(const string& id,const string& title,const string& description,cons
 {}
 
 void Image::show()const{
-    cout<<getId()<<endl<<getTitle()<<endl<<getDescription()<<endl<<getImageFileName()<<endl;
+    time_t dateCreation=getDateCreation();
+    time_t dateLastModif=getDateLastModif();
+    cout<<getId()<<endl<<getTitle()<<endl<<getDescription()<<endl<<getImageFileName()<<endl<<ctime(&dateCreation)<<ctime(&dateLastModif)<<endl;
+}
+
+ofstream& Image::write(ofstream& f)const{
+    time_t dateCreation=getDateCreation();
+    time_t dateLastModif = getDateLastModif();
+    f<<getId()<<endl<<getTitle()<<endl<<getDescription()<<endl<<getImageFileName()<<endl<<ctime(&dateCreation)<<ctime(&dateLastModif)<<endl;
+    return f;
 }
 
 /*****************NOTESMANAGER*****************/
 
-NotesManager::NotesManager():m_notes(nullptr),m_nbNotes(0),m_nbMaxNotes(0),m_filename(""){}
+NotesManager::NotesManager():m_notes(nullptr),m_nbNotes(0),m_nbMaxNotes(0),m_filename("tmp.dat"){}
 
 NotesManager::~NotesManager(){
-    if (m_filename!="") save();
+    save();
 	for(unsigned int i=0; i<m_nbNotes; i++) delete m_notes[i];
 	delete[] m_notes;
 }
@@ -114,9 +131,9 @@ void NotesManager::addImage(const string& id, const string& title, const string&
 }
 
 void NotesManager::save() const {
-	ofstream fout(m_filename);
+	ofstream fout(m_filename.c_str());
 	for(unsigned int i=0; i<m_nbNotes; i++){
-		fout<<*m_notes[i];
+		fout<<*m_notes[i]<<endl;
 	}
 	fout.close();
 }
@@ -147,7 +164,7 @@ void NotesManager::load(const string& f) {
 
 ostream& operator<<(ostream&f,const NotesManager& m){
     for(NotesManager::Iterator it=m.getIterator(); !it.isDone(); it.next())
-        f<<it.current();
+        (it.current()).show();
     return f;
 
 }

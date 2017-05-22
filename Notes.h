@@ -2,9 +2,14 @@
 #define _NOTES_H
 #include <string>
 #include <iostream>
+#include <ctime>
 using namespace std;
 
+class NotesException;
+class Note;
 class Article;
+class Media;
+class Image;
 class NotesManager;
 
 class NotesException{
@@ -15,18 +20,32 @@ private:
 	string info;
 };
 
+/******************NOTE*******************/
+
 class Note{
 private:
     string m_id;
 	string m_title;
+	time_t m_dateCreation;
+	time_t m_dateLastModif;
+
 public:
     Note(const string& id, const string& title);
     virtual ~Note(){}
     string getId() const { return m_id; }
 	string getTitle() const { return m_title; }
+	time_t getDateCreation()const{return m_dateCreation; }
+	time_t getDateLastModif()const{return m_dateLastModif; }
 	void setTitle(const string& title);
+	void setDateLastModif(time_t dateLastModif);
     virtual void show() const=0;
+    virtual ofstream& write(ofstream& f) const=0;
 };
+
+
+ofstream& operator<<(ostream&f, const Note& n);
+
+/******************ARTICLE****************/
 
 class Article : public Note{
 	string m_text;
@@ -36,9 +55,13 @@ public:
 	string getText() const { return m_text; }
 	void setText(const string& text);
 	void show()const;
+	ofstream& write(ofstream& f)const;
 };
 
-class Media : public Note{ // abstraite par construction car n'impélmente pas la fonction show()
+
+/*****************MEDIA*******************/
+
+class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
 private:
     string m_description;
     string m_imageFileName;
@@ -51,12 +74,17 @@ public:
     void setImageFileName(const string& imageFileName);
 };
 
+/***************IMAGE*********************/
+
 class Image : public Media{
 public:
     Image(const string& id,const string& title,const string& description,const string& imageFileName);
     ~Image(){};
     void show()const;
+    ofstream& write(ofstream& f)const;
 };
+
+/**************NOTESMANAGER***************/
 
 class NotesManager {
 private:
@@ -111,9 +139,6 @@ public:
 
 };
 
-ostream& operator<<(ostream& f, const Article& a);
-
 ostream& operator<<(ostream&f,const NotesManager& nm);
 
-ostream& operator<<(ostream&f, const Note& n);
 #endif
