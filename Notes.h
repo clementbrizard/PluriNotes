@@ -7,7 +7,6 @@ using namespace std;
 class Article;
 class NotesManager;
 
-
 class NotesException{
 public:
 	NotesException(const string& message):info(message){}
@@ -18,33 +17,53 @@ private:
 
 class Note{
 private:
-    string id;
-	string title;
+    string m_id;
+	string m_title;
 public:
-    Note(const string& i, const string& ti);
-    virtual ~Note(){};
-    string getId() const { return id; }
-	string getTitle() const { return title; }
-	void setTitle(const string& t);
-    virtual void afficher() const=0;
+    Note(const string& id, const string& title);
+    virtual ~Note(){}
+    string getId() const { return m_id; }
+	string getTitle() const { return m_title; }
+	void setTitle(const string& title);
+    virtual void show() const=0;
 };
 
 class Article : public Note{
-	string text;
+	string m_text;
 public:
-	Article(const string& i, const string& ti, const string& te);
+	Article(const string& id, const string& title, const string& text);
 	~Article(){}
-	string getText() const { return text; }
-	void setText(const string& t);
-	void afficher()const;
+	string getText() const { return m_text; }
+	void setText(const string& text);
+	void show()const;
+};
+
+class Media : public Note{ // abstraite par construction car n'impélmente pas la fonction show()
+private:
+    string m_description;
+    string m_imageFileName;
+public:
+    Media(const string& id,const string& title,const string& description,const string& imageFileName);
+    ~Media(){};
+    string getDescription()const{return m_description; }
+    string getImageFileName()const{return m_imageFileName; }
+    void setDescription(const string& description);
+    void setImageFileName(const string& imageFileName);
+};
+
+class Image : public Media{
+public:
+    Image(const string& id,const string& title,const string& description,const string& imageFileName);
+    ~Image(){};
+    void show()const;
 };
 
 class NotesManager {
 private:
-	Note** notes;
-	unsigned int nbNotes;
-	unsigned int nbMaxNotes;
-	string filename;
+	Note** m_notes;
+	unsigned int m_nbNotes;
+	unsigned int m_nbMaxNotes;
+	string m_filename;
 	void addNote(Note* n);
 	struct Handler {
         NotesManager* instance; // pointeur sur l'unique instance
@@ -54,46 +73,47 @@ private:
     static Handler handler;
     NotesManager();
 	~NotesManager();
-	NotesManager(const NotesManager& m);
-	NotesManager& operator=(const NotesManager& m);
+	NotesManager(const NotesManager& nm);
+	NotesManager& operator=(const NotesManager& nm);
 public:
-	string getFilename() const { return filename; }
-    void setFilename(const string& f) { filename=f; }
-    void addArticle(const string& i, const string& ti, const string& te);
-	void load(const string& f);
+	string getFilename() const { return m_filename; }
+    void setFilename(const string& filename) { m_filename=filename; }
+    void addArticle(const string& id, const string& title, const string& text);
+    void addImage(const string& id, const string& title, const string& description, const string& imageFileName);
+	void load(const string& filename);
 	void save() const;
     static NotesManager& getManager();
     static void freeManager();
 
     class Iterator {
             friend class NotesManager;
-            Note** currentN;
-            unsigned int nbRemain;
-            Iterator(Note** n, unsigned nb):currentN(n),nbRemain(nb){}
+            Note** m_currentN;
+            unsigned int m_nbRemain;
+            Iterator(Note** currentN, unsigned nbRemain):m_currentN(currentN),m_nbRemain(nbRemain){}
         public:
-            Iterator():currentN(nullptr),nbRemain(0){}
-            bool isDone() const { return nbRemain==0; }
+            Iterator():m_currentN(nullptr),m_nbRemain(0){}
+            bool isDone() const { return m_nbRemain==0; }
             void next() {
                 if (isDone())
                     throw NotesException("error, next on an iterator which is done");
-                nbRemain--;
-                currentN++;
+                m_nbRemain--;
+                m_currentN++;
             }
             Note& current() const {
                 if (isDone())
                     throw NotesException("error, indirection on an iterator which is done");
-                return **currentN;
+                return **m_currentN;
             }
         };
         Iterator getIterator()const {
-            return Iterator(notes,nbNotes);
+            return Iterator(m_notes,m_nbNotes);
         }
 
 };
 
 ostream& operator<<(ostream& f, const Article& a);
 
-ostream& operator<<(ostream&f,const NotesManager& m);
+ostream& operator<<(ostream&f,const NotesManager& nm);
 
 ostream& operator<<(ostream&f, const Note& n);
 #endif
