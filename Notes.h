@@ -12,9 +12,11 @@ class Media;
 class Image;
 class NotesManager;
 
-class NotesException{
+/***************EXCEPTION***********************/
+
+class Exception{
 public:
-	NotesException(const string& message):info(message){}
+	Exception(const string& message):info(message){}
 	string getInfo() const { return info; }
 private:
 	string info;
@@ -92,7 +94,6 @@ private:
 	unsigned int m_nbNotes;
 	unsigned int m_nbMaxNotes;
 	string m_filename;
-	void addNote(Note* n);
 	struct Handler {
         NotesManager* instance; // pointeur sur l'unique instance
         Handler():instance(nullptr){}
@@ -103,6 +104,7 @@ private:
 	~NotesManager();
 	NotesManager(const NotesManager& nm);
 	NotesManager& operator=(const NotesManager& nm);
+	void addNote(Note* n);
 public:
 	string getFilename() const { return m_filename; }
     void setFilename(const string& filename) { m_filename=filename; }
@@ -123,13 +125,13 @@ public:
             bool isDone() const { return m_nbRemain==0; }
             void next() {
                 if (isDone())
-                    throw NotesException("error, next on an iterator which is done");
+                    throw Exception("error, next on an iterator which is done");
                 m_nbRemain--;
                 m_currentN++;
             }
             Note& current() const {
                 if (isDone())
-                    throw NotesException("error, indirection on an iterator which is done");
+                    throw Exception("error, indirection on an iterator which is done");
                 return **m_currentN;
             }
         };
@@ -140,5 +142,6 @@ public:
 };
 
 ostream& operator<<(ostream&f,const NotesManager& nm);
+
 
 #endif

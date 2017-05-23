@@ -101,7 +101,7 @@ void NotesManager::freeManager(){
 
 void NotesManager::addNote(Note* n){
 	for(unsigned int i=0; i<m_nbNotes; i++){
-		if (m_notes[i]->getId()==n->getId()) throw NotesException("error, creation of an already existent note");
+		if (m_notes[i]->getId()==n->getId()) throw Exception("error, creation of an already existent note");
 	}
 	if (m_nbNotes==m_nbMaxNotes){
 		Note** newM_notes= new Note*[m_nbMaxNotes+5];
@@ -116,7 +116,7 @@ void NotesManager::addNote(Note* n){
 
 void NotesManager::addArticle(const string& id, const string& title, const string& text){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==id) throw NotesException("Erreur : identificateur déjà existant");
+        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur déjà existant");
     }
     Article* a=new Article(id,title,text);
     addNote(a);
@@ -124,11 +124,12 @@ void NotesManager::addArticle(const string& id, const string& title, const strin
 
 void NotesManager::addImage(const string& id, const string& title, const string& description, const string& imageFileName){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==id) throw NotesException("Erreur : identificateur déjà existant");
+        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur déjà existant");
     }
     Image* i=new Image(id,title,description,imageFileName);
     addNote(i);
 }
+
 
 void NotesManager::save() const {
 	ofstream fout(m_filename.c_str());
@@ -142,17 +143,17 @@ void NotesManager::load(const string& f) {
 	if (m_filename!=f) save();
 	m_filename=f;
 	ifstream fin(m_filename); // open file
-	if (!fin) throw NotesException("error, file does not exist");
+	if (!fin) throw Exception("error, file does not exist");
 	while(!fin.eof()&&fin.good()){
 		char tmp[1000];
 		fin.getline(tmp,1000); // get id on the first line
-		if (fin.bad()) throw NotesException("error reading note id on file");
+		if (fin.bad()) throw Exception("error reading note id on file");
 		string id =tmp;
 		fin.getline(tmp,1000); // get title on the next line
-		if (fin.bad()) throw NotesException("error reading note title on file");
+		if (fin.bad()) throw Exception("error reading note title on file");
 		string title=tmp;
 		fin.getline(tmp,1000); // get text on the next line
-		if (fin.bad()) throw NotesException("error reading note text on file");
+		if (fin.bad()) throw Exception("error reading note text on file");
 		string text=tmp;
 		Article* a=new Article(id,title,text);
 		addNote(a);
@@ -166,6 +167,4 @@ ostream& operator<<(ostream&f,const NotesManager& m){
     for(NotesManager::Iterator it=m.getIterator(); !it.isDone(); it.next())
         (it.current()).show();
     return f;
-
 }
-
