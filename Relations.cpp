@@ -103,7 +103,7 @@ ofstream& operator<<(ofstream&f, const Relation& r){
 
 /*************RELATIONSMANAGER************/
 
-RelationsManager::RelationsManager():m_relations(nullptr),m_nbRelations(0),m_nbMaxRelations(0),m_filename("tmp.dat"){}
+RelationsManager::RelationsManager():m_relations(nullptr),m_nbRelations(0),m_nbMaxRelations(0),m_filename("Relations.dat"){}
 
 RelationsManager::~RelationsManager(){
     save();
