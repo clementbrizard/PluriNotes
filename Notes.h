@@ -44,8 +44,7 @@ public:
     virtual ofstream& write(ofstream& f) const=0;
 };
 
-
-ofstream& operator<<(ostream&f, const Note& n);
+ofstream& operator<<(ofstream& f, const Note& n);
 
 /******************ARTICLE****************/
 
@@ -106,10 +105,12 @@ private:
 	NotesManager& operator=(const NotesManager& nm);
 	void addNote(Note* n);
 public:
+	Note** getM_notes()const{return m_notes; }
 	string getFilename() const { return m_filename; }
     void setFilename(const string& filename) { m_filename=filename; }
     void addArticle(const string& id, const string& title, const string& text);
     void addImage(const string& id, const string& title, const string& description, const string& imageFileName);
+    void removeNote(Note *n);
 	void load(const string& filename);
 	void save() const;
     static NotesManager& getManager();

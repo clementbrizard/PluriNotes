@@ -1,4 +1,5 @@
 #include "Notes.h"
+#include "Relations.h"
 #include <fstream>
 
 /*****************NOTE**************************/
@@ -124,12 +125,25 @@ void NotesManager::addArticle(const string& id, const string& title, const strin
 
 void NotesManager::addImage(const string& id, const string& title, const string& description, const string& imageFileName){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur déjà existant");
+        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur deja existant");
     }
     Image* i=new Image(id,title,description,imageFileName);
     addNote(i);
 }
 
+void NotesManager::removeNote(Note *n){
+    int i=0;
+	Iterator it = getIterator();
+	while(!it.isDone() && it.current().getId()!=n->getId()){
+		it.next();
+		i++;
+	}
+
+	if(it.current().getId()==n->getId()){
+		m_notes[i]=m_notes[--m_nbNotes];
+	}
+	else throw Exception("Note a supprimer non trouvee");
+}
 
 void NotesManager::save() const {
 	ofstream fout(m_filename.c_str());
