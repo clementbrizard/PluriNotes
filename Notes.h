@@ -5,7 +5,7 @@
 #include <ctime>
 using namespace std;
 
-class NotesException;
+class Exception;
 class Note;
 class Article;
 class Media;
@@ -26,18 +26,19 @@ private:
 
 class Note{
 private:
-    string m_id;
+    int m_id;
 	string m_title;
 	time_t m_dateCreation;
 	time_t m_dateLastModif;
 
 public:
-    Note(const string& id, const string& title);
+    Note(const string& title);
     virtual ~Note(){}
-    string getId() const { return m_id; }
-	string getTitle() const { return m_title; }
+    const int& getId() const { return m_id; }
+	const string& getTitle() const { return m_title; }
 	time_t getDateCreation()const{return m_dateCreation; }
 	time_t getDateLastModif()const{return m_dateLastModif; }
+	void setId(const int& id);
 	void setTitle(const string& title);
 	void setDateLastModif(time_t dateLastModif);
     virtual void show() const=0;
@@ -51,7 +52,7 @@ ofstream& operator<<(ofstream& f, const Note& n);
 class Article : public Note{
 	string m_text;
 public:
-	Article(const string& id, const string& title, const string& text);
+	Article(const string& title, const string& text);
 	~Article(){}
 	string getText() const { return m_text; }
 	void setText(const string& text);
@@ -67,7 +68,7 @@ private:
     string m_description;
     string m_imageFileName;
 public:
-    Media(const string& id,const string& title,const string& description,const string& imageFileName);
+    Media(const string& title,const string& description,const string& imageFileName);
     ~Media(){};
     string getDescription()const{return m_description; }
     string getImageFileName()const{return m_imageFileName; }
@@ -79,7 +80,7 @@ public:
 
 class Image : public Media{
 public:
-    Image(const string& id,const string& title,const string& description,const string& imageFileName);
+    Image(const string& title,const string& description,const string& imageFileName);
     ~Image(){};
     void show()const;
     ofstream& write(ofstream& f)const;
@@ -108,8 +109,8 @@ public:
 	Note** getM_notes()const{return m_notes; }
 	string getFilename() const { return m_filename; }
     void setFilename(const string& filename) { m_filename=filename; }
-    void addArticle(const string& id, const string& title, const string& text);
-    void addImage(const string& id, const string& title, const string& description, const string& imageFileName);
+    void addArticle(const string& title, const string& text);
+    void addImage(const string& title, const string& description, const string& imageFileName);
     void removeNote(Note *n);
 	void load(const string& filename);
 	void save() const;

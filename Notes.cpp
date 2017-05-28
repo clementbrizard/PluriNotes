@@ -4,9 +4,13 @@
 
 /*****************NOTE**************************/
 
-Note::Note(const string& id, const string& title):
-    m_id(id),m_title(title),m_dateCreation(time(0)),m_dateLastModif(time(0))
+Note::Note(const string& title):
+    m_id(-1),m_title(title),m_dateCreation(time(0)),m_dateLastModif(time(0))
 {}
+
+void Note::setId(const int& id){
+    m_id=id;
+}
 
 void Note::setTitle(const string& title) {
 	m_title=title;
@@ -24,8 +28,8 @@ ofstream& operator<<(ofstream&f, const Note& n){
 
 /******************ARTICLE**********************/
 
-Article::Article(const string& id, const string& title, const string& text):
-	Note(id,title),m_text(text)
+Article::Article(const string& title, const string& text):
+	Note(title),m_text(text)
 {}
 
 void Article::setText(const string& text) {
@@ -47,8 +51,8 @@ ofstream& Article::write(ofstream& f)const{
 
 
 /********************MEDIA********************/
-Media::Media(const string& id,const string& title,const string& description,const string& imageFileName):
-    Note(id,title),m_description(description),m_imageFileName(imageFileName)
+Media::Media(const string& title,const string& description,const string& imageFileName):
+    Note(title),m_description(description),m_imageFileName(imageFileName)
 {}
 
 void Media::setDescription(const string& description){
@@ -61,8 +65,8 @@ void Media::setImageFileName(const string& imageFileName){
 
 /********************IMAGE********************/
 
-Image::Image(const string& id,const string& title,const string& description,const string& imageFileName):
-    Media(id,title,description,imageFileName)
+Image::Image(const string& title,const string& description,const string& imageFileName):
+    Media(title,description,imageFileName)
 {}
 
 void Image::show()const{
@@ -112,22 +116,23 @@ void NotesManager::addNote(Note* n){
 		m_nbMaxNotes+=5;
 		if (oldM_notes) delete[] oldM_notes;
 	}
+	n->setId(m_nbNotes);
 	m_notes[m_nbNotes++]=n;
 }
 
-void NotesManager::addArticle(const string& id, const string& title, const string& text){
+void NotesManager::addArticle(const string& title, const string& text){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur déjà existant");
+        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : article déjà existant");
     }
-    Article* a=new Article(id,title,text);
+    Article* a=new Article(title,text);
     addNote(a);
 }
 
-void NotesManager::addImage(const string& id, const string& title, const string& description, const string& imageFileName){
+void NotesManager::addImage(const string& title, const string& description, const string& imageFileName){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==id) throw Exception("Erreur : identificateur deja existant");
+        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
-    Image* i=new Image(id,title,description,imageFileName);
+    Image* i=new Image(title,description,imageFileName);
     addNote(i);
 }
 
@@ -169,7 +174,7 @@ void NotesManager::load(const string& f) {
 		fin.getline(tmp,1000); // get text on the next line
 		if (fin.bad()) throw Exception("error reading note text on file");
 		string text=tmp;
-		Article* a=new Article(id,title,text);
+		Article* a=new Article(title,text);
 		addNote(a);
 		if (fin.peek()=='\r') fin.ignore();
 		if (fin.peek()=='\n') fin.ignore();
@@ -178,6 +183,7 @@ void NotesManager::load(const string& f) {
 }
 
 ostream& operator<<(ostream&f,const NotesManager& m){
+    cout<<"Affichage du NotesManager"<<endl<<endl;
     for(NotesManager::Iterator it=m.getIterator(); !it.isDone(); it.next())
         (it.current()).show();
     return f;

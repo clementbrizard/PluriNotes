@@ -4,11 +4,15 @@ using namespace std;
 
 /******************COUPLE************************/
 
-Couple::Couple(const string& id,Note& referencingNote,Note& referencedNote,const string& label):
-    m_id(id),m_referencingNote(referencingNote),m_referencedNote(referencedNote),m_label(label)
+Couple::Couple(Note& referencingNote,Note& referencedNote,const string& label):
+    m_id(-1),m_referencingNote(referencingNote),m_referencedNote(referencedNote),m_label(label)
 {}
 
- void Couple::setReferencingNote(const Note& referencingNote){
+void Couple::setId(const int& id){
+    m_id=id;
+}
+
+void Couple::setReferencingNote(const Note& referencingNote){
     m_referencingNote=referencingNote;
  }
 
@@ -21,20 +25,25 @@ void Couple::setLabel(const string& label){
 }
 
 void Couple::show(){
-    cout<<m_id<<endl<<"Note référençante : "<<m_referencingNote.getId()<<endl<<"Note référencée : "<<m_referencedNote.getId()<<endl<<m_label<<endl;
+    cout<<m_id<<endl<<"Note référençante : "<<m_referencingNote.getId()<<endl<<"Note référencée : "<<m_referencedNote.getId()<<endl<<m_label<<endl<<endl;
 }
 
 ofstream& Couple::write(ofstream& f)const{
     f<<m_id<<endl<<m_referencingNote.getId()<<endl<<m_referencedNote.getId()<<endl;
     if(m_label!="") f<<m_label<<endl;
+    f<<endl;
     return f;
 }
 
 /*****************RELATION************************/
 
-Relation::Relation(const string& id, const string& title, const string& description, bool isOriented):
-    m_id(id),m_title(title),m_description(description),m_couples(nullptr), m_nbCouples(0), m_nbMaxCouples(0),m_isOriented(isOriented)
+Relation::Relation(const string& title, const string& description, bool isOriented):
+    m_id(-1),m_title(title),m_description(description),m_couples(nullptr), m_nbCouples(0), m_nbMaxCouples(0),m_isOriented(isOriented)
 {}
+
+void Relation::setId(const int& id){
+    m_id=id;
+}
 
 void Relation::setNbCouples(const int& nbCouples){
     m_nbCouples = nbCouples;
@@ -52,14 +61,7 @@ void Relation::setDescription (const string& description){
     m_description=description;
 }
 
-void Relation::setIsNonOriented(const bool& isOriented){
-    m_isOriented=isOriented;
-}
-
-void Relation::addCouple(const string& id, Note& referencingNote,Note& referencedNote,const string& label){
-    for(int i=0; i<m_nbCouples; i++){
-        if (m_couples[i]->getId()==id) throw Exception("Erreur : identificateur déjà existant");
-    }
+void Relation::addCouple(Note& referencingNote,Note& referencedNote,const string& label){
 
     if (m_nbCouples==m_nbMaxCouples){
 		Couple** newM_couples= new Couple*[m_nbMaxCouples+5];
@@ -70,11 +72,12 @@ void Relation::addCouple(const string& id, Note& referencingNote,Note& reference
 		if (oldM_couples) delete[] oldM_couples;
 	}
 
-    Couple* c=new Couple(id,referencingNote,referencedNote,label);
+    Couple* c=new Couple(referencingNote,referencedNote,label);
+    c->setId(m_nbCouples);
     m_couples[m_nbCouples++]=c;
 }
 
-void Relation::removeCouple(const string& id){
+void Relation::removeCouple(const int& id){
     int i=0;
 
 	while(i<m_nbCouples && m_couples[i]->getId()!=id) i++;
@@ -90,6 +93,7 @@ void Relation::removeNote(Note *n){
 }
 
 void Relation::show(){
+    cout<<"Affichage de la relation "<<m_title<<endl;
     for(Iterator it=getIterator(); !it.isDone(); it.next())
         (it.current()).show();
 }
@@ -123,9 +127,9 @@ void RelationsManager::freeManager(){
     handler.instance=nullptr;
 }
 
-void RelationsManager::addRelation(const string& id, const string& title, const string& description, bool isOriented){
+void RelationsManager::addRelation(const string& title, const string& description, bool isOriented){
 	for(int i=0; i<m_nbRelations; i++){
-		if (m_relations[i]->getId()==id) throw Exception("error, creation of an already existent Relation");
+		if (m_relations[i]->getTitle()==title) throw Exception("error, creation of an already existent Relation");
 	} // à réécrire avec l'itérateur
 	if (m_nbRelations==m_nbMaxRelations){
 		Relation** newM_relations= new Relation*[m_nbMaxRelations+5];
@@ -135,17 +139,20 @@ void RelationsManager::addRelation(const string& id, const string& title, const 
 		m_nbMaxRelations+=5;
 		if (oldM_relations) delete[] oldM_relations;
 	}
-	Relation* r=new Relation(id,title,description,isOriented);
+	Relation* r=new Relation(title,description,isOriented);
+	r->setId(m_nbRelations);
 	m_relations[m_nbRelations++]=r;
 }
 
-void RelationsManager::addCouple(const string& idRelation, const string& idCouple, Note& note1, Note& note2, const string label){
+void RelationsManager::addCouple(const int& idRelation, Note& note1, Note& note2, const string label){
     Iterator it=getIterator();
     while(!it.isDone() && it.current().getId()!=idRelation) it.next();
     if(it.isDone()) throw Exception("La relation à laquelle vous voulez ajouter un couple n'existe pas encore");
-    else
-        it.current().addCouple(idCouple,note1,note2,label);
-
+    else{
+        it.current().addCouple(note1,note2,label);
+        if(!it.current().getIsOriented())
+             it.current().addCouple(note2,note1,label);
+    }
 }
 
 void RelationsManager::removeRelation(Relation *r){
@@ -195,6 +202,7 @@ void RelationsManager::save() const {
 }*/
 
 ostream& operator<<(ostream& f,const RelationsManager& rm){
+    cout<<"Affichage du RelationsManager"<<endl;
      for(RelationsManager::Iterator it=rm.getIterator(); !it.isDone(); it.next())
         (it.current()).show();
     return f;
