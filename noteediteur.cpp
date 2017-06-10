@@ -1,14 +1,5 @@
 /*#include "mainwindow.h"
 #include "noteediteur.h"
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QMessageBox>
-#include <QListWidget>
-#include <QItemSelectionModel>
 
 NoteEditeur::NoteEditeur(Note* n, QWidget* parent){
     layout = new QVBoxLayout();

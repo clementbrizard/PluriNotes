@@ -1,13 +1,8 @@
 /*#ifndef NOTEEDITEUR_H
 #define NOTEEDITEUR_H
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QLabel>
-#include <QPushButton>
-#include "notes.h"
+
+#include "qt_include.h"
+
 class NoteEditeur : public QWidget {
     Q_OBJECT
     friend class NotesManager;

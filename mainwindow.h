@@ -1,38 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QPushButton>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QListWidget>
-#include <QFileDialog>
-#include "notes.h"
-#include <QMainWindow>
-#include "QWidget"
-#include <QFileDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QListView>
-#include <QFormLayout>
-#include <QMdiSubWindow>
-#include <QMdiArea>
-#include <QMenu>
-#include <QMenuBar>
-#include <QAction>
-#include <QFontComboBox>
-#include <QMessageBox>
-#include <QScrollArea>
-#include <QItemSelectionModel>
-#include <QKeySequence>
-#include <QDockWidget>
+#include "qt_include.h"
 #include "nmwindow.h"
 #include "noteediteur.h"
+
+// Vue principale de l'application
 class MainWindow : public QMainWindow {
-    Q_OBJECT
+
 private:
+    Q_OBJECT
+
     QWidget* centralArea;
     QGridLayout* centralLayout;
     //NoteEditeur* mainEditeur;

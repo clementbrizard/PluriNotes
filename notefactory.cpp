@@ -1,13 +1,5 @@
+
 #include "mainwindow.h"
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QMessageBox>
-#include <QListWidget>
-#include <QFileDialog>
 #include "notes.h"
 #include "notefactory.h"
 

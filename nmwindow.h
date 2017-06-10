@@ -1,8 +1,8 @@
 #ifndef NMWINDOW_H
 #define NMWINDOW_H
-#include <QDockWidget>
-#include <QWidget>
-#include <QListWidget>
+
+#include "qt_include.h"
+#include "notes.h"
 
 class NotesManagerWindow : public QDockWidget {
     Q_OBJECT

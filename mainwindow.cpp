@@ -1,17 +1,8 @@
+
 #include "mainwindow.h"
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QMessageBox>
-#include <QListWidget>
-#include <QFileDialog>
 #include "notes.h"
-#include <QApplication>
-#include <QMessageBox>
-#include <QDockWidget>
+
+
 MainWindow::MWHandler MainWindow::mw_handler=MWHandler();
 
 MainWindow& MainWindow::getInstance() {
@@ -44,7 +35,7 @@ MainWindow::MainWindow () {
     QAction* loadNotes = fichier->addAction("&Load Notes");
     QAction* save = fichier->addAction("&Save");
     QAction* quit = fichier->addAction("&Quit");
-loadNotes->setEnabled(true);
+    loadNotes->setEnabled(true);
     QMenu* notes = new QMenu;
     notes = menuBar()->addMenu("&Notes");
 

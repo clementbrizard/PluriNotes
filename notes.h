@@ -1,11 +1,12 @@
 #ifndef NOTES_H
 #define NOTES_H
-#include <QString>
-#include <QFile>
-#include <QTextCodec>
-#include <QtXml>
+
+#include "qt_include.h"
+
 using namespace std;
 
+class Exception;
+class Notes;
 class Article;
 class NotesManager;
 
@@ -65,31 +66,44 @@ private:
     unsigned int m_nbNotes;
     unsigned int m_nbMaxNotes;
     QString m_filename;
+
         struct Handler {
             NotesManager* instance; // pointeur sur l'unique instance
             Handler():instance(nullptr){}
             ~Handler() { delete instance; }
         };
         static Handler handler;
+
         NotesManager();
         ~NotesManager();
         NotesManager(const NotesManager& nm);
         NotesManager& operator=(const NotesManager& nm);
+
         void addNote(Note* n);
         void addLoadedNote(Note* n);
+
     public:
+
         Note** getM_notes()const{return m_notes; }
         QString getFilename() const { return m_filename; }
-        void setFilename(const QString& filename) { m_filename=filename; }
+
+        // Fonctions de manipulations des notes :
         void addArticle(const QString& title, const QString& text, const QString& id="");
         //void addImage(const QString& title, const QString& description, const QString& imageFileName);
         void removeNote(Note *n);
         void load();
         QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
         void save() const;
+
+        // getters
         Note& getNoteTitle(QString title);
+
+        // setters
+        void setFilename(const QString& filename) { m_filename=filename; }
+
         static NotesManager& getManager();
         static void freeManager();
+
         class Iterator {
                 friend class NotesManager;
                 Note** m_currentN;

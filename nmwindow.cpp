@@ -1,11 +1,10 @@
+
 #include "nmwindow.h"
 //#include "notemanager.h"
-#include "QBoxLayout"
-#include "QPushButton"
 #include "notes.h"
 //#include "noteediteur.h"
 #include "mainwindow.h"
-#include "QObject"
+
 
 
 NotesManagerWindow::NotesManagerWindow(QString title, QWidget* parent) : QDockWidget(title, parent){

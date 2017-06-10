@@ -1,16 +1,7 @@
 #ifndef NOTEFACTORY_H
 #define NOTEFACTORY_H
 
-#include <QWidget>
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
-#include <QLineEdit>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QListWidget>
-#include <QFileDialog>
-#include "notes.h"
+#include "qt_include.h"
 
 /*class ArticleFactory : public QWidget
 {

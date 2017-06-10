@@ -1,8 +1,5 @@
+
 #include "notes.h"
-#include <QFile>
-#include <QTextCodec>
-#include <QtXml>
-#include <QMessageBox>
 
 
 /*****************NOTESMANAGER*****************/
