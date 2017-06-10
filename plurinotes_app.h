@@ -47,9 +47,14 @@ public slots:
         notesManager.save();
     }
 
-    // Slot pour charger un fichier XML
+    // Charge un fichier XML
     void chargerXML(){
         vuePrincipale->remplirDockListeNotes();
+    }
+
+    // Enregistre le NotesManager dans un XML
+    void enregistrer(){
+        vuePrincipale->enregistrerNotesManager();
     }
 };
 

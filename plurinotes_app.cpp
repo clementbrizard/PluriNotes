@@ -35,15 +35,13 @@ QMenuBar* PluriNotes::createMenu() {
 
     // Menu Fichier :
     QMenu* fichier = menubar->addMenu("&Fichier");
-    QAction* showNotes = fichier->addAction("&Afficher les notes");
-    QAction* updateNotes = fichier->addAction("&Actualiser les notes");
 
     QAction* loadNotes = fichier->addAction("&Charger les notes");
-    loadNotes->setEnabled(true);
     QObject::connect(loadNotes, SIGNAL(triggered()), this, SLOT(chargerXML()));
 
     QAction* save = fichier->addAction("&Enregistrer");
     save->setShortcut(Qt::Key_S | Qt::CTRL);
+    QObject::connect(save, SIGNAL(triggered()), this, SLOT(enregistrer()));
 
     QAction* quit = fichier->addAction("&Quitter");
     quit->setShortcut(Qt::Key_Q | Qt::CTRL);
@@ -54,19 +52,9 @@ QMenuBar* PluriNotes::createMenu() {
     QMenu* menuEdition = new QMenu;
     menuEdition = menubar->addMenu("&Edition");
 
-    // Menu Notes ????????
-    QMenu* notes = new QMenu;
-    notes = menubar->addMenu("&Notes");
-
     // Menu Corbeille :
     QMenu* menuDustbin = new QMenu;
     menuDustbin = menubar->addMenu("&Corbeille");
-
-    //SLOTS
-    QObject::connect(quit, SIGNAL(triggered()), this, SLOT(QuitApplication()));
-
-    QObject::connect(showNotes, SIGNAL(triggered()), this, SLOT(showNotesManager()));
-    QObject::connect(updateNotes, SIGNAL(triggered()), this, SLOT(updateNotes()));
 
     return menubar;
 }

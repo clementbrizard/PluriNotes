@@ -12,8 +12,11 @@ public:
     // Message sur l'écran central initial
     void accueil();
 
-    // Charger le fichier XML et afficher les titres dans le dock à gauche
+    // Charge le fichier XML et afficher les titres dans le dock à gauche
     void remplirDockListeNotes();
+
+    // Enregistre le NotesManager dans un fichier XML
+    void enregistrerNotesManager();
 
 private:
 

@@ -122,9 +122,16 @@ void VuePrincipale::remplirDockListeNotes(){
 
     //dockListeNotes->setWidget(listeNotes);
 
-    QMessageBox msgBox(QMessageBox::Icon::Information, "Ajout données", "Les données ont été récupérées du fichier.");
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données ont été récupérées du fichier.");
     msgBox.exec();
 }
+
+void VuePrincipale::enregistrerNotesManager(){
+    notesManager.save();
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Enregistrement du NotesManager", "Le NotesManager a été enregistré");
+    msgBox.exec();
+}
+
 
 
 //void VuePrincipale::showNotesManager(){
