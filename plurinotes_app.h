@@ -46,6 +46,11 @@ public slots:
     void saveBeforeExit(){
         notesManager.save();
     }
+
+    // Slot pour charger un fichier XML
+    void chargerXML(){
+        vuePrincipale->remplirDockListeNotes();
+    }
 };
 
 #endif // PLURINOTES_APP_H

@@ -12,6 +12,9 @@ public:
     // Message sur l'écran central initial
     void accueil();
 
+    // Charger le fichier XML et afficher les titres dans le dock à gauche
+    void remplirDockListeNotes();
+
 private:
 
     Q_OBJECT
@@ -24,6 +27,8 @@ private:
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
 
+    // Docks
+    QDockWidget* dockListeNotes;
 
     NotesManager& notesManager = NotesManager::getManager();
 

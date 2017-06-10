@@ -47,10 +47,9 @@ void VuePrincipale::accueil()
     this->setCentralWidget(messageAccueil);
 }
 
-// Fonction de création des Docks lattéraux
+// Fonction de création des Docks latéraux
 void VuePrincipale::createDockWindows()
 {
-    QDockWidget* dockListeNotes = new QDockWidget("Notes", this);
     dockListeNotes->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     listeNotes = new QListWidget(dockListeNotes); // listeNotes est le fils de dockListeNotes
 
@@ -59,7 +58,7 @@ void VuePrincipale::createDockWindows()
 }
 
 VuePrincipale::VuePrincipale()
-    : QMainWindow(), listeNotes(nullptr)
+    : QMainWindow(), listeNotes(nullptr), dockListeNotes(new QDockWidget("Notes", this))
 {
 
     //QWidget* zoneCentrale = new QWidget;
@@ -72,7 +71,25 @@ VuePrincipale::VuePrincipale()
     accueil();
 }
 
+
 /********* SLOTS **********/
+
+void VuePrincipale::remplirDockListeNotes(){
+
+    QString filename = QFileDialog::getOpenFileName();
+    notesManager.setFilename(filename);
+    notesManager.load();
+
+    QListWidgetItem* item;
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);
+    }
+
+    //dockListeNotes->setWidget(listeNotes);
+
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Ajout données", "Les données ont été récupérées du fichier.");
+    msgBox.exec();
+}
 
 
 //void VuePrincipale::showNotesManager(){
@@ -81,14 +98,7 @@ VuePrincipale::VuePrincipale()
 //    addDockWidget(Qt::LeftDockWidgetArea, dockNotesManager);
 //}
 
-//void VuePrincipale::LoadData(){
-//    NotesManager& m = NotesManager::getManager();
-//    QString filename = QFileDialog::getOpenFileName();
-//    m.setFilename(filename);
-//    m.load();
-//    MainWindow::updateNotes();
-//    QMessageBox msgBox(QMessageBox::Icon::Information, "Ajout données", "Les données ont été récupérées du fichier.");
-//    msgBox.exec();
+
 //MainWindow::loadNotes->setEnabled(false);
 //}
 
