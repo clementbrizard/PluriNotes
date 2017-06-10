@@ -34,6 +34,7 @@
 #include <QTextCodec>
 #include <QTextEdit>
 #include <QToolBar>
+#include <QTreeWidget>
 #include <QtXml>
 #include <QVBoxLayout>
 #include <QWidget>

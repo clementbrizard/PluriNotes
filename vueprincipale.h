@@ -26,9 +26,16 @@ private:
 
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
+    QListWidget* listeTaches;
+    QListWidget* listeArchives;
+    QTreeWidget* arborescenceAscendants;
+    QTreeWidget* arborescenceDescendants;
 
     // Docks
     QDockWidget* dockListeNotes;
+    QDockWidget* dockListeTaches;
+    QDockWidget* dockListeArchives;
+    QDockWidget* dockArborescence;
 
     NotesManager& notesManager = NotesManager::getManager();
 
