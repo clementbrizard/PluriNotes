@@ -54,6 +54,39 @@ public:
     void setText(const QString& text);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
 };
+/*****************MEDIA*******************/
+
+class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
+private:
+    QString m_description;
+    QString m_imageFileName;
+public:
+    Media(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    ~Media(){};
+    QString getDescription()const{return m_description; }
+    QString getImageFileName()const{return m_imageFileName; }
+    void setDescription(const QString& description);
+    void setImageFileName(const QString& imageFileName);
+};
+
+/***************IMAGE*********************/
+
+class Image : public Media{
+public:
+    Image(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    ~Image(){};
+    QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"img";}
+};
+/***************AUDIO*********************/
+
+class Audio : public Media{
+public:
+    Audio(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    ~Audio(){};
+    QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"aud";}
+};
 
 /************NOTESMANAGER*************/
 class NotesManager {
@@ -85,10 +118,13 @@ private:
 
         // Fonctions de manipulations des notes :
         void addArticle(const QString& title, const QString& text, const QString& id="");
-        //void addImage(const QString& title, const QString& description, const QString& imageFileName);
+        void addImage(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
+        void addAudio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
         void removeNote(Note *n);
         void load();
         QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
+        QXmlStreamReader& loadImage(QXmlStreamReader& xml);
+        QXmlStreamReader& loadAudio(QXmlStreamReader& xml);
         void save() const;
 
         // getters
