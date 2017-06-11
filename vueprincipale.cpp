@@ -166,7 +166,7 @@ void VuePrincipale::remplirDockListeNotes(){
 
     //dockListeNotes->setWidget(listeNotes);
 
-    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données ont été récupérées du fichier.");
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier ont été récupérées.");
     msgBox.exec();
 }
 
@@ -176,6 +176,38 @@ void VuePrincipale::enregistrerNotesManager(){
     msgBox.exec();
 }
 
+// Fonction qui permet d'actualiser tous les docks après la création d'une nouvelle note
+
+void VuePrincipale::actualiserLesDocks(){
+
+    // Dock des Notes
+    dockListeNotes->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    listeNotes = new QListWidget(dockListeNotes); // listeNotes est le fils de dockListeNotes
+    dockListeNotes->setWidget(listeNotes);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeNotes);
+
+    //On reremplit avec les notes du notesManager
+    QListWidgetItem* item;
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);
+    }
+
+    // Dock des Taches
+    dockListeTaches->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    listeTaches = new QListWidget(dockListeTaches);
+    dockListeTaches->setWidget(listeTaches);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeTaches);
+
+    // Reremplir avec les éventuelles nouvelles taches
+
+    // Dock des notes archivées
+    dockListeArchives->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    listeArchives = new QListWidget(dockListeArchives);
+    dockListeArchives->setWidget(listeArchives);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeArchives);
+
+    // Reremplir avec les éventuelles nouvelles notes archivées
+}
 
 
 //void VuePrincipale::QuitApplication(){

@@ -43,10 +43,11 @@ private:
     PluriNotes(int &argc, char **argv, const QString& _name);
 
 public slots:
-    void saveBeforeExit(){
-        notesManager.save();
-    }
 
+    // Actualiser les docks après qu'on ait créé une nouvelle Note
+    void actualiserListes(){
+        vuePrincipale->actualiserLesDocks();
+    }
     // Charge un fichier XML
     void chargerXML(){
         vuePrincipale->remplirDockListeNotes();
@@ -56,6 +57,10 @@ public slots:
     void enregistrer(){
         vuePrincipale->enregistrerNotesManager();
     }
+
+    /*void montrerNote(){
+        vuePrincipale->showNote();
+    }*/
 };
 
 #endif // PLURINOTES_APP_H

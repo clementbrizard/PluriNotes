@@ -23,6 +23,9 @@ public:
     // Fonction d'affichage dans la zone centrale dépendant du type entré en paramètre
     void afficher(const TypeListe type);
 
+    //Actualise les notes affichées
+    void actualiserLesDocks();
+
 private:
 
     Q_OBJECT
@@ -49,7 +52,6 @@ private:
 
 signals :
     public slots :
-
 
 };
 

@@ -36,17 +36,20 @@ QMenuBar* PluriNotes::createMenu() {
     // Menu Fichier :
     QMenu* fichier = menubar->addMenu("&Fichier");
 
-    QAction* loadNotes = fichier->addAction("&Charger les notes");
-    QObject::connect(loadNotes, SIGNAL(triggered()), this, SLOT(chargerXML()));
+    QAction* actualiser = fichier->addAction("&Actualiser les 3 listes de notes");
+    QObject::connect(actualiser, SIGNAL(triggered()), this, SLOT(actualiserListes()));
 
-    QAction* save = fichier->addAction("&Enregistrer");
-    save->setShortcut(Qt::Key_S | Qt::CTRL);
-    QObject::connect(save, SIGNAL(triggered()), this, SLOT(enregistrer()));
+    QAction* chargerFichier = fichier->addAction("&Charger les notes");
+    QObject::connect(chargerFichier, SIGNAL(triggered()), this, SLOT(chargerXML()));
+
+    QAction* sauver = fichier->addAction("&Enregistrer");
+    sauver->setShortcut(Qt::Key_S | Qt::CTRL);
+    QObject::connect(sauver, SIGNAL(triggered()), this, SLOT(enregistrer()));
 
     QAction* quit = fichier->addAction("&Quitter");
     quit->setShortcut(Qt::Key_Q | Qt::CTRL);
     QObject::connect(quit, SIGNAL(triggered()), this, SLOT(quit()));
-    //QObject::connect(this, SIGNAL(aboutToQuit()), this SLOT(saveBeforeExit()));
+
 
     // Menu Edition :
     QMenu* menuEdition = new QMenu;
@@ -70,4 +73,5 @@ void PluriNotes::focusOn(NomVue nom){
         default:
             break;
     }
+
 }
