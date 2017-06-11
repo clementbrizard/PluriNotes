@@ -7,6 +7,7 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QDate>
 #include <QDockWidget>
 #include <QFile>
 #include <QFileDialog>

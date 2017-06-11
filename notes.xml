@@ -4,11 +4,15 @@
         <id>0</id>
         <title>coucou</title>
         <text>coucou</text>
+        <dateCreation>11-06-2017</dateCreation>
+        <dateLastModif>11-06-2017</dateLastModif>
     </article>
     <article>
         <id>1</id>
         <title>Objectifs</title>
         <text>Se familiariser avec le framework Qt</text>
+        <dateCreation>11-06-2017</dateCreation>
+        <dateLastModif>11-06-2017</dateLastModif>
     </article>
     <article>
         <id>2</id>
@@ -18,16 +22,22 @@
 - All clear, C. Willis
 - Spin, R.-C. Wilson
 		</text>
+        <dateCreation>11-06-2017</dateCreation>
+        <dateLastModif>11-06-2017</dateLastModif>
     </article>
     <article>
         <id>3</id>
         <title>Une citation de Charles Babbage</title>
         <text>Les erreurs occasionnées par l'utilisation de fausses données sont moindres que celles n'utilisant aucune donnée.
 		</text>
+        <dateCreation>11-06-2017</dateCreation>
+        <dateLastModif>11-06-2017</dateLastModif>
     </article>
     <article>
         <id>4</id>
         <title>Test1</title>
         <text>Hola</text>
+        <dateCreation>11-06-2017</dateCreation>
+        <dateLastModif>11-06-2017</dateLastModif>
     </article>
 </notes>

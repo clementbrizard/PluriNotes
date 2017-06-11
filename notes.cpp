@@ -64,6 +64,7 @@ void NotesManager::addLoadedNote(Note* n){
     }
     m_notes[m_nbNotes++]=n;
 }
+
 void NotesManager::addArticle(const QString& title, const QString& text,const QString& id){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : article déjà existant");
@@ -101,6 +102,7 @@ void NotesManager::save() const {
     stream.writeEndDocument();
     newfile.close();
 }
+
 void NotesManager::load() {
     QFile fin(m_filename);
     // If we can't open it, let's show an error message.
@@ -136,11 +138,15 @@ void NotesManager::load() {
     //xml.clear();
     qDebug()<<"fin load\n";
 }
+
 QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
     qDebug()<<"new article\n";
     QString identificateur;
     QString titre;
     QString text;
+    QString temp;
+    QDate dateCreation;
+    QDate dateLastModif;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -158,12 +164,32 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
                 xml.readNext(); titre=xml.text().toString();
                 qDebug()<<"titre="<<titre<<"\n";
             }
+
             // We've found text
             if(xml.name() == "text") {
                 xml.readNext();
                 text=xml.text().toString();
                 qDebug()<<"text="<<text<<"\n";
             }
+
+            //We've found dateCreation
+            if(xml.name() == "dateCreation"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                dateCreation = QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"creation="<<dateCreation<<"\n";
+            }
+
+            //We've found dateLastModif
+            if(xml.name() == "dateLastModif"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                 dateLastModif= QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"date="<<dateLastModif<<"\n";
+            }
+
         }
         // ...and next...
         xml.readNext();
@@ -173,10 +199,11 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
     addLoadedNote(a);
     return xml;
 }
+
 /*****************NOTE**************************/
 
 Note::Note(const QString& title,const QString& id):
-    m_id(id),m_title(title),m_dateCreation(time(0)),m_dateLastModif(time(0))
+    m_id(id),m_title(title),m_dateCreation(QDate::currentDate()),m_dateLastModif(QDate::currentDate())
 {}
 
 void Note::setId(const QString &id){
@@ -187,7 +214,7 @@ void Note::setTitle(const QString &title) {
     m_title=title;
 }
 
-void Note::setDateLastModif(time_t dateLastModif){
+void Note::setDateLastModif(QDate dateLastModif){
     m_dateLastModif=dateLastModif;
 }
 
@@ -208,6 +235,8 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeTextElement("id",getId());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("text",getText());
+        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
+        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
 }

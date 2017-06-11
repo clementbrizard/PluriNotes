@@ -10,7 +10,6 @@ class Notes;
 class Article;
 class NotesManager;
 
-
 /***************EXCEPTION***********************/
 
 class Exception{
@@ -28,24 +27,21 @@ class Note{
 private:
     QString m_id;
     QString m_title;
-    time_t m_dateCreation;
-    time_t m_dateLastModif;
+    QDate m_dateCreation;
+    QDate m_dateLastModif;
 
 public:
     Note(const QString& title,const QString& id="");
     virtual ~Note(){}
     const QString& getId() const { return m_id; }
     const QString& getTitle() const { return m_title; }
-    time_t getDateCreation()const{return m_dateCreation; }
-    time_t getDateLastModif()const{return m_dateLastModif; }
+    QDate getDateCreation()const{return m_dateCreation; }
+    QDate getDateLastModif()const{return m_dateLastModif; }
     void setId(const QString& id);
     void setTitle(const QString& title);
-    void setDateLastModif(time_t dateLastModif);
+    void setDateLastModif(QDate dateLastModif);
     virtual QXmlStreamWriter& save(QXmlStreamWriter& stream) const = 0;
 };
-
-
-
 
 /******************ARTICLE****************/
 
