@@ -1,4 +1,3 @@
-
 #include "notes.h"
 
 
@@ -72,7 +71,21 @@ void NotesManager::addArticle(const QString& title, const QString& text,const QS
     Article* a=new Article(title,text,id);
     addNote(a);
 }
+void NotesManager::addImage(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+    for(unsigned int i=0; i<m_nbNotes; i++){
+        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
+    }
+    Image* i=new Image(title,description,imageFileName,id);
+    addNote(i);
+}
 
+void NotesManager::addAudio(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+    for(unsigned int i=0; i<m_nbNotes; i++){
+        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
+    }
+    Audio* au=new Audio(title,description,imageFileName,id);
+    addNote(au);
+}
 void NotesManager::removeNote(Note *n){
     int i=0;
     Iterator it = getIterator();
@@ -124,8 +137,8 @@ void NotesManager::load() {
             if(xml.name() == "notes") continue;
             // If it's named article, we'll dig the information from there.
             if(xml.name() == "article") { loadArticle(xml); }
-            //if(xml.name() == "audio") { loadAudio(xml); }
-            //if(xml.name() == "image") { loadImage(xml); }
+            if(xml.name() == "audio") { loadAudio(xml); }
+            if(xml.name() == "image") { loadImage(xml); }
             //if(xml.name() == "video") { loadVideo(xml); }
             //if(xml.name() == "task") { loadTask(xml); }
         }
@@ -235,8 +248,173 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeTextElement("id",getId());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("text",getText());
-        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
-        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
+}
+QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
+    qDebug()<<"new article\n";
+    qDebug()<<"test1\n";
+    QString identificateur;
+    QString titre;
+    QString text;
+    QXmlStreamAttributes attributes = xml.attributes();
+    xml.readNext();
+    //We're going to loop over the things because the order might change.
+    //We'll continue the loop until we hit an EndElement named article.
+    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "article")) {
+        if(xml.tokenType() == QXmlStreamReader::StartElement) {
+            // We've found identificateur.
+            if(xml.name() == "id") {
+                xml.readNext(); identificateur=xml.text().toString();
+                qDebug()<<"id="<<identificateur<<"\n";
+            }
+
+            // We've found titre.
+            if(xml.name() == "title") {
+                xml.readNext(); titre=xml.text().toString();
+                qDebug()<<"titre="<<titre<<"\n";
+            }
+            // We've found text
+            if(xml.name() == "text") {
+                xml.readNext();
+                text=xml.text().toString();
+                qDebug()<<"text="<<text<<"\n";
+            }
+        }
+        // ...and next...
+        xml.readNext();
+    }
+    qDebug()<<"ajout Article "<<identificateur<<"\n";
+    Article* a=new Article(titre,text,identificateur);
+    addLoadedNote(a);
+    return xml;
+}
+/********************MEDIA********************/
+Media::Media(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
+    Note(title),m_description(description),m_imageFileName(imageFileName)
+{}
+
+void Media::setDescription(const QString& description){
+    m_description=description;
+}
+
+void Media::setImageFileName(const QString& imageFileName){
+    m_imageFileName=imageFileName;
+}
+
+/********************IMAGE********************/
+
+Image::Image(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
+    Media(title,description,imageFileName,id)
+{}
+QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
+        stream.writeStartElement("image");
+        stream.writeTextElement("id",getId());
+        stream.writeTextElement("title",getTitle());
+        stream.writeTextElement("description",getDescription());
+        stream.writeTextElement("imageFilename",getImageFileName());
+        stream.writeEndElement();
+        return stream;
+}
+QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
+    qDebug()<<"new image\n";
+    QString identificateur;
+    QString titre;
+    QString description;
+    QString imageFileName;
+    QXmlStreamAttributes attributes = xml.attributes();
+    xml.readNext();
+    //We're going to loop over the things because the order might change.
+    //We'll continue the loop until we hit an EndElement named article.
+    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "article")) {
+        if(xml.tokenType() == QXmlStreamReader::StartElement) {
+            // We've found identificateur.
+            if(xml.name() == "id") {
+                xml.readNext(); identificateur=xml.text().toString();
+                qDebug()<<"id="<<identificateur<<"\n";
+            }
+
+            // We've found titre.
+            if(xml.name() == "title") {
+                xml.readNext(); titre=xml.text().toString();
+                qDebug()<<"titre="<<titre<<"\n";
+            }
+            // We've found description
+            if(xml.name() == "description") {
+                xml.readNext();
+                description=xml.text().toString();
+                qDebug()<<"description="<<description<<"\n";
+            }
+            // We've found imageFileName
+            if(xml.name() == "imageFileName") {
+                xml.readNext();
+                imageFileName=xml.text().toString();
+                qDebug()<<"imageFileName="<<imageFileName<<"\n";
+            }
+        }
+        // ...and next...
+        xml.readNext();
+    }
+    qDebug()<<"ajout Image "<<identificateur<<"\n";
+    Image* i=new Image(titre,description,imageFileName,identificateur);
+    addLoadedNote(i);
+    return xml;
+}
+/********************AUDIO********************/
+
+Audio::Audio(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
+    Media(title,description,imageFileName,id)
+{}
+QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
+        stream.writeStartElement("audio");
+        stream.writeTextElement("id",getId());
+        stream.writeTextElement("title",getTitle());
+        stream.writeTextElement("description",getDescription());
+        stream.writeTextElement("imageFilename",getImageFileName());
+        stream.writeEndElement();
+        return stream;
+}
+QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
+    qDebug()<<"new audio\n";
+    QString identificateur;
+    QString titre;
+    QString description;
+    QString imageFileName;
+    QXmlStreamAttributes attributes = xml.attributes();
+    xml.readNext();
+    //We're going to loop over the things because the order might change.
+    //We'll continue the loop until we hit an EndElement named article.
+    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "article")) {
+        if(xml.tokenType() == QXmlStreamReader::StartElement) {
+            // We've found identificateur.
+            if(xml.name() == "id") {
+                xml.readNext(); identificateur=xml.text().toString();
+                qDebug()<<"id="<<identificateur<<"\n";
+            }
+
+            // We've found titre.
+            if(xml.name() == "title") {
+                xml.readNext(); titre=xml.text().toString();
+                qDebug()<<"titre="<<titre<<"\n";
+            }
+            // We've found description
+            if(xml.name() == "description") {
+                xml.readNext();
+                description=xml.text().toString();
+                qDebug()<<"description="<<description<<"\n";
+            }
+            // We've found imageFileName
+            if(xml.name() == "imageFileName") {
+                xml.readNext();
+                imageFileName=xml.text().toString();
+                qDebug()<<"imageFileName="<<imageFileName<<"\n";
+            }
+        }
+        // ...and next...
+        xml.readNext();
+    }
+    qDebug()<<"ajout Audio "<<identificateur<<"\n";
+    Audio* i=new Audio(titre,description,imageFileName,identificateur);
+    addLoadedNote(i);
+    return xml;
 }
