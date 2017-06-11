@@ -31,7 +31,7 @@ private:
     QDate m_dateLastModif;
 
 public:
-    Note(const QString& title,const QString& id="");
+    Note(const QString& title,const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     virtual ~Note(){}
     const QString& getId() const { return m_id; }
     const QString& getTitle() const { return m_title; }
@@ -48,7 +48,7 @@ public:
 class Article : public Note{
     QString m_text;
 public:
-    Article(const QString& title, const QString& text, const QString& id="");
+    Article(const QString& title, const QString& text, const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     ~Article(){}
     QString getText() const { return m_text; }
     void setText(const QString& text);

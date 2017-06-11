@@ -195,15 +195,15 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout Article "<<identificateur<<"\n";
-    Article* a=new Article(titre,text,identificateur);
+    Article* a=new Article(titre,text,identificateur,dateCreation,dateLastModif);
     addLoadedNote(a);
     return xml;
 }
 
 /*****************NOTE**************************/
 
-Note::Note(const QString& title,const QString& id):
-    m_id(id),m_title(title),m_dateCreation(QDate::currentDate()),m_dateLastModif(QDate::currentDate())
+Note::Note(const QString& title, const QString& id, const QDate &dateCreation, const QDate &dateLastModif):
+    m_id(id),m_title(title),m_dateCreation(dateCreation),m_dateLastModif(dateLastModif)
 {}
 
 void Note::setId(const QString &id){
@@ -221,8 +221,8 @@ void Note::setDateLastModif(QDate dateLastModif){
 
 /******************ARTICLE**********************/
 
-Article::Article(const QString& title, const QString& text,const QString& id):
-    Note(title,id),m_text(text)
+Article::Article(const QString& title, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif):
+    Note(title,id,dateCreation,dateLastModif),m_text(text)
 {}
 
 void Article::setText(const QString& text) {
