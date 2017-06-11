@@ -83,6 +83,49 @@ void VuePrincipale::createDockWindows()
 
 }
 
+void VuePrincipale::afficher(const TypeListe type)
+{
+    // Layouts et positionnement
+    QWidget* centralContainer = new QWidget;
+    QVBoxLayout* layoutVertical = new QVBoxLayout;
+    QHBoxLayout* layoutHBoutons = new QHBoxLayout;
+
+    QLabel* titre = new QLabel;
+    QLabel* id = new QLabel;
+    QLabel* texte = new QLabel;
+    QLabel* statut = new QLabel;
+    QLabel* dateCreation = new QLabel;
+    QLabel* dateLastModif = new QLabel;
+
+    QPushButton* modifier = new QPushButton("Modifier");
+    QPushButton* supprimer = new QPushButton("Supprimer");
+    QPushButton* afficherVersions = new QPushButton("Anciennes versions");
+    layoutHBoutons->addWidget(modifier);
+    layoutHBoutons->addWidget(supprimer);
+    layoutHBoutons->addWidget(afficherVersions);
+
+    // Tests temp
+    titre->setText("Titre de la note");
+    id->setText("1");
+    texte->setText("bla bla bla \n nlafsdg dfg dfg dfg dgerg hr rthdfd \n sdfgsdfer ergdfv szfgsd g.");
+    statut->setText("Active");
+    dateCreation->setText(QDate::currentDate().toString("d MMMM yyyy"));
+    dateLastModif->setText(QDate::currentDate().toString("d MMMM yyyy"));
+
+    layoutVertical->addWidget(titre, 0, Qt::AlignCenter);
+    layoutVertical->addWidget(id);
+    layoutVertical->addWidget(texte);
+    layoutVertical->addWidget(statut);
+    layoutVertical->addWidget(dateCreation);
+    layoutVertical->addWidget(dateLastModif);
+
+    layoutVertical->setAlignment(Qt::AlignTop);
+    layoutVertical->addLayout(layoutHBoutons);
+
+    centralContainer->setLayout(layoutVertical);
+    this->setCentralWidget(centralContainer);
+}
+
 VuePrincipale::VuePrincipale()
     : QMainWindow(),
       listeNotes(nullptr),
@@ -104,6 +147,7 @@ VuePrincipale::VuePrincipale()
     createDockWindows();
 
     accueil();
+    afficher(Note);
 }
 
 
@@ -134,25 +178,10 @@ void VuePrincipale::enregistrerNotesManager(){
 
 
 
-//void VuePrincipale::showNotesManager(){
-//    dockNotesManager = new NotesManagerWindow(tr("Liste des Notes"), this);
-//    dockNotesManager->setAllowedAreas(Qt::LeftDockWidgetArea);
-//    addDockWidget(Qt::LeftDockWidgetArea, dockNotesManager);
-//}
-
-
-//MainWindow::loadNotes->setEnabled(false);
-//}
-
 //void VuePrincipale::QuitApplication(){
 //    NotesManager& nm = NotesManager::getManager();
 //    nm.save();
 //    qApp->quit();
 //    nm.freeManager();
 //    MainWindow::libererInstance();
-//}
-
-//void VuePrincipale::updateNotes(){
-//    dockListeNotes->close();
-//    showNotesManager();
 //}
