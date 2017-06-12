@@ -106,19 +106,15 @@ void VuePrincipale::afficher(const TypeListe type)
     layoutHBoutons->addWidget(afficherVersions);
 
     // Tests temp
-    titre->setText("Titre de la note");
-    id->setText("- ID : 1");
-    texte->setText("Ethical irony keffiyeh craft beer pug. Ennui bitters chartreuse, post-ironic aesthetic single-origin coffee lomo shoreditch. VHS schlitz kogi drinking vinegar 3 wolf moon venmo, cloud bread tousled occupy 90's pitchfork artisan health goth. Pickled offal kitsch artisan crucifix, fixie snackwave PBR&B air plant. 8-bit butcher cred, tote bag deep v waistcoat austin. Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen shoreditch vice cloud bread vape four loko. Vexillologist mumblecore before they sold out chicharrones blog distillery 8-bit meggings cliche, flannel taiyaki."
-                   "\n\n\n"
-                   "Tattooed jianbing actually, hoodie VHS waistcoat mlkshk artisan lo-fi lomo kitsch venmo pour-over raw denim semiotics. Schlitz literally whatever migas edison bulb venmo, tofu selvage activated charcoal pitchfork air plant hoodie. Dreamcatcher portland tumblr, marfa pinterest wolf heirloom asymmetrical lumbersexual vaporware. Twee polaroid hot chicken, trust fund skateboard everyday carry gochujang tote bag deep v aesthetic. Quinoa cred semiotics, wolf neutra poke tilde tote bag brunch live-edge whatever. Single-origin coffee roof party raclette, shabby chic offal intelligentsia humblebrag cliche asymmetrical echo park kitsch gentrify occupy. Slow-carb pickled fixie, four dollar toast rethical."
-                   "\n\n\n"
-                   "Hella leggings wayfarers listicle, iPhone prism salvia live-edge enamel pin snackwave. Wolf VHS bespoke intelligentsia hammock meditation. Mumblecore tattooed snackwave, mustache DIY jean shorts gluten-free taxidermy seitan twee tumeric gochujang. Franzen man bun shaman wayfarers, you probably haven't heard of them try-hard blog swag hoodie pitchfork organic. Lyft umami banjo, sartorial you probably havent heard of them freegan butcher kale chips before they sold out pok pok snackwave thundercats celiac shaman glossier. Beard taxidermy ugh migas williamsburg swag, franzen narwhal activated charcoal banjo tacos palo santo meh. Typewriter put a bird on it cronut, prism celiac hoodie tbh.");
+    titre->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getTitle());
+    id->setText("- ID : "+PluriNotes::getPluriNotesInstance()->getNoteCourante()->getId());
+    texte->setText("PluriNotes::getNoteCourante()->getfghd");
     texte->setFixedWidth(600);
     texte->setWordWrap(true);
     titre->setStyleSheet("font:italic; font-size:14px; padding:30px");
-    statut->setText("Active");
-    dateCreation->setText("- Créée le "+QDate::currentDate().toString("d MMMM yyyy"));
-    dateLastModif->setText("- Modifiée dernièrement le "+QDate::currentDate().toString("d MMMM yyyy"));
+    statut->setText("- Statut : "+PluriNotes::getPluriNotesInstance()->getNoteCourante()->getStatut());
+    dateCreation->setText("- Créée le "+PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateCreation().toString("d MMMM yyyy"));
+    dateLastModif->setText("- Modifiée dernièrement le "+PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateLastModif().toString("d MMMM yyyy"));
     titre->setStyleSheet("font:bold; font-size:25px; padding:30px");
 
     layoutVertical->addWidget(titre, 0, Qt::AlignCenter);
@@ -238,7 +234,9 @@ void VuePrincipale::afficherNoteCourante(){
     QListWidgetItem* selectedItem = listeNotes->currentItem();
     QString selectedItemText = selectedItem->text();
     statusBar()->showMessage(tr("Affichage de la note ")+selectedItemText);
-    PluriNotes::getPluriNotesInstance()->setNoteCourante(&notesManager.getNoteByTitle(selectedItemText));
+    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+    //statusBar()->showMessage(tr("Affichage de la note ")+noteCourante->getTitle());
+    PluriNotes::getPluriNotesInstance()->setNoteCourante(noteCourante);
     afficher(Notes);
 }
 

@@ -24,16 +24,16 @@ void NotesManager::freeManager(){
 }
 
 
-Note& NotesManager::getNoteByTitle(QString title){
+Note* NotesManager::getNoteByTitle(QString title){
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (title == m_notes[i]->getTitle()) return *m_notes[i];
+        if (title == m_notes[i]->getTitle()) return m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
 
-Note& NotesManager::getNoteById(QString id){
+Note* NotesManager::getNoteById(QString id){
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (id == m_notes[i]->getId()) return *m_notes[i];
+        if (id == m_notes[i]->getId()) return m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
@@ -560,6 +560,7 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
     return xml;
 }
 
+
 /*****************NOTE**************************/
 
 Note::Note(const QString& title, QString statut,const QString& id, const QDate &dateCreation, const QDate &dateLastModif):
@@ -582,6 +583,7 @@ void Note::setDateLastModif(QDate dateLastModif){
      m_statut=statut;
  }
 
+
 /******************ARTICLE**********************/
 
 Article::Article(const QString& title, QString statut, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif):
@@ -603,6 +605,7 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
+
 
 /******************TASK**********************/
 
@@ -633,7 +636,9 @@ QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
+
 /********************MEDIA********************/
+
 Media::Media(const QString& title, QString statut,const QString& description, const QString& imageFileName, const QString &id,const QDate &dateCreation, const QDate &dateLastModif):
     Note(title,statut,id,dateCreation,dateLastModif),m_description(description),m_imageFileName(imageFileName)
 {}
@@ -645,6 +650,7 @@ void Media::setDescription(const QString& description){
 void Media::setImageFileName(const QString& imageFileName){
     m_imageFileName=imageFileName;
 }
+
 
 /********************IMAGE********************/
 
@@ -665,6 +671,7 @@ QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
+
 /********************AUDIO********************/
 
 Audio::Audio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
@@ -683,6 +690,7 @@ QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
+
 
 /********************VIDEO********************/
 
