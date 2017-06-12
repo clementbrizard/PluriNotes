@@ -1,6 +1,4 @@
-
 #include "notes.h"
-#include "mainwindow.h"
 #include "plurinotes_app.h"
 
 /*int main(int argc, char* argv[]) {
