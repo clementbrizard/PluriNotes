@@ -4,7 +4,7 @@
 #include "qt_include.h"
 #include "notes.h"
 
-typedef enum {Note, Tache, Archive} TypeListe;
+typedef enum {Notes, Taches, Archives} TypeListe;
 
 // Vue principale de l'appli (premier onglet)
 class VuePrincipale : public QMainWindow {
@@ -23,6 +23,9 @@ public:
     // Fonction d'affichage dans la zone centrale dépendant du type entré en paramètre
     void afficher(const TypeListe type);
 
+    // Remplit les champs de note de la classe à partir d'une note passée en paramètre
+    void noteCourante(const Note& note);
+
     //Actualise les notes affichées
     void actualiserLesDocks();
 
@@ -34,6 +37,15 @@ private:
     void createToolbar();
     void createStatusBar();
     void createDockWindows();
+
+    // Attributs de la note courante
+    QLabel* titre;
+    QLabel* id;
+    QLabel* texte;
+    QLabel* statut;
+    QLabel* dateCreation;
+    QLabel* dateLastModif;
+
 
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;

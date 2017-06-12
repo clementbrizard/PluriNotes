@@ -55,6 +55,25 @@ public:
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
 };
 
+/******************TASK****************/
+
+class Task : public Note{
+    QString m_action;
+    QString m_priority;
+    QDate m_deadline;
+public:
+    Task(const QString& title, const QString& action,const QString& priority,const QDate& deadline, const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
+    ~Task(){}
+    QString getAction() const { return m_action; }
+    QString getPriority() const { return m_priority; }
+    QDate getDeadline() const {return m_deadline;}
+    void setAction(const QString& action);
+    void setPriority(const QString& priority);
+    void setDeadline(const QDate& deadline);
+    QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+};
+
+
 /*****************MEDIA*******************/
 
 class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
@@ -130,21 +149,36 @@ private:
         QString getFilename() const { return m_filename; }
 
         // Fonctions de manipulations des notes :
+
         void addArticle(const QString& title, const QString& text, const QString& id="", const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+
         void addImage(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+
         void addAudio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+
         void addVideo(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+
+        void addTask(const QString& title, const QString& action,const QString& priority,const QDate& deadline, const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
+
         void removeNote(Note *n);
+
         void load();
+
         QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
+
+        QXmlStreamReader& loadTask(QXmlStreamReader& xml);
+
         QXmlStreamReader& loadImage(QXmlStreamReader& xml);
+
         QXmlStreamReader& loadAudio(QXmlStreamReader& xml);
+
         QXmlStreamReader& loadVideo(QXmlStreamReader& xml);
+
         void save() const;
 
         // getters
-        Note& getNoteTitle(QString title);
-
+        Note& getNoteByTitle(QString title);
+        Note& getNoteById(QString id);
         // setters
         void setFilename(const QString& filename) { m_filename=filename; }
 
