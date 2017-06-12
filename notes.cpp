@@ -22,12 +22,14 @@ void NotesManager::freeManager(){
     delete handler.instance;
     handler.instance=nullptr;
 }
-Note& NotesManager::getNoteTitle(QString title){
+
+Note* NotesManager::getNoteByTitle(const QString title){
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (title == m_notes[i]->getTitle()) return *m_notes[i];
+        if (title == m_notes[i]->getTitle()) return m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
+
 void NotesManager::addNote(Note* n){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==m_nbNotes) throw Exception("error, creation of an already existent note");

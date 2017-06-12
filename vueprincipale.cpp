@@ -55,6 +55,7 @@ void VuePrincipale::createDockWindows()
     listeNotes = new QListWidget(dockListeNotes); // listeNotes est le fils de dockListeNotes
     dockListeNotes->setWidget(listeNotes);
     this->addDockWidget(Qt::LeftDockWidgetArea, dockListeNotes);
+    QObject::connect(listeNotes, SIGNAL(itemDoubleClicked(QListWidgetItem*)), PluriNotes::getPluriNotesInstance(), SLOT(afficherNoteCourantePN()));
 
     // Dock de Taches
     dockListeTaches->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -135,7 +136,7 @@ void VuePrincipale::afficher(const TypeListe type)
 }
 
 // Remplit les champs de note de la classe à partir d'une note passée en paramètre
-void VuePrincipale::noteCourante(const Note& note)
+void VuePrincipale::setNoteCourante(const Note& note)
 {
     titre->setText(note.getTitle());
     id->setText("- ID : ");
@@ -160,17 +161,13 @@ VuePrincipale::VuePrincipale()
       dockListeArchives(new QDockWidget("Archives", this)),
       dockArborescence(new QDockWidget("Arborescence", this))
 {
-
-    //QWidget* zoneCentrale = new QWidget;
-
-
     createToolbar();
     createStatusBar();
     createDockWindows();
 
     accueil();
+
     //noteCourante(notesManager.getNoteTitle("Avant Propos"));
-    afficher(Notes);
 }
 
 
@@ -236,6 +233,14 @@ void VuePrincipale::actualiserLesDocks(){
     statusBar()->showMessage(tr("Docks à jour"));
 }
 
+// Fait pointer noteCourante sur la note selectionnée dans un dock
+void VuePrincipale::afficherNoteCourante(){
+    QListWidgetItem* selectedItem = listeNotes->currentItem();
+    QString selectedItemText = selectedItem->text();
+    statusBar()->showMessage(tr("Affichage de la note ")+selectedItemText);
+    PluriNotes::getPluriNotesInstance()->setNoteCourante(notesManager.getNoteByTitle(selectedItemText));
+    afficher(Notes);
+}
 
 //void VuePrincipale::QuitApplication(){
 //    NotesManager& nm = NotesManager::getManager();

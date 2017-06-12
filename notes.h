@@ -138,7 +138,7 @@ private:
         void save() const;
 
         // getters
-        Note& getNoteTitle(QString title);
+        Note* getNoteByTitle(const QString title);
 
         // setters
         void setFilename(const QString& filename) { m_filename=filename; }
