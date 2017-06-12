@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <notes>
     <article>
         <id>article</id>
@@ -31,11 +31,7 @@
 		<dateLastModif>05-06-2017</dateLastModif>
 		<imageFileName>imageFileName.jpeg</imageFileName>
     </video>
-        <id>id:avant_propos</id>
-        <title>Avant Propos</title>
-        <text>Il faut toujours bien lire un sujet avant de commencer. \n Authentic microdosing keytar echo park seitan chicharrones. \n DIY irony health goth, cardigan poutine church-key activated charcoal wayfarers kinfolk coloring book tofu listicle. Kogi semiotics hexagon, portland organic air plant banh mi cornhole bushwick offal raw denim umami. \n \n Fam scenester lyft neutra, 8-bit twee cred live-edge PBRB. Edison bulb 90's kinfolk, biodiesel pok pok lo-fi squid pickled swag tote bag fixie four loko iPhone. \n \n Man braid subway tile vape slow-carb la croix, next level street art palo santo. Wayfarers biodiesel tattooed, blog woke freegan banh mi pop-up air plant trust fund lumbersexual fingerstache.</text>
-    </article>
-    <article>
+  <article>
         <id>id:objectifs</id>
         <title>Objectifs</title>
         <text>Se familiariser avec le framework Qt. \n \n Tattooed jianbing actually, hoodie VHS waistcoat mlkshk artisan lo-fi lomo kitsch venmo pour-over raw denim semiotics. \n \n Schlitz literally whatever migas edison bulb venmo, tofu selvage activated charcoal pitchfork air plant hoodie. Dreamcatcher portland tumblr, marfa pinterest wolf heirloom asymmetrical lumbersexual vaporware. Twee polaroid hot chicken, trust fund skateboard everyday carry gochujang tote bag deep v aesthetic.\n \n Quinoa cred semiotics, wolf neutra poke tilde tote bag brunch live-edge whatever. Single-origin coffee roof party raclette, shabby chic offal intelligentsia humblebrag cliche asymmetrical echo park kitsch gentrify occupy.\n \n Slow-carb pickled fixie, four dollar toast retro cornhole 90's taiyaki hexagon jianbing ethical.</text>
@@ -67,4 +63,5 @@ Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen s
         <dateCreation>12-06-2017</dateCreation>
         <dateLastModif>12-06-2017</dateLastModif>
     </task>
+
 </notes>

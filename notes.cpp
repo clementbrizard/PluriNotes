@@ -89,7 +89,7 @@ void NotesManager::addTask(const QString& title, const QString& action,const QSt
     addNote(t);
 }
 
-void NotesManager::addImage(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+void NotesManager::addImage(const QString& title, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
@@ -657,47 +657,3 @@ QXmlStreamWriter& Video::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
-QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
-    qDebug()<<"new video\n";
-    QString identificateur;
-    QString titre;
-    QString description;
-    QString imageFileName;
-    QXmlStreamAttributes attributes = xml.attributes();
-    xml.readNext();
-    //We're going to loop over the things because the order might change.
-    //We'll continue the loop until we hit an EndElement named article.
-    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "video")) {
-        if(xml.tokenType() == QXmlStreamReader::StartElement) {
-            // We've found identificateur.
-            if(xml.name() == "id") {
-                xml.readNext(); identificateur=xml.text().toString();
-                qDebug()<<"id="<<identificateur<<"\n";
-            }
-
-            // We've found titre.
-            if(xml.name() == "title") {
-                xml.readNext(); titre=xml.text().toString();
-                qDebug()<<"titre="<<titre<<"\n";
-            }
-            // We've found description
-            if(xml.name() == "description") {
-                xml.readNext();
-                description=xml.text().toString();
-                qDebug()<<"description="<<description<<"\n";
-            }
-            // We've found imageFileName
-            if(xml.name() == "imageFileName") {
-                xml.readNext();
-                imageFileName=xml.text().toString();
-                qDebug()<<"imageFileName="<<imageFileName<<"\n";
-            }
-        }
-        // ...and next...
-        xml.readNext();
-    }
-    qDebug()<<"ajout Audio "<<identificateur<<"\n";
-    Video* v=new Video(titre,description,imageFileName,identificateur);
-    addLoadedNote(v);
-    return xml;
-}
