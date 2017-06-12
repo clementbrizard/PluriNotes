@@ -87,7 +87,15 @@ public:
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
     QString getType() const {return (QString)"aud";}
 };
+/***************VIDEO*********************/
 
+class Video : public Media{
+public:
+    Video(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    ~Video(){};
+    QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"vid";}
+};
 /************NOTESMANAGER*************/
 class NotesManager {
 private:
@@ -120,11 +128,13 @@ private:
         void addArticle(const QString& title, const QString& text, const QString& id="");
         void addImage(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
         void addAudio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
+        void addVideo(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
         void removeNote(Note *n);
         void load();
         QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
         QXmlStreamReader& loadImage(QXmlStreamReader& xml);
         QXmlStreamReader& loadAudio(QXmlStreamReader& xml);
+        QXmlStreamReader& loadVideo(QXmlStreamReader& xml);
         void save() const;
 
         // getters
