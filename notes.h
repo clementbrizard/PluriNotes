@@ -54,6 +54,7 @@ public:
     void setText(const QString& text);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
 };
+
 /*****************MEDIA*******************/
 
 class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
@@ -61,7 +62,7 @@ private:
     QString m_description;
     QString m_imageFileName;
 public:
-    Media(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    Media(const QString& title, const QString& description, const QString& imageFileName, const QString& id="", const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
     ~Media(){};
     QString getDescription()const{return m_description; }
     QString getImageFileName()const{return m_imageFileName; }
@@ -73,30 +74,34 @@ public:
 
 class Image : public Media{
 public:
-    Image(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    Image(const QString& title,const QString& description,const QString& imageFileName,const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     ~Image(){};
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
     QString getType() const {return (QString)"img";}
 };
+
 /***************AUDIO*********************/
 
 class Audio : public Media{
 public:
-    Audio(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    Audio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="", const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     ~Audio(){};
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
     QString getType() const {return (QString)"aud";}
 };
+
 /***************VIDEO*********************/
 
 class Video : public Media{
 public:
-    Video(const QString& title,const QString& description,const QString& imageFileName,const QString& id="");
+    Video(const QString& title,const QString& description,const QString& imageFileName,const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     ~Video(){};
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
     QString getType() const {return (QString)"vid";}
 };
+
 /************NOTESMANAGER*************/
+
 class NotesManager {
 private:
     Note** m_notes;
@@ -125,10 +130,10 @@ private:
         QString getFilename() const { return m_filename; }
 
         // Fonctions de manipulations des notes :
-        void addArticle(const QString& title, const QString& text, const QString& id="");
-        void addImage(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
-        void addAudio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
-        void addVideo(const QString& title, const QString& description, const QString& imageFileName, const QString& id="");
+        void addArticle(const QString& title, const QString& text, const QString& id="", const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+        void addImage(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+        void addAudio(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
+        void addVideo(const QString& title, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate());
         void removeNote(Note *n);
         void load();
         QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
@@ -171,4 +176,5 @@ private:
             }
 
     };
+
 #endif // NOTES_H

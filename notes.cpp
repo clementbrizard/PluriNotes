@@ -22,12 +22,14 @@ void NotesManager::freeManager(){
     delete handler.instance;
     handler.instance=nullptr;
 }
+
 Note& NotesManager::getNoteTitle(QString title){
     for (unsigned int i=0; i<m_nbNotes; i++){
         if (title == m_notes[i]->getTitle()) return *m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
+
 void NotesManager::addNote(Note* n){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==m_nbNotes) throw Exception("error, creation of an already existent note");
@@ -64,35 +66,38 @@ void NotesManager::addLoadedNote(Note* n){
     m_notes[m_nbNotes++]=n;
 }
 
-void NotesManager::addArticle(const QString& title, const QString& text,const QString& id){
+void NotesManager::addArticle(const QString& title, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : article déjà existant");
     }
-    Article* a=new Article(title,text,id);
+    Article* a=new Article(title,text,id,dateCreation,dateLastModif);
     addNote(a);
 }
-void NotesManager::addImage(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+
+void NotesManager::addImage(const QString& title, const QString& description, const QString& imageFileName,const QString& id, const QDate &dateCreation, const QDate &dateLastModif){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
-    Image* i=new Image(title,description,imageFileName,id);
+    Image* i=new Image(title,description,imageFileName,id,dateCreation,dateLastModif);
     addNote(i);
 }
 
-void NotesManager::addAudio(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+void NotesManager::addAudio(const QString& title, const QString& description, const QString& imageFileName,const QString& id, const QDate &dateCreation, const QDate &dateLastModif){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
-    Audio* au=new Audio(title,description,imageFileName,id);
+    Audio* au=new Audio(title,description,imageFileName,id,dateCreation,dateLastModif);
     addNote(au);
 }
-void NotesManager::addVideo(const QString& title, const QString& description, const QString& imageFileName,const QString& id){
+
+void NotesManager::addVideo(const QString& title, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Video deja existante");
     }
-    Video* vi=new Video(title,description,imageFileName,id);
+    Video* vi=new Video(title,description,imageFileName,id,dateCreation,dateLastModif);
     addNote(vi);
 }
+
 void NotesManager::removeNote(Note *n){
     int i=0;
     Iterator it = getIterator();
@@ -146,7 +151,7 @@ void NotesManager::load() {
             if(xml.name() == "article") { loadArticle(xml); }
             if(xml.name() == "audio") { loadAudio(xml); }
             if(xml.name() == "image") { loadImage(xml); }
-            //if(xml.name() == "video") { loadVideo(xml); }
+            if(xml.name() == "video") { loadVideo(xml); }
             //if(xml.name() == "task") { loadTask(xml); }
         }
     }
@@ -226,6 +231,9 @@ QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
     QString titre;
     QString description;
     QString imageFileName;
+    QString temp;
+    QDate dateCreation;
+    QDate dateLastModif;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -243,24 +251,45 @@ QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
                 xml.readNext(); titre=xml.text().toString();
                 qDebug()<<"titre="<<titre<<"\n";
             }
+
             // We've found description
             if(xml.name() == "description") {
                 xml.readNext();
                 description=xml.text().toString();
                 qDebug()<<"description="<<description<<"\n";
             }
+
             // We've found imageFileName
             if(xml.name() == "imageFileName") {
                 xml.readNext();
                 imageFileName=xml.text().toString();
                 qDebug()<<"imageFileName="<<imageFileName<<"\n";
             }
+
+            //We've found dateCreation
+            if(xml.name() == "dateCreation"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                dateCreation = QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"creation="<<dateCreation<<"\n";
+            }
+
+            //We've found dateLastModif
+            if(xml.name() == "dateLastModif"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                 dateLastModif= QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"date="<<dateLastModif<<"\n";
+            }
+
         }
         // ...and next...
         xml.readNext();
     }
     qDebug()<<"ajout Image "<<identificateur<<"\n";
-    Image* i=new Image(titre,description,imageFileName,identificateur);
+    Image* i=new Image(titre,description,imageFileName,identificateur,dateCreation,dateLastModif);
     addLoadedNote(i);
     return xml;
 }
@@ -271,11 +300,84 @@ QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
     QString titre;
     QString description;
     QString imageFileName;
+    QString temp;
+    QDate dateCreation;
+    QDate dateLastModif;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
     //We'll continue the loop until we hit an EndElement named article.
     while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "audio")) {
+        if(xml.tokenType() == QXmlStreamReader::StartElement) {
+            // We've found identificateur.
+            if(xml.name() == "id") {
+                xml.readNext(); identificateur=xml.text().toString();
+                qDebug()<<"id="<<identificateur<<"\n";
+            }
+
+            // We've found titre.
+            if(xml.name() == "title") {
+                xml.readNext(); titre=xml.text().toString();
+                qDebug()<<"titre="<<titre<<"\n";
+            }
+
+            // We've found description
+            if(xml.name() == "description") {
+                xml.readNext();
+                description=xml.text().toString();
+                qDebug()<<"description="<<description<<"\n";
+            }
+
+            // We've found imageFileName
+            if(xml.name() == "imageFileName") {
+                xml.readNext();
+                imageFileName=xml.text().toString();
+                qDebug()<<"imageFileName="<<imageFileName<<"\n";
+            }
+
+            //We've found dateCreation
+            if(xml.name() == "dateCreation"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                dateCreation = QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"creation="<<dateCreation<<"\n";
+            }
+
+            //We've found dateLastModif
+            if(xml.name() == "dateLastModif"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                 dateLastModif= QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"date="<<dateLastModif<<"\n";
+            }
+
+
+        }
+        // ...and next...
+        xml.readNext();
+    }
+    qDebug()<<"ajout Audio "<<identificateur<<"\n";
+    Audio* i=new Audio(titre,description,imageFileName,identificateur,dateCreation,dateLastModif);
+    addLoadedNote(i);
+    return xml;
+}
+
+QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
+    qDebug()<<"new video\n";
+    QString identificateur;
+    QString titre;
+    QString description;
+    QString imageFileName;
+    QString temp;
+    QDate dateCreation;
+    QDate dateLastModif;
+    QXmlStreamAttributes attributes = xml.attributes();
+    xml.readNext();
+    //We're going to loop over the things because the order might change.
+    //We'll continue the loop until we hit an EndElement named article.
+    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "video")) {
         if(xml.tokenType() == QXmlStreamReader::StartElement) {
             // We've found identificateur.
             if(xml.name() == "id") {
@@ -300,13 +402,32 @@ QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
                 imageFileName=xml.text().toString();
                 qDebug()<<"imageFileName="<<imageFileName<<"\n";
             }
+
+            //We've found dateCreation
+            if(xml.name() == "dateCreation"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                dateCreation = QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"creation="<<dateCreation<<"\n";
+            }
+
+            //We've found dateLastModif
+            if(xml.name() == "dateLastModif"){
+                xml.readNext();
+                temp = xml.text().toString();
+                //Conversion d'une Qstring en QDate depuis le format dd-MM-yyyy
+                 dateLastModif= QDate::fromString(temp,"dd-MM-yyyy");
+                qDebug()<<"date="<<dateLastModif<<"\n";
+            }
+
         }
         // ...and next...
         xml.readNext();
     }
-    qDebug()<<"ajout Audio "<<identificateur<<"\n";
-    Audio* i=new Audio(titre,description,imageFileName,identificateur);
-    addLoadedNote(i);
+    qDebug()<<"ajout video "<<identificateur<<"\n";
+    Video* v=new Video(titre,description,imageFileName,identificateur,dateCreation,dateLastModif);
+    addLoadedNote(v);
     return xml;
 }
 
@@ -346,13 +467,15 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeTextElement("id",getId());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("text",getText());
+        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
+        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
 }
 
 /********************MEDIA********************/
-Media::Media(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
-    Note(title),m_description(description),m_imageFileName(imageFileName)
+Media::Media(const QString& title, const QString& description, const QString& imageFileName, const QString &id,const QDate &dateCreation, const QDate &dateLastModif):
+    Note(title,id,dateCreation,dateLastModif),m_description(description),m_imageFileName(imageFileName)
 {}
 
 void Media::setDescription(const QString& description){
@@ -365,8 +488,8 @@ void Media::setImageFileName(const QString& imageFileName){
 
 /********************IMAGE********************/
 
-Image::Image(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
-    Media(title,description,imageFileName,id)
+Image::Image(const QString& title, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
+    Media(title,description,imageFileName,id,dateCreation,dateLastModif)
 {}
 
 QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
@@ -375,79 +498,44 @@ QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
+        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
+        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
 }
 
 /********************AUDIO********************/
 
-Audio::Audio(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
-    Media(title,description,imageFileName,id)
+Audio::Audio(const QString& title, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
+Media(title,description,imageFileName,id,dateCreation,dateLastModif)
 {}
+
 QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("audio");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
+        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
+        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
 }
+
 /********************VIDEO********************/
 
-Video::Video(const QString& title, const QString& description, const QString& imageFileName, const QString &id):
-    Media(title,description,imageFileName,id)
+Video::Video(const QString& title, const QString& description, const QString& imageFileName, const QString &id, const QDate &dateCreation, const QDate &dateLastModif):
+    Media(title,description,imageFileName,id,dateCreation,dateLastModif)
 {}
+
 QXmlStreamWriter& Video::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("video");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
+        stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
+        stream.writeTextElement("dateLastModif",getDateLastModif().toString("dd-MM-yyyy"));
         stream.writeEndElement();
         return stream;
-}
-QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
-    qDebug()<<"new video\n";
-    QString identificateur;
-    QString titre;
-    QString description;
-    QString imageFileName;
-    QXmlStreamAttributes attributes = xml.attributes();
-    xml.readNext();
-    //We're going to loop over the things because the order might change.
-    //We'll continue the loop until we hit an EndElement named article.
-    while(!(xml.tokenType() == QXmlStreamReader::EndElement && xml.name() == "video")) {
-        if(xml.tokenType() == QXmlStreamReader::StartElement) {
-            // We've found identificateur.
-            if(xml.name() == "id") {
-                xml.readNext(); identificateur=xml.text().toString();
-                qDebug()<<"id="<<identificateur<<"\n";
-            }
-
-            // We've found titre.
-            if(xml.name() == "title") {
-                xml.readNext(); titre=xml.text().toString();
-                qDebug()<<"titre="<<titre<<"\n";
-            }
-            // We've found description
-            if(xml.name() == "description") {
-                xml.readNext();
-                description=xml.text().toString();
-                qDebug()<<"description="<<description<<"\n";
-            }
-            // We've found imageFileName
-            if(xml.name() == "imageFileName") {
-                xml.readNext();
-                imageFileName=xml.text().toString();
-                qDebug()<<"imageFileName="<<imageFileName<<"\n";
-            }
-        }
-        // ...and next...
-        xml.readNext();
-    }
-    qDebug()<<"ajout Audio "<<identificateur<<"\n";
-    Video* v=new Video(titre,description,imageFileName,identificateur);
-    addLoadedNote(v);
-    return xml;
 }
