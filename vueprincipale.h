@@ -16,7 +16,8 @@ public:
 
     // Charge le fichier XML et afficher les titres dans le dock à gauche
     void remplirDockListeNotes();
-
+    //Remplit le dock avec les taches
+    void remplirDockTaches();
     // Enregistre le NotesManager dans un fichier XML
     void enregistrerNotesManager();
 

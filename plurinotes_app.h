@@ -51,6 +51,7 @@ public slots:
     // Charge un fichier XML
     void chargerXML(){
         vuePrincipale->remplirDockListeNotes();
+        vuePrincipale->remplirDockTaches();
     }
 
     // Enregistre le NotesManager dans un XML

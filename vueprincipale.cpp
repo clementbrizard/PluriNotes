@@ -184,7 +184,22 @@ void VuePrincipale::remplirDockListeNotes(){
 
     QListWidgetItem* item;
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);
+        if((it.current()).getType()!="task"){
+            item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
+    }
+
+    //dockListeNotes->setWidget(listeNotes);
+
+    /*statusBar()->showMessage(tr("Chargement du fichier notes.xml"));
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier ont été récupérées.");
+    msgBox.exec();*/
+}
+void VuePrincipale::remplirDockTaches(){
+
+    QListWidgetItem* item;
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+        if((it.current()).getType()=="task"){
+            item= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
     }
 
     //dockListeNotes->setWidget(listeNotes);
@@ -193,7 +208,6 @@ void VuePrincipale::remplirDockListeNotes(){
     QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier ont été récupérées.");
     msgBox.exec();
 }
-
 void VuePrincipale::enregistrerNotesManager(){
     notesManager.save();
     statusBar()->showMessage(tr("Le NotesManager a été enregistré dans le fichier notes.xml"));
@@ -213,7 +227,8 @@ void VuePrincipale::actualiserLesDocks(){
     //On reremplit avec les notes du notesManager
     QListWidgetItem* item;
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);
+        if((it.current()).getType()!="task"){
+        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
     }
 
     // Dock des Taches
@@ -222,8 +237,13 @@ void VuePrincipale::actualiserLesDocks(){
     dockListeTaches->setWidget(listeTaches);
     this->addDockWidget(Qt::LeftDockWidgetArea, dockListeTaches);
 
-    // Reremplir avec les éventuelles nouvelles taches
 
+    //On reremplit avec les taches du notesManager
+    QListWidgetItem* item1;
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+         if((it.current()).getType()=="task"){
+        item1= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
+    }
     // Dock des notes archivées
     dockListeArchives->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     listeArchives = new QListWidget(dockListeArchives);

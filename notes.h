@@ -41,6 +41,7 @@ public:
     void setTitle(const QString& title);
     void setDateLastModif(QDate dateLastModif);
     virtual QXmlStreamWriter& save(QXmlStreamWriter& stream) const = 0;
+    virtual QString getType() const=0;
 };
 
 /******************ARTICLE****************/
@@ -53,6 +54,7 @@ public:
     QString getText() const { return m_text; }
     void setText(const QString& text);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"art";}
 };
 
 /******************TASK****************/
@@ -71,6 +73,7 @@ public:
     void setPriority(const QString& priority);
     void setDeadline(const QDate& deadline);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"task";}
 };
 
 
@@ -87,6 +90,7 @@ public:
     QString getImageFileName()const{return m_imageFileName; }
     void setDescription(const QString& description);
     void setImageFileName(const QString& imageFileName);
+    virtual QString getType() const=0;
 };
 
 /***************IMAGE*********************/
