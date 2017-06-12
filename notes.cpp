@@ -23,19 +23,14 @@ void NotesManager::freeManager(){
     handler.instance=nullptr;
 }
 
-<<<<<<< HEAD
-Note* NotesManager::getNoteByTitle(const QString title){
-=======
+
 Note& NotesManager::getNoteByTitle(QString title){
->>>>>>> 349ee71e920126eec899dc8276c062c31fd4a49b
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (title == m_notes[i]->getTitle()) return m_notes[i];
+        if (title == m_notes[i]->getTitle()) return *m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
 
-<<<<<<< HEAD
-=======
 Note& NotesManager::getNoteById(QString id){
     for (unsigned int i=0; i<m_nbNotes; i++){
         if (id == m_notes[i]->getId()) return *m_notes[i];
@@ -43,7 +38,6 @@ Note& NotesManager::getNoteById(QString id){
     throw Exception ("Note non trouvee..");
 }
 
->>>>>>> 349ee71e920126eec899dc8276c062c31fd4a49b
 void NotesManager::addNote(Note* n){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==m_nbNotes) throw Exception("error, creation of an already existent note");
@@ -708,33 +702,3 @@ QXmlStreamWriter& Video::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
-
-<<<<<<< HEAD
-            // We've found titre.
-            if(xml.name() == "title") {
-                xml.readNext(); titre=xml.text().toString();
-                qDebug()<<"titre="<<titre<<"\n";
-            }
-            // We've found description
-            if(xml.name() == "description") {
-                xml.readNext();
-                description=xml.text().toString();
-                qDebug()<<"description="<<description<<"\n";
-            }
-            // We've found imageFileName
-            if(xml.name() == "imageFileName") {
-                xml.readNext();
-                imageFileName=xml.text().toString();
-                qDebug()<<"imageFileName="<<imageFileName<<"\n";
-            }
-        }
-        // ...and next...
-        xml.readNext();
-    }
-    qDebug()<<"ajout Audio "<<identificateur<<"\n";
-    Video* v=new Video(titre,description,imageFileName,identificateur);
-    addLoadedNote(v);
-    return xml;
-}
-=======
->>>>>>> 349ee71e920126eec899dc8276c062c31fd4a49b

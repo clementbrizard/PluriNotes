@@ -2,80 +2,72 @@
 <notes>
     <article>
         <id>article</id>
-<<<<<<< HEAD
+        <statut>active</statut>
         <title>article</title>
         <text>Il faut toujours bien lire un sujet avant de commencer.</text>
-    </article>
-    <image>
-        <id></id>
-        <title>image</title>
-        <description>description</description>
-        <imageFilename></imageFilename>
-    </image>
-    <article>
-=======
-		<statut>active</statut>
-        <title>article</title>
-        <text>Il faut toujours bien lire un sujet avant de commencer.</text>
-		<dateCreation>04-06-2017</dateCreation>
-		<dateLastModif>05-06-2017</dateLastModif>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>05-06-2017</dateLastModif>
     </article>
     <image>
         <id>image</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>image</title>
         <description>description</description>
-		<dateCreation>04-06-2017</dateCreation>
-		<dateLastModif>05-06-2017</dateLastModif>
-		<imageFileName>imageFileName.jpeg</imageFileName>
+        <imageFilename>imageFileName.jpeg</imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>05-06-2017</dateLastModif>
     </image>
-	<audio>
+    <audio>
         <id>audio</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>audio</title>
         <description>description</description>
-		<dateCreation>04-06-2017</dateCreation>
-		<dateLastModif>05-06-2017</dateLastModif>
-		<imageFileName>imageFileName.jpeg</imageFileName>
+        <imageFilename>imageFileName.jpeg</imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>05-06-2017</dateLastModif>
     </audio>
-	<video>
+    <video>
         <id>video</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>video</title>
         <description>description</description>
-		<dateCreation>04-06-2017</dateCreation>
-		<dateLastModif>05-06-2017</dateLastModif>
-		<imageFileName>imageFileName.jpeg</imageFileName>
+        <imageFilename>imageFileName.jpeg</imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>05-06-2017</dateLastModif>
     </video>
-  <article>
->>>>>>> 349ee71e920126eec899dc8276c062c31fd4a49b
+    <article>
         <id>id:objectifs</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>Objectifs</title>
         <text>Se familiariser avec le framework Qt. \n \n Tattooed jianbing actually, hoodie VHS waistcoat mlkshk artisan lo-fi lomo kitsch venmo pour-over raw denim semiotics. \n \n Schlitz literally whatever migas edison bulb venmo, tofu selvage activated charcoal pitchfork air plant hoodie. Dreamcatcher portland tumblr, marfa pinterest wolf heirloom asymmetrical lumbersexual vaporware. Twee polaroid hot chicken, trust fund skateboard everyday carry gochujang tote bag deep v aesthetic.\n \n Quinoa cred semiotics, wolf neutra poke tilde tote bag brunch live-edge whatever. Single-origin coffee roof party raclette, shabby chic offal intelligentsia humblebrag cliche asymmetrical echo park kitsch gentrify occupy.\n \n Slow-carb pickled fixie, four dollar toast retro cornhole 90's taiyaki hexagon jianbing ethical.</text>
+        <dateCreation></dateCreation>
+        <dateLastModif></dateLastModif>
     </article>
     <article>
         <id>id:to_read</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>À lire</title>
         <text>
-- Hyperion, D. Simmons
-- All clear, C. Willis
-- Spin, R.-C. Wilson
-\n \n \n Ethical irony keffiyeh craft beer pug. Ennui bitters chartreuse, post-ironic aesthetic single-origin coffee lomo shoreditch.
- VHS schlitz kogi drinking vinegar 3 wolf moon venmo, cloud bread tousled occupy 90's pitchfork artisan health goth.
- Pickled offal kitsch artisan crucifix, fixie snackwave PBRB air plant. 8-bit butcher cred, tote bag deep v waistcoat austin. 
-Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen shoreditch vice cloud bread vape four loko. \n \n Vexillologist mumblecore before they sold out chicharrones blog distillery 8-bit meggings cliche, flannel taiyaki.		</text>
+		- Hyperion, D. Simmons
+		- All clear, C. Willis
+		- Spin, R.-C. Wilson
+		\n \n \n Ethical irony keffiyeh craft beer pug. Ennui bitters chartreuse, post-ironic aesthetic single-origin coffee lomo shoreditch.
+		VHS schlitz kogi drinking vinegar 3 wolf moon venmo, cloud bread tousled occupy 90's pitchfork artisan health goth.
+		Pickled offal kitsch artisan crucifix, fixie snackwave PBRB air plant. 8-bit butcher cred, tote bag deep v waistcoat austin. 
+		Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen shoreditch vice cloud bread vape four loko. \n \n Vexillologist mumblecore before they sold out chicharrones blog distillery 8-bit meggings cliche, flannel taiyaki.		</text>
+        <dateCreation></dateCreation>
+        <dateLastModif></dateLastModif>
     </article>
     <article>
         <id>id:citation_babage</id>
-		<statut>active</statut>
+        <statut>active</statut>
         <title>Une citation de Charles Babbage </title>
-        <text>Les erreurs occasionnées par l'utilisation de fausses données sont moindres que celles n'utilisant aucune donnée.
-		</text>
+        <text>Les erreurs occasionnées par l'utilisation de fausses données sont moindres que celles n'utilisant aucune donnée.</text>
+        <dateCreation></dateCreation>
+        <dateLastModif></dateLastModif>
     </article>
     <task>
-        <id>4</id>
+        <statut>4</statut>
         <title>TestTask</title>
         <action>manger</action>
         <priority>3</priority>
@@ -83,6 +75,4 @@ Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen s
         <dateCreation>12-06-2017</dateCreation>
         <dateLastModif>12-06-2017</dateLastModif>
     </task>
-
 </notes>
-

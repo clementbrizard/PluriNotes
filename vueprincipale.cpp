@@ -238,7 +238,7 @@ void VuePrincipale::afficherNoteCourante(){
     QListWidgetItem* selectedItem = listeNotes->currentItem();
     QString selectedItemText = selectedItem->text();
     statusBar()->showMessage(tr("Affichage de la note ")+selectedItemText);
-    PluriNotes::getPluriNotesInstance()->setNoteCourante(notesManager.getNoteByTitle(selectedItemText));
+    PluriNotes::getPluriNotesInstance()->setNoteCourante(&notesManager.getNoteByTitle(selectedItemText));
     afficher(Notes);
 }
 
