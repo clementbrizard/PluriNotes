@@ -200,7 +200,7 @@ void VuePrincipale::enregistrerNotesManager(){
 
 // Fonction qui permet d'actualiser tous les docks après la création d'une nouvelle note
 void VuePrincipale::actualiserLesDocks(){
-
+    //notesManager.addTask("TestTask","manger","3",QDate(2017, 04, 11));
     // Dock des Notes
     dockListeNotes->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     listeNotes = new QListWidget(dockListeNotes); // listeNotes est le fils de dockListeNotes
