@@ -5,7 +5,7 @@ PluriNotes* PluriNotes::plurinotesUniqueInstance = nullptr;
 
 // Lancement de l'application :
 PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
-    : QApplication(argc,argv), name(_name)
+    : QApplication(argc,argv), name(_name), noteCourante(nullptr)
 {
 
     plurinotesUniqueInstance = this;

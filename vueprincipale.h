@@ -25,10 +25,16 @@ public:
     void afficher(const TypeListe type);
 
     // Remplit les champs de note de la classe à partir d'une note passée en paramètre
-    void noteCourante(const Note& note);
+    void setNoteCourante(const Note& note);
+
+
+    //***** Fonctions de slots *****//
 
     //Actualise les notes affichées
     void actualiserLesDocks();
+
+    // Fait pointer noteCourante sur la note selectionnée dans un dock
+    void afficherNoteCourante();
 
 private:
 
@@ -47,7 +53,6 @@ private:
     QLabel* dateCreation;
     QLabel* dateLastModif;
 
-
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
     QListWidget* listeTaches;
@@ -63,8 +68,7 @@ private:
 
     NotesManager& notesManager = NotesManager::getManager();
 
-signals :
-    public slots :
+public slots :
 
 };
 
