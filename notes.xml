@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <notes>
     <article>
         <id>article</id>
@@ -48,15 +48,6 @@
         <statut>active</statut>
         <title>À lire</title>
         <text>
-<<<<<<< HEAD
-- Hyperion, D. Simmons
-- All clear, C. Willis
-- Spin, R.-C. Wilson
-\n \n \n Ethical irony keffiyeh craft beer pug. Ennui bitters chartreuse, post-ironic aesthetic single-origin coffee lomo shoreditch.
- VHS schlitz kogi drinking vinegar 3 wolf moon venmo, cloud bread tousled occupy 90's pitchfork artisan health goth.
- Pickled offal kitsch artisan crucifix, fixie snackwave PBRB air plant. 8-bit butcher cred, tote bag deep v waistcoat austin. 
-Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen shoreditch vice cloud bread vape four loko. \n \n Vexillologist mumblecore before they sold out chicharrones blog distillery 8-bit meggings cliche, flannel taiyaki.		</text>
-=======
 		- Hyperion, D. Simmons
 		- All clear, C. Willis
 		- Spin, R.-C. Wilson
@@ -64,7 +55,6 @@ Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen s
 		VHS schlitz kogi drinking vinegar 3 wolf moon venmo, cloud bread tousled occupy 90's pitchfork artisan health goth.
 		Pickled offal kitsch artisan crucifix, fixie snackwave PBRB air plant. 8-bit butcher cred, tote bag deep v waistcoat austin. 
 		Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen shoreditch vice cloud bread vape four loko. \n \n Vexillologist mumblecore before they sold out chicharrones blog distillery 8-bit meggings cliche, flannel taiyaki.		</text>
->>>>>>> b2e4b789861943d6dc432fd1c59d44171af38494
         <dateCreation></dateCreation>
         <dateLastModif></dateLastModif>
     </article>
@@ -72,12 +62,7 @@ Intelligentsia shabby chic tumblr prism gluten-free, four dollar toast franzen s
         <id>id:citation_babage</id>
         <statut>active</statut>
         <title>Une citation de Charles Babbage </title>
-<<<<<<< HEAD
-        <text>Les erreurs occasionnées par l'utilisation de fausses données sont moindres que celles n'utilisant aucune donnée.
-		</text>
-=======
         <text>Les erreurs occasionnées par l'utilisation de fausses données sont moindres que celles n'utilisant aucune donnée.</text>
->>>>>>> b2e4b789861943d6dc432fd1c59d44171af38494
         <dateCreation></dateCreation>
         <dateLastModif></dateLastModif>
     </article>
