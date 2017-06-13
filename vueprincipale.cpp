@@ -124,9 +124,6 @@ void VuePrincipale::afficher(const TypeListe type)
     id->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getId());
     texteT->setText("Texte");
     texte->setText("PluriNotes::getNoteCourante()->getfghd");
-    //texte->setFixedWidth(600);
-    //texteT->setWordWrap(true);
-    //titreT->setStyleSheet("font:italic; font-size:14px; padding:30px");
     statutT->setText("Statut");
     statut->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getStatut());
     dateCreationT->setText("Créée le ");
@@ -143,11 +140,6 @@ void VuePrincipale::afficher(const TypeListe type)
     dateLastModif->setEnabled(false);
 
 
-   /* layoutHorizontal->addWidget(titreT, 0, Qt::AlignCenter);
-    layoutHorizontal->addWidget(titre, 0, Qt::AlignCenter);
-    layoutHorizontal1->addWidget(texteT, 0, Qt::AlignCenter);
-    layoutHorizontal1->addWidget(texte, 0, Qt::AlignCenter);*/
-    layoutHorizontal->addWidget(titreT);
     layoutHorizontal->addWidget(titre);
     layoutHorizontal1->addWidget(texteT);
     layoutHorizontal1->addWidget(texte);
