@@ -45,6 +45,7 @@ public:
     void setDateLastModif(QDate dateLastModif);
     void setStatut(QString statut);
     virtual QXmlStreamWriter& save(QXmlStreamWriter& stream) const = 0;
+    virtual QString getType() const=0;
 };
 
 /******************ARTICLE****************/
@@ -57,6 +58,7 @@ public:
     QString getText() const { return m_text; }
     void setText(const QString& text);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"art";}
 };
 
 /******************TASK****************/
@@ -75,6 +77,7 @@ public:
     void setPriority(const QString& priority);
     void setDeadline(const QDate& deadline);
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
+    QString getType() const {return (QString)"task";}
 };
 
 
@@ -91,6 +94,7 @@ public:
     QString getImageFileName()const{return m_imageFileName; }
     void setDescription(const QString& description);
     void setImageFileName(const QString& imageFileName);
+    virtual QString getType() const=0;
 };
 
 /***************IMAGE*********************/
@@ -181,8 +185,8 @@ public:
     void save() const;
 
     // getters
-    Note& getNoteByTitle(QString title);
-    Note& getNoteById(QString id);
+	 Note* getNoteByTitle(QString title);
+     Note* getNoteById(QString id);
 
     // setters
     void setFilename(const QString& filename) { m_filename=filename; }
@@ -215,5 +219,51 @@ public:
         }
 
     };
+
+/************CORBEILLE************/
+/// Classe permettant le stockage lorsqu'une note est supprimée. La note devient en attente d'une éventuelle restauration
+class Corbeille{
+private :
+    /// vector d'objet pointeur sur Note
+    vector<Note*> poubelle;
+    /// Constructeur
+    Corbeille();
+    /// Constructeur de recopie
+    Corbeille(const Corbeille& c);
+     ///Surcharge de l'opérateur =
+    Corbeille& operator=(const Corbeille& c);
+    ///Destructeur
+    ~Corbeille();
+
+    ///static Corbeille *instance: Implantation du singleton
+    struct HandlerC{
+        Corbeille* instance;
+        HandlerC() : instance(0){}
+        ~HandlerC(){if(instance) delete instance; instance = 0;}
+    };
+    static HandlerC handlerC;
+
+public :
+    static Corbeille& getInstance();
+    static void libererInstance();
+    ///Permet de savoir le nombre d'éléments dans la corbeille
+    int getPoubelleSize() const {return poubelle.size();}
+    /// Restaurer une note
+    void RestoreNote(Note* n);
+    /// Trouver une note par son titre
+    Note* getNoteByTitle(QString title);
+    ///Trouver une note par son ID
+    Note* getNoteById(QString id);
+    /// Trouver une note par sa position dans la corbeille
+    Note* getNoteByPosition(unsigned int position);
+    ///Suppression d'une note de la corbeille
+    void deleteNote(Note* n);
+    ///Ajout d'une note dans la corbeille
+    void addNote(Note*n);
+    ///Retourne la position d'une note dans le vecteur dustbin
+    unsigned int getNotePosition(Note*n);
+    ///Vide le vecteur dustbin
+    void emptyDustBin(){poubelle.clear();}
+};
 
 #endif // NOTES_H

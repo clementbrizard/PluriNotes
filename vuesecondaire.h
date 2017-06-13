@@ -2,11 +2,43 @@
 #define VUESECONDAIRE_H
 
 #include "qt_include.h"
+#include "notes.h"
 
-class VueSecondaire : public QMainWindow
-{
+// Vue secondaire de l'appli (deuxieme onglet)
+class VueSecondaire : public QMainWindow {
 public:
     VueSecondaire();
+    //Affichage de l'editeur de relation
+void RelationEditeur();
+//Creation dock relations
+void createRelationDock();
+//Charge le fichier XML
+void choixFichier();
+private:
+
+    Q_OBJECT
+
+    // Attributs affichage relation editeur
+   QWidget* centralContainer;
+    QGridLayout *layout;
+      QListWidget* listeNotesLeft;
+      QListWidget* listeNotesRight;
+      QVBoxLayout* layer;
+      QScrollArea* scroller;
+      QPushButton* add;
+      QPushButton* addNotOriented;
+      QPushButton* quit;
+QListWidget* listeRelations;
+    // Docks
+      QDockWidget* dockListeRelations;
+   // QDockWidget* dockRelation;
+    RelationsManager& relationsManager = RelationsManager::getManager();
+    NotesManager& notesManager = NotesManager::getManager();
+
+signals :
+    public slots :
+
 };
+
 
 #endif // VUESECONDAIRE_H

@@ -23,16 +23,17 @@ void NotesManager::freeManager(){
     handler.instance=nullptr;
 }
 
-Note& NotesManager::getNoteByTitle(QString title){
+
+Note* NotesManager::getNoteByTitle(QString title){
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (title == m_notes[i]->getTitle()) return *m_notes[i];
+        if (title == m_notes[i]->getTitle()) return m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
 
-Note& NotesManager::getNoteById(QString id){
+Note* NotesManager::getNoteById(QString id){
     for (unsigned int i=0; i<m_nbNotes; i++){
-        if (id == m_notes[i]->getId()) return *m_notes[i];
+        if (id == m_notes[i]->getId()) return m_notes[i];
     }
     throw Exception ("Note non trouvee..");
 }
@@ -559,6 +560,116 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
     return xml;
 }
 
+/****************CORBEILLE**************************/
+Corbeille::Corbeille(){}
+
+///Destructeur de la corbeille
+Corbeille::~Corbeille(){
+    ///On vide bien toutes les notes présentes dans le vecteur de pointeur de notes dustBin
+    for(unsigned int i=0; i<poubelle.size(); i++){ delete poubelle[i];}
+    ///On libère le vecteur poubelle
+    poubelle.clear();
+}
+
+Corbeille::HandlerC Corbeille::handlerC=HandlerC();
+
+
+///Retourne l'instance unique de la courbeille, ou en crée une si il n'y en a pas
+Corbeille& Corbeille::getInstance() {
+  /// Si le pointeur vers l'instance unique pointe vers 0
+  if(!handlerC.instance) {
+    ///Création d'une nouvelle instance unique
+    handlerC.instance = new Corbeille;
+  }
+  /// Retour par ref vers l'instance unique
+  return *handlerC.instance;
+}
+
+
+/// Libérer l'instance
+void Corbeille::libererInstance() {
+  /// Liberation de la memoire allouee a l'instance unique
+  delete handlerC.instance;
+  /// Repasse le pointeur a null/nullptr/0 pour que le prochain appel a getInstance recree bien une instance
+  handlerC.instance=0;
+}
+
+
+///Renvoie un pointeur sur une note en fonction de son id
+Note* Corbeille::getNoteById(QString id){
+    ///itération sur les notes de dustbin
+    for(unsigned int i=0; i<poubelle.size();i++){
+        ///Si l'id de la note correspond à l'id passé en argument, on renvoie un pointeur vers cette note
+        if(poubelle[i]->getId() == id) {return poubelle[i];}
+        ///sinon on lance une exception pour dire que la note n'a pas été trouvée.
+        else {throw Exception("La note n'a pas ete trouvee..");}
+    }
+}
+
+
+///Fonction permettant de renvoyer un pointeur vers une note en fonction du numéro de sa position
+Note* Corbeille::getNoteByPosition(unsigned int position){
+    if(position<poubelle.size()) {return poubelle[position];}
+    ///Si la position passée en argument est supérieure à la taille du vecteur, on lance une exception
+    else throw Exception ("La note n'a pas ete trouvee..");
+}
+
+
+
+/// Ajout d'une note via la fonction push_back de vector
+void Corbeille::addNote(Note* n){
+  poubelle.push_back(n);
+}
+
+
+///Fonction qui renvoie la position d'une note passée en argument
+unsigned int Corbeille::getNotePosition(Note* n){
+    ///itération sur les notes de dustbin
+    for(unsigned int i=0;i<poubelle.size();i++){
+        ///Si la note itérée correspond à la note apssée en argument, on renvoie un pointeur vers cette note itérée
+        if(poubelle[i]==n){return i;}
+    }
+    ///sinon on lance une exception pour dire que la note n'a pas été trouvée.
+    throw Exception("La note n'a pas ete trouvee..");
+}
+
+
+///fonction permettant de restaurer une note
+void Corbeille::RestoreNote(Note* n){
+    ///On récupère la position de la note dans le vecteur
+    unsigned int i=getNotePosition(n);
+    ///On ajoute la note dans notesmanager
+    addNote(n);
+    ///On supprime la note du vecteur de notes dustBin
+    poubelle.erase(poubelle.begin()+i);
+}
+
+
+///Fonction permettant de retourner un pointeur vers une note ayant un titre identique à celui passé en paramètre
+Note* Corbeille::getNoteByTitle(QString title){
+    ///itération sur les notes de dustbin
+    for(unsigned int i=0; i<poubelle.size(); i++){
+        ///Si le titre de la note correspond au titre passé en argument, on renvoie un pointeur vers cette note
+        if(poubelle[i]->getTitle()== title) return poubelle[i];
+    }
+    ///sinon on lance une exception pour dire que la note n'a pas été trouvée.
+    throw Exception("La note n'a pas ete trouvee..");
+}
+
+
+///Fonction permettant de supprimer une note du vecteur de notes
+void Corbeille::deleteNote(Note* n){
+    ///On récupère sa position
+    unsigned int i = Corbeille::getInstance().getNotePosition(n);
+    ///Apple de l'instance unique de relationsmanager
+   // RelationsManager& rm = RelationsManager::getInstance();
+    ///Suppression de toutes les relations correspondant à cette note
+   // rm.deleteRelationOfNote(*n);
+    ///Suppression de la note du vecteur de notes
+    poubelle.erase(poubelle.begin()+i);
+    ///Suppression de la note de notesmanager
+    NotesManager::getManager().removeNote(n);
+}
 /*****************NOTE**************************/
 
 Note::Note(const QString& title, QString statut,const QString& id, const QDate &dateCreation, const QDate &dateLastModif):
@@ -581,6 +692,7 @@ void Note::setDateLastModif(QDate dateLastModif){
      m_statut=statut;
  }
 
+
 /******************ARTICLE**********************/
 
 Article::Article(const QString& title, QString statut, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif):
@@ -602,6 +714,7 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
+
 
 /******************TASK**********************/
 
@@ -632,7 +745,9 @@ QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
+
 /********************MEDIA********************/
+
 Media::Media(const QString& title, QString statut,const QString& description, const QString& imageFileName, const QString &id,const QDate &dateCreation, const QDate &dateLastModif):
     Note(title,statut,id,dateCreation,dateLastModif),m_description(description),m_imageFileName(imageFileName)
 {}
@@ -644,6 +759,7 @@ void Media::setDescription(const QString& description){
 void Media::setImageFileName(const QString& imageFileName){
     m_imageFileName=imageFileName;
 }
+
 
 /********************IMAGE********************/
 
@@ -664,6 +780,7 @@ QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
+
 /********************AUDIO********************/
 
 Audio::Audio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
@@ -683,6 +800,7 @@ QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
         return stream;
 }
 
+
 /********************VIDEO********************/
 
 Video::Video(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id, const QDate &dateCreation, const QDate &dateLastModif):
@@ -701,4 +819,3 @@ QXmlStreamWriter& Video::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
-
