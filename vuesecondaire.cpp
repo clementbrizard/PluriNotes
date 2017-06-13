@@ -1,9 +1,18 @@
 #include "plurinotes_app.h"
 #include "vuesecondaire.h"
 
-VueSecondaire::VueSecondaire()
+VueSecondaire::VueSecondaire(): QMainWindow(),listeRelations(nullptr),dockListeRelations(new QDockWidget("Relations", this))
+      /*listeNotesLeft(nullptr),
+      listeNotesRight(nullptr)*/
 {
-     /*   QWidget* centralContainer = new QWidget;
+    RelationEditeur();
+createRelationDock();
+    //noteCourante(notesManager.getNoteTitle("Avant Propos"));
+}
+
+void VueSecondaire::RelationEditeur()
+{
+        QWidget* centralContainer = new QWidget;
         QGridLayout *layout = new QGridLayout;
         ///Premier QlistWidget : listNotesLeft
         listeNotesLeft = new QListWidget();
@@ -26,11 +35,11 @@ VueSecondaire::VueSecondaire()
         addNotOriented = new QPushButton("Ajouter une relation (NO)");
         quit = new QPushButton("Quitter");
         ///Connexion des boutons aux slots
-        QObject::connect(add, SIGNAL(clicked()), this, SLOT(addRelation()));
+        /*QObject::connect(add, SIGNAL(clicked()), this, SLOT(addRelation()));
         QObject::connect(add, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
         QObject::connect(addNotOriented, SIGNAL(clicked()), this, SLOT(addRelationNotOriented()));
         QObject::connect(addNotOriented, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
-        QObject::connect(quit, SIGNAL(clicked()), this, SLOT(close()));
+        QObject::connect(quit, SIGNAL(clicked()), this, SLOT(close()));*/
         ///Ajout des boutons
        layout->addWidget(listeNotesLeft, 0, 0);
 
@@ -44,5 +53,13 @@ VueSecondaire::VueSecondaire()
 
         centralContainer->setLayout(layout);
 
-        this->setCentralWidget(centralContainer);*/
+        this->setCentralWidget(centralContainer);
+}
+void VueSecondaire::createRelationDock()
+{
+    // Dock de Notes
+    dockListeRelations->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    listeRelations = new QListWidget(dockListeRelations); // listeRelations est le fils de dockListeRelations
+    dockListeRelations->setWidget(listeRelations);
+    this->addDockWidget(Qt::RightDockWidgetArea, dockListeRelations);
 }

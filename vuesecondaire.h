@@ -8,15 +8,17 @@
 class VueSecondaire : public QMainWindow {
 public:
     VueSecondaire();
-/*
-
+    //Affichage de l'editeur de relation
+void RelationEditeur();
+//Creation dock relations
+void createRelationDock();
 private:
 
     Q_OBJECT
 
     // Attributs affichage relation editeur
-    QWidget* centralContainer;
-    //QGridLayout *layout;
+   QWidget* centralContainer;
+    QGridLayout *layout;
       QListWidget* listeNotesLeft;
       QListWidget* listeNotesRight;
       QVBoxLayout* layer;
@@ -24,15 +26,16 @@ private:
       QPushButton* add;
       QPushButton* addNotOriented;
       QPushButton* quit;
-
+QListWidget* listeRelations;
     // Docks
+      QDockWidget* dockListeRelations;
    // QDockWidget* dockRelation;
 
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :
     public slots :
-*/
+
 };
 
 

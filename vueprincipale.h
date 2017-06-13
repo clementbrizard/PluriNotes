@@ -37,6 +37,9 @@ public:
 
     // Fait pointer noteCourante sur la note selectionnée dans un dock
     void afficherNoteCourante();
+    //void afficherNoteEditeur();
+    //Affiche le createur de note
+    //void noteCreator(const QString& type);
 
 private:
 
@@ -46,6 +49,7 @@ private:
     void createToolbar();
     void createStatusBar();
     void createDockWindows();
+
 
     // Attributs de la note courante
     QLabel* titreT;
@@ -77,7 +81,7 @@ private:
     NotesManager& notesManager = NotesManager::getManager();
 
 public slots :
-
+  //void noteCreator(const QString& type);
 };
 
 #endif // VUEPRINCIPALE_H

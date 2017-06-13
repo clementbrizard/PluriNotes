@@ -13,6 +13,7 @@ void VuePrincipale::createToolbar()
     QAction* ajouterArticle = new QAction("Créer un article", this);
     toolBar->addAction(ajouterArticle);
     toolBar->addSeparator();
+    //QObject::connect(ajouterArticle, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherEditeurArticlePN()));
 
     // Article
     QAction* ajouterAudio = new QAction("Créer un audio", this);
@@ -139,7 +140,7 @@ void VuePrincipale::afficher(const TypeListe type)
     dateCreation->setEnabled(false);
     dateLastModif->setEnabled(false);
 
-
+    layoutHorizontal->addWidget(titreT);
     layoutHorizontal->addWidget(titre);
     layoutHorizontal1->addWidget(texteT);
     layoutHorizontal1->addWidget(texte);
@@ -186,7 +187,93 @@ void VuePrincipale::setNoteCourante(const Note& note)
 
 
 }
+/*void VuePrincipale::noteCreator(const QString& type)
+{
+    // Layouts et positionnement
+    QWidget* centralContainer = new QWidget;
+    QVBoxLayout* layoutVertical = new QVBoxLayout;
+    QHBoxLayout* layoutHorizontal1 = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontal2 = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontal3 = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontal4 = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontal5 = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontal= new QHBoxLayout;
+    QHBoxLayout* layoutHBoutons = new QHBoxLayout;
+    //Affichage nom du widget
+    titreT = new QLabel;
+    idT = new QLabel;
+    if(type=="art"){
+    texteT = new QLabel;
+    texte = new QTextEdit;
+    }
+    statutT = new QLabel;
+    dateCreationT = new QLabel;
+    dateLastModifT = new QLabel;
+    //Affichage note dans zone édition
+    titre = new QLineEdit;
+    id = new QLineEdit;
 
+    statut = new QLineEdit;
+    dateCreation = new QLineEdit;
+    dateLastModif = new QLineEdit;
+    QPushButton* modifier = new QPushButton("Modifier");
+    QPushButton* supprimer = new QPushButton("Supprimer");
+    QPushButton* afficherVersions = new QPushButton("Anciennes versions");
+    layoutHBoutons->addWidget(modifier);
+    layoutHBoutons->addWidget(supprimer);
+    layoutHBoutons->addWidget(afficherVersions);
+
+    // Tests temp
+    titreT->setText("Titre");
+    titre->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getTitle());
+    idT->setText("ID");
+    id->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getId());
+    texteT->setText("Texte");
+    texte->setText("PluriNotes::getNoteCourante()->getfghd");
+    statutT->setText("Statut");
+    statut->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getStatut());
+    dateCreationT->setText("Créée le ");
+    dateCreation->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateCreation().toString("d MMMM yyyy"));
+    dateLastModifT->setText("Modifiée dernièrement le ");
+    dateLastModif->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateLastModif().toString("d MMMM yyyy"));
+    titre->setStyleSheet("font:bold; font-size:25px; padding:30px; text-align:center;");
+    //on interdit la modification des champs pour l'affichage de la note
+    titre->setEnabled(true);
+    id->setEnabled(true);
+    texte->setEnabled(true);
+    statut->setEnabled(true);
+    dateCreation->setEnabled(true);
+    dateLastModif->setEnabled(true);
+
+    layoutHorizontal->addWidget(titreT);
+    layoutHorizontal->addWidget(titre);
+    layoutHorizontal1->addWidget(texteT);
+    layoutHorizontal1->addWidget(texte);
+    layoutHorizontal2->addWidget(idT);
+    layoutHorizontal2->addWidget(id);
+    layoutHorizontal3->addWidget(statutT);
+    layoutHorizontal3->addWidget(statut);
+    layoutHorizontal4->addWidget(dateCreationT);
+    layoutHorizontal4->addWidget(dateCreation);
+    layoutHorizontal5->addWidget(dateLastModifT);
+    layoutHorizontal5->addWidget(dateLastModif);
+
+    layoutVertical->addLayout(layoutHorizontal);
+    layoutVertical->addLayout(layoutHorizontal1);
+    layoutVertical->addLayout(layoutHorizontal2);
+    layoutVertical->addLayout(layoutHorizontal3);
+    layoutVertical->addLayout(layoutHorizontal4);
+    layoutVertical->addLayout(layoutHorizontal5);
+    layoutVertical->addLayout(layoutHBoutons,1);
+
+
+
+    layoutVertical->setAlignment(Qt::AlignTop);
+
+
+    centralContainer->setLayout(layoutVertical);
+    this->setCentralWidget(centralContainer);
+}*/
 VuePrincipale::VuePrincipale()
     : QMainWindow(),
       listeNotes(nullptr),
@@ -267,41 +354,10 @@ void VuePrincipale::enregistrerNotesManager(){
 
 // Fonction qui permet d'actualiser tous les docks après la création d'une nouvelle note
 void VuePrincipale::actualiserLesDocks(){
-    //notesManager.addTask("TestTask","manger","3",QDate(2017, 04, 11));
-    // Dock des Notes
-    dockListeNotes->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    listeNotes = new QListWidget(dockListeNotes); // listeNotes est le fils de dockListeNotes
-    dockListeNotes->setWidget(listeNotes);
-    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeNotes);
-
-    //On reremplit avec les notes du notesManager
-    QListWidgetItem* item;
-    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-        if((it.current()).getType()!="task"){
-        item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
-    }
-
-    // Dock des Taches
-    dockListeTaches->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    listeTaches = new QListWidget(dockListeTaches);
-    dockListeTaches->setWidget(listeTaches);
-    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeTaches);
-
-
-    //On reremplit avec les taches du notesManager
-    QListWidgetItem* item1;
-    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-         if((it.current()).getType()=="task"){
-        item1= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
-    }
-    // Dock des notes archivées
-    dockListeArchives->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    listeArchives = new QListWidget(dockListeArchives);
-    dockListeArchives->setWidget(listeArchives);
-    this->addDockWidget(Qt::LeftDockWidgetArea, dockListeArchives);
-
-    // Reremplir avec les éventuelles nouvelles notes archivées
-
+    createDockWindows();
+    remplirDockListeNotes();
+    remplirDockTaches();
+    remplirDockCorbeille();
 
     statusBar()->showMessage(tr("Docks à jour"));
 }
@@ -316,7 +372,12 @@ void VuePrincipale::afficherNoteCourante(){
     PluriNotes::getPluriNotesInstance()->setNoteCourante(noteCourante);
     afficher(Notes);
 }
-
+/*void VuePrincipale::afficherNoteEditeur(){
+    statusBar()->showMessage(tr("Création Article "));
+    //statusBar()->showMessage(tr("Affichage de la note ")+noteCourante->getTitle());
+    PluriNotes::getPluriNotesInstance()->noteCreator("art");
+    afficher(Notes);
+}*/
 //void VuePrincipale::QuitApplication(){
 //    NotesManager& nm = NotesManager::getManager();
 //    nm.save();

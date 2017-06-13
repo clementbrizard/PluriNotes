@@ -13,6 +13,7 @@ PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     vuePrincipale->setMenuBar(createMenu());
     vueSecondaire = new VueSecondaire();
     vueSecondaire->setMenuBar(createMenu());
+    vueSecondaire->RelationEditeur();
 
     barreOnglets = new QTabWidget();
     barreOnglets->setWindowTitle(name);

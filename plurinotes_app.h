@@ -58,6 +58,7 @@ public slots:
     // Actualiser les docks après qu'on ait créé une nouvelle Note
     void actualiserListes(){
         vuePrincipale->actualiserLesDocks();
+        vueSecondaire->RelationEditeur();
     }
     // Charge un fichier XML
     void chargerXML(){
@@ -65,6 +66,7 @@ public slots:
         vuePrincipale->remplirDockListeNotes();
         vuePrincipale->remplirDockTaches();
         vuePrincipale->remplirDockCorbeille();
+        vueSecondaire->RelationEditeur();
     }
 
     // Enregistre le NotesManager dans un XML
@@ -72,14 +74,6 @@ public slots:
         vuePrincipale->enregistrerNotesManager();
     }
 
-    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de note
-    void afficherNoteCourantePN(){
-        vuePrincipale->afficherNoteCourante();
-    }
-
-    /*void montrerNote(){
-        vuePrincipale->showNote();
-    }*/
 };
 
 #endif // PLURINOTES_APP_H
