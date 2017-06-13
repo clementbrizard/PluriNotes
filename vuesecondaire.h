@@ -12,6 +12,8 @@ public:
 void RelationEditeur();
 //Creation dock relations
 void createRelationDock();
+//Charge le fichier XML
+void choixFichier();
 private:
 
     Q_OBJECT
@@ -30,7 +32,7 @@ QListWidget* listeRelations;
     // Docks
       QDockWidget* dockListeRelations;
    // QDockWidget* dockRelation;
-
+    RelationsManager& relationsManager = RelationsManager::getManager();
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :

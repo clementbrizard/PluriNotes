@@ -68,12 +68,19 @@ public slots:
         vuePrincipale->remplirDockCorbeille();
         vueSecondaire->RelationEditeur();
     }
+    //Charge le XML des relations
+    void chargerXMLRel(){
+        vueSecondaire->choixFichier();
+    }
 
     // Enregistre le NotesManager dans un XML
     void enregistrer(){
         vuePrincipale->enregistrerNotesManager();
     }
-
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de note
+        void afficherNoteCourantePN(){
+            vuePrincipale->afficherNoteCourante();
+        }
 };
 
 #endif // PLURINOTES_APP_H
