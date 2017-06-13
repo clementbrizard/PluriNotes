@@ -39,6 +39,6 @@
 #include <QtXml>
 #include <QVBoxLayout>
 #include <QWidget>
-
+#include <vector>
 
 #endif // QT_INCLUDE_H
