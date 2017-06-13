@@ -6,11 +6,13 @@ SOURCES += \
     notes.cpp \
     vueprincipale.cpp \
     plurinotes_app.cpp \
-    vuesecondaire.cpp
+    vuesecondaire.cpp \
+    relations.cpp
 
 HEADERS += \
     notes.h \
     qt_include.h \
     vueprincipale.h \
     plurinotes_app.h \
-    vuesecondaire.h
+    vuesecondaire.h \
+    relations.h

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relations>
+
+	<!--1ère relation à enregistrer dans le tableau de Relations de RelationsManager-->
+    <relation>
+		<!--attributs de la relation-->
+		<id>0</id>
+		<title>Relation entre articles et images</title>
+		<description>Relation contenant tous les couples composés d'un article et d'une image qui l'illustre</description>
+		<nbCouples>1</nbCouples>
+		<nbMaxCouples>5</nbMaxCouples>
+		<isOriented>1</isOriented>
+		<!--tableau de Couples de la Relation-->
+        <couples>
+			<!--1er couple du tableau de Couples-->
+			<couple>
+				<!--attributs du couple-->
+				<id>0<id>
+				<refencingNote>0</referencingNote>
+				<referencedNote>4</referencedNote>
+				<!--Le label est facultatif-->
+				<label><label>
+			</couple>
+	</couples>
+    </relation>
+
+	<!--2ème relation à enregistrer dans le tableau de Relations de RelationsManager-->
+	 <relation>
+		<id>0</id>
+		<title>Relation entre articles et audios</title>
+		<description>Relation contenant tous les couples composés d'un article et d'un audio qui l'accompagne</description>
+		<nbCouples>1</nbCouples>
+		<nbMaxCouples>5</nbMaxCouples>
+		<isOriented>1</isOriented>
+        <couples>
+			<couple>
+				<id>0<id>
+				<refencingNote>0</referencingNote>
+				<referencedNote>5</referencedNote>
+				<label><label>
+			</couple>
+		</couples>
+    </relation>
+
+	<!--3ème relation à enregistrer dans le tableau de Relations de RelationsManager-->
+	 <relation>
+		<id>0</id>
+		<title>Relation entre articles et vidéos</title>
+		<description>Relation contenant tous les couples composés d'un article et d'une vidéo qui l'accompagne</description>
+		<nbCouples>1</nbCouples>
+		<nbMaxCouples>5</nbMaxCouples>
+		<isOriented>1</isOriented>
+        <couples>
+			<couple>
+				<id>0<id>
+				<refencingNote>0</referencingNote>
+				<referencedNote>6</referencedNote>
+				<label><label>
+			</couple>
+		</couples>
+    </relation>
+
+</relations>
+

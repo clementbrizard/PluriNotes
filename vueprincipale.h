@@ -3,6 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
+#include "relations.h"
 
 typedef enum {Notes, Taches, Archives} TypeListe;
 
@@ -60,7 +61,9 @@ private:
     QDockWidget* dockListeArchives;
     QDockWidget* dockArborescence;
 
+    // initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
+    RelationsManager& relationsManager =RelationsManager::getManager();
 
 signals :
     public slots :
