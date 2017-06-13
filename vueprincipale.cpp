@@ -122,9 +122,10 @@ void VuePrincipale::afficher(const TypeListe type)
     titre->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getTitle());
     idT->setText("ID");
     id->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getId());
-    texteT->setText("PluriNotes::getNoteCourante()->getfghd");
-    texte->setFixedWidth(600);
-    texteT->setWordWrap(true);
+    texteT->setText("Texte");
+    texte->setText("PluriNotes::getNoteCourante()->getfghd");
+    //texte->setFixedWidth(600);
+    //texteT->setWordWrap(true);
     //titreT->setStyleSheet("font:italic; font-size:14px; padding:30px");
     statutT->setText("Statut");
     statut->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getStatut());
@@ -132,7 +133,7 @@ void VuePrincipale::afficher(const TypeListe type)
     dateCreation->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateCreation().toString("d MMMM yyyy"));
     dateLastModifT->setText("Modifiée dernièrement le ");
     dateLastModif->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateLastModif().toString("d MMMM yyyy"));
-    titre->setStyleSheet("font:bold; font-size:25px; padding:30px");
+    titre->setStyleSheet("font:bold; font-size:25px; padding:30px; text-align:center;");
     //on interdit la modification des champs pour l'affichage de la note
     titre->setEnabled(false);
     id->setEnabled(false);
@@ -142,10 +143,14 @@ void VuePrincipale::afficher(const TypeListe type)
     dateLastModif->setEnabled(false);
 
 
-    layoutHorizontal->addWidget(titreT, 0, Qt::AlignCenter);
+   /* layoutHorizontal->addWidget(titreT, 0, Qt::AlignCenter);
     layoutHorizontal->addWidget(titre, 0, Qt::AlignCenter);
     layoutHorizontal1->addWidget(texteT, 0, Qt::AlignCenter);
-    layoutHorizontal1->addWidget(texte, 0, Qt::AlignCenter);
+    layoutHorizontal1->addWidget(texte, 0, Qt::AlignCenter);*/
+    layoutHorizontal->addWidget(titreT);
+    layoutHorizontal->addWidget(titre);
+    layoutHorizontal1->addWidget(texteT);
+    layoutHorizontal1->addWidget(texte);
     layoutHorizontal2->addWidget(idT);
     layoutHorizontal2->addWidget(id);
     layoutHorizontal3->addWidget(statutT);
