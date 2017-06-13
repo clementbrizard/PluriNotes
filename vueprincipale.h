@@ -13,8 +13,9 @@ public:
 
     // Message sur l'écran central initial
     void accueil();
-
-    // Charge le fichier XML et afficher les titres dans le dock à gauche
+    //Charge le fichier XML
+    void choixFichier();
+    // afficher les titres dans le dock à gauche
     void remplirDockListeNotes();
     //Remplit le dock avec les taches
     void remplirDockTaches();
@@ -26,7 +27,8 @@ public:
 
     // Remplit les champs de note de la classe à partir d'une note passée en paramètre
     void setNoteCourante(const Note& note);
-
+    //Remplit le dock qui affiche la corbeille
+    void remplirDockCorbeille();
 
     //***** Fonctions de slots *****//
 
@@ -46,12 +48,18 @@ private:
     void createDockWindows();
 
     // Attributs de la note courante
-    QLabel* titre;
-    QLabel* id;
-    QLabel* texte;
-    QLabel* statut;
-    QLabel* dateCreation;
-    QLabel* dateLastModif;
+    QLabel* titreT;
+    QLabel* idT;
+    QLabel* texteT;
+    QLabel* statutT;
+    QLabel* dateCreationT;
+    QLabel* dateLastModifT;
+    QLineEdit* titre;
+    QLineEdit* id;
+    QTextEdit* texte;
+    QLineEdit* statut;
+    QLineEdit* dateCreation;
+    QLineEdit* dateLastModif;
 
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
