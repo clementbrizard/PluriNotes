@@ -56,6 +56,7 @@ void VueSecondaire::RelationEditeur()
 
         this->setCentralWidget(centralContainer);
 }
+
 void VueSecondaire::createRelationDock()
 {
     // Dock de Notes
@@ -64,8 +65,11 @@ void VueSecondaire::createRelationDock()
     dockListeRelations->setWidget(listeRelations);
     this->addDockWidget(Qt::RightDockWidgetArea, dockListeRelations);
 }
+
 void VueSecondaire::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     relationsManager.setFilename(filename);
     relationsManager.load();
 }
+
+

@@ -734,7 +734,8 @@ void Task::setDeadline(const QDate& deadline) {
 
 QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("task");
-        stream.writeTextElement("statut",getId());
+        stream.writeTextElement("id",getId());
+        stream.writeTextElement("statut",getStatut());
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("action",getAction());
         stream.writeTextElement("priority",getPriority());
@@ -744,7 +745,6 @@ QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
         stream.writeEndElement();
         return stream;
 }
-
 
 /********************MEDIA********************/
 

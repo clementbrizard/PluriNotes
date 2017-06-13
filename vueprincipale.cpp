@@ -97,6 +97,7 @@ void VuePrincipale::afficher(const TypeListe type)
     QHBoxLayout* layoutHorizontal5 = new QHBoxLayout;
     QHBoxLayout* layoutHorizontal= new QHBoxLayout;
     QHBoxLayout* layoutHBoutons = new QHBoxLayout;
+
     //Affichage nom du widget
     titreT = new QLabel;
     idT = new QLabel;
@@ -104,6 +105,7 @@ void VuePrincipale::afficher(const TypeListe type)
     statutT = new QLabel;
     dateCreationT = new QLabel;
     dateLastModifT = new QLabel;
+
     //Affichage note dans zone édition
     titre = new QLineEdit;
     id = new QLineEdit;
@@ -160,8 +162,6 @@ void VuePrincipale::afficher(const TypeListe type)
     layoutVertical->addLayout(layoutHorizontal4);
     layoutVertical->addLayout(layoutHorizontal5);
     layoutVertical->addLayout(layoutHBoutons,1);
-
-
 
     layoutVertical->setAlignment(Qt::AlignTop);
     /*layoutVertical1->setAlignment(Qt::AlignTop);

@@ -3,6 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
+#include "relations.h"
 
 // Vue secondaire de l'appli (deuxieme onglet)
 class VueSecondaire : public QMainWindow {

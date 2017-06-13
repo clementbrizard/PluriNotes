@@ -5,7 +5,7 @@ PluriNotes* PluriNotes::plurinotesUniqueInstance = nullptr;
 
 // Lancement de l'application :
 PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
-    : QApplication(argc,argv), name(_name), noteCourante(nullptr)
+    : QApplication(argc,argv), name(_name)
 {
 
     plurinotesUniqueInstance = this;
@@ -13,7 +13,6 @@ PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     vuePrincipale->setMenuBar(createMenu());
     vueSecondaire = new VueSecondaire();
     vueSecondaire->setMenuBar(createMenu());
-    vueSecondaire->RelationEditeur();
 
     barreOnglets = new QTabWidget();
     barreOnglets->setWindowTitle(name);
@@ -40,11 +39,12 @@ QMenuBar* PluriNotes::createMenu() {
     QAction* actualiser = fichier->addAction("&Actualiser les 3 listes de notes");
     QObject::connect(actualiser, SIGNAL(triggered()), this, SLOT(actualiserListes()));
 
-    QAction* chargerFichier = fichier->addAction("&Charger les notes");
-    QObject::connect(chargerFichier, SIGNAL(triggered()), this, SLOT(chargerXML()));
+    QAction* chargerNotes = fichier->addAction("&Charger les notes");
+    QObject::connect(chargerNotes, SIGNAL(triggered()), this, SLOT(chargerXML()));
 
-    QAction* chargerFichierRel = fichier->addAction("&Charger les relations");
-    QObject::connect(chargerFichier, SIGNAL(triggered()), this, SLOT(chargerXMLRel()));
+    QAction* chargerRelations = fichier->addAction("&Charger les relations");
+    QObject::connect(chargerRelations, SIGNAL(triggered()), this, SLOT(chargerXMLRel()));
+
 
     QAction* sauver = fichier->addAction("&Enregistrer");
     sauver->setShortcut(Qt::Key_S | Qt::CTRL);

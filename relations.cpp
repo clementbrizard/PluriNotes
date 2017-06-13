@@ -123,14 +123,14 @@ void RelationsManager::addRelation(const QString& title, const QString& descript
     m_relations[m_nbRelations++]=r;
 }
 
-void RelationsManager::addCouple(const QString& idRelation, Note& note1, Note& note2, const QString label){
+void RelationsManager::addCouple(const QString& idRelation, Note& note1, Note& note2, const QString& id, const QString label){
     Iterator it=getIterator();
     while(!it.isDone() && it.current().getId()!=idRelation) it.next();
     if(it.isDone()) throw Exception("La relation à laquelle vous voulez ajouter un couple n'existe pas encore");
     else{
-        it.current().addCouple(note1,note2,label);
+        it.current().addCouple(note1,note2,id,label);
         if(!it.current().getIsOriented())
-             it.current().addCouple(note2,note1,label);
+             it.current().addCouple(note2,note1,id,label);
     }
 }
 
@@ -197,7 +197,7 @@ void RelationsManager::load() {
 
                         if(xml.name() == "id") {
                             xml.readNext(); idRelation=xml.text().toString();
-                            qDebug()<<"title="<<idRelation<<"\n";
+                            qDebug()<<"id="<<idRelation<<"\n";
                         }
 
                         if(xml.name() == "title") {
@@ -228,13 +228,12 @@ void RelationsManager::load() {
                            addRelation(title,description,Q_NULLPTR,nbCouples,nbMaxCouples,idRelation,isOriented);
                         }
 
-                        if(xml.name() == "couples")continue;
+                        if(xml.name() == "couples"){xml.readNext(); continue;}
                         if(xml.name()=="couple")
                         { // début de si on a trouvé un couple
                             qDebug()<<"new couple\n";
                             QString identificateur;
                             QString label;
-                            QString temp;
                             QString referencingNote;
                             QString referencedNote;
                             QXmlStreamAttributes attributes = xml.attributes();
@@ -248,30 +247,31 @@ void RelationsManager::load() {
                                 if(xml.tokenType() == QXmlStreamReader::StartElement)
                                 { // début de si on a trouvé un élément de couple
 
-                                    if(xml.name() == "identificateur") {
+                                    if(xml.name() == "id") {
                                          xml.readNext(); identificateur=xml.text().toString();
-                                         qDebug()<<"identificateur="<<identificateur<<"\n";
+                                         qDebug()<<"id="<<identificateur<<"\n";
                                      }
+
+                                    if(xml.name() == "referencingNote") {
+                                        xml.readNext(); referencingNote=xml.text().toString();
+                                        qDebug()<<"referencingNote="<<referencingNote<<"\n";
+                                    }
+
+                                    if(xml.name() == "referencedNote") {
+                                        xml.readNext(); referencedNote=xml.text().toString();
+                                        qDebug()<<"referencedNote="<<referencedNote<<"\n";
+                                    }
 
                                     if(xml.name() == "label") {
                                          xml.readNext(); label=xml.text().toString();
                                          qDebug()<<"label="<<label<<"\n";
                                      }
 
-                                    if(xml.name() == "referencingNote") {
-                                        xml.readNext(); referencingNote=xml.text().toString();
-                                        qDebug()<<"referencingNote="<<temp<<"\n";
-                                    }
-
-                                    if(xml.name() == "referencedNote") {
-                                        xml.readNext(); referencedNote=xml.text().toString();
-                                        qDebug()<<"referencedNote="<<temp<<"\n";
-                                    }
                                 } // fin de si on a trouvé un élément de couple
                                 xml.readNext();
                             } // fin de tant que on n'est pas à la fin du couple
                             qDebug()<<"ajout couple "<<identificateur<<"\n";
-                            addCouple(idRelation,nm.getNoteById(referencingNote),nm.getNoteById(referencedNote),label);
+                            addCouple(idRelation,*(nm.getNoteById(referencingNote)),*(nm.getNoteById(referencedNote)),identificateur,label);
                         } // fin de si on a trouvé un couple
                     } // fin de si on a trouvé un élément de relation
                     xml.readNext();

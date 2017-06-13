@@ -11,17 +11,17 @@
 		<nbMaxCouples>5</nbMaxCouples>
 		<isOriented>1</isOriented>
 		<!--tableau de Couples de la Relation-->
-        <couples>
+        	<couples>
 			<!--1er couple du tableau de Couples-->
 			<couple>
 				<!--attributs du couple-->
-				<id>0<id>
-				<refencingNote>0</referencingNote>
+				<id>0</id>
+				<referencingNote>0</referencingNote>
 				<referencedNote>4</referencedNote>
 				<!--Le label est facultatif-->
-				<label><label>
+				<label></label>
 			</couple>
-	</couples>
+		</couples>
     </relation>
 
 	<!--2ème relation à enregistrer dans le tableau de Relations de RelationsManager-->
@@ -34,10 +34,10 @@
 		<isOriented>1</isOriented>
         <couples>
 			<couple>
-				<id>0<id>
-				<refencingNote>0</referencingNote>
+				<id>0</id>
+				<referencingNote>0</referencingNote>
 				<referencedNote>5</referencedNote>
-				<label><label>
+				<label></label>
 			</couple>
 		</couples>
     </relation>
@@ -52,10 +52,10 @@
 		<isOriented>1</isOriented>
         <couples>
 			<couple>
-				<id>0<id>
-				<refencingNote>0</referencingNote>
+				<id>0</id>
+				<referencingNote>0</referencingNote>
 				<referencedNote>6</referencedNote>
-				<label><label>
+				<label></label>
 			</couple>
 		</couples>
     </relation>
