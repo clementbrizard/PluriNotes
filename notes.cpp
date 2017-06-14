@@ -561,6 +561,7 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
 }
 
 /****************CORBEILLE**************************/
+
 Corbeille::Corbeille(){}
 
 ///Destructeur de la corbeille
@@ -670,6 +671,7 @@ void Corbeille::deleteNote(Note* n){
     ///Suppression de la note de notesmanager
     NotesManager::getManager().removeNote(n);
 }
+
 /*****************NOTE**************************/
 
 Note::Note(const QString& title, QString statut,const QString& id, const QDate &dateCreation, const QDate &dateLastModif):

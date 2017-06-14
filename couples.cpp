@@ -81,8 +81,26 @@ void CouplesManager::setNbCouples(const int& nbCouples){
     m_couples[m_nbCouples++]=c;
  }
 
-
-//void CouplesManager::save() const {}
+void CouplesManager::save() const {
+     QFile newfile(m_filename);
+     if (!newfile.open(QIODevice::WriteOnly | QIODevice::Text))
+         throw Exception(QString("erreur sauvegarde couples : ouverture fichier xml"));
+     QXmlStreamWriter stream(&newfile);
+     stream.setAutoFormatting(true);
+     stream.writeStartDocument();
+     stream.writeStartElement("couples");
+     for(CouplesManager::Iterator it=getIterator(); !it.isDone(); it.next()){
+         stream.writeStartElement("couple");
+         stream.writeTextElement("id",it.current().getId());
+         stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
+         stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
+         stream.writeTextElement("label",it.current().getLabel());
+         stream.writeEndElement();
+     }
+     stream.writeEndElement();
+     stream.writeEndDocument();
+     newfile.close();
+}
 
  void CouplesManager::load() {
      QFile fin(m_filename);

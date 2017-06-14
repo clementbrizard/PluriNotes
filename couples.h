@@ -28,6 +28,7 @@ public:
     void setLabel(const QString& label);
 
     const QString& getId()const{return m_id; }
+    const QString& getLabel()const{return m_label; }
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };

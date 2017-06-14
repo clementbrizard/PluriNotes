@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<couples>
+    <couple>
+        <id>0</id>
+        <referencingNote>0</referencingNote>
+        <referencingNote>0</referencingNote>
+        <label></label>
+    </couple>
+    <couple>
+        <id>1</id>
+        <referencingNote>1</referencingNote>
+        <referencingNote>1</referencingNote>
+        <label></label>
+    </couple>
+</couples>

@@ -85,14 +85,24 @@ void VueSecondaire::updateDockCouples(){
     remplirCouplesDock();
 }
 
+/// Fonction pour enregistrer le CouplesManager dans un XML
+void VueSecondaire::enregistrerCouplesManager(){
+    couplesManager.save();
+    statusBar()->showMessage(tr("Le couplesManager a été enregistré dans le fichier couples.xml"));
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Enregistrement du CouplesManager", "Le CouplesManager a été enregistré");
+    msgBox.exec();
+}
+
 ///Fonction qui permet de choisir le fichier XML contenant les couples
 void VueSecondaire::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     couplesManager.setFilename(filename);
     couplesManager.load();
-    remplirCouplesDock();
-
+    statusBar()->showMessage(tr("Chargement du fichier couples.xml"));
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier de couples ont été récupérées.");
+    msgBox.exec();
 }
+
 ///Slot permettant d'ajouter un couple orienté
 void VueSecondaire::addOrientedCouple(){
     ///On récupère la note n1 dans le QlistWidget listeNotesLeft

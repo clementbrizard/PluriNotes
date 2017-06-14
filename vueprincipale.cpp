@@ -304,21 +304,13 @@ void VuePrincipale::choixFichier(){
 }
 
 void VuePrincipale::remplirDockListeNotes(){
-
-
-
     QListWidgetItem* item;
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
         if((it.current()).getType()!="task"){
             item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
     }
-
-    //dockListeNotes->setWidget(listeNotes);
-
-    /*statusBar()->showMessage(tr("Chargement du fichier notes.xml"));
-    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier ont été récupérées.");
-    msgBox.exec();*/
 }
+
 void VuePrincipale::remplirDockTaches(){
 
     QListWidgetItem* item;
@@ -326,11 +318,8 @@ void VuePrincipale::remplirDockTaches(){
         if((it.current()).getType()=="task"){
             item= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
     }
-
-    //dockListeNotes->setWidget(listeNotes);
-
-
 }
+
 void VuePrincipale::remplirDockCorbeille(){
 
     QListWidgetItem* item;
@@ -339,12 +328,11 @@ void VuePrincipale::remplirDockCorbeille(){
             QString title = n->getTitle();
             item = new QListWidgetItem(title,listeArchives);
         }
-
-    //dockListeNotes->setWidget(listeNotes);
     statusBar()->showMessage(tr("Chargement du fichier notes.xml"));
-    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier ont été récupérées.");
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier de notes ont été récupérées.");
     msgBox.exec();
 }
+
 void VuePrincipale::enregistrerNotesManager(){
     notesManager.save();
     statusBar()->showMessage(tr("Le NotesManager a été enregistré dans le fichier notes.xml"));
@@ -358,7 +346,6 @@ void VuePrincipale::actualiserLesDocks(){
     remplirDockListeNotes();
     remplirDockTaches();
     remplirDockCorbeille();
-
     statusBar()->showMessage(tr("Docks à jour"));
 }
 
