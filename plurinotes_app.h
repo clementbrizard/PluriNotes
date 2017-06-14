@@ -81,9 +81,14 @@ public slots:
         vueSecondaire->enregistrerCouplesManager();
     }
 
-    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de note
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de Note
     void afficherNoteCourantePN(){
         vuePrincipale->afficherNoteCourante();
+    }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de Task
+    void afficherTacheCourantePN(){
+        vuePrincipale->afficherTacheCourante();
     }
 };
 

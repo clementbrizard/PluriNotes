@@ -41,9 +41,11 @@ public:
     //Actualise les notes affichées
     void actualiserLesDocks();
 
-    // Fait pointer noteCourante sur la note selectionnée dans un dock
+    // Fait pointer noteCourante sur la note selectionnée dans un dock et l'affiche
     void afficherNoteCourante();
 
+    // Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
+    void afficherTacheCourante();
 
     //void afficherNoteEditeur();
     //Affiche le createur de note
@@ -71,6 +73,9 @@ private:
     QLineEdit* imageFileName;
     QLineEdit* dateCreation;
     QLineEdit* dateLastModif;
+    QLineEdit* action;
+    QLineEdit* priority;
+    QLineEdit* deadline;
 
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;

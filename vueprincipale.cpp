@@ -63,6 +63,7 @@ void VuePrincipale::createDockWindows()
     listeTaches = new QListWidget(dockListeTaches);
     dockListeTaches->setWidget(listeTaches);
     this->addDockWidget(Qt::LeftDockWidgetArea, dockListeTaches);
+    QObject::connect(listeTaches, SIGNAL(itemDoubleClicked(QListWidgetItem*)), PluriNotes::getPluriNotesInstance(), SLOT(afficherTacheCourantePN()));
 
     // Dock des notes archivées
     dockListeArchives->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -94,11 +95,6 @@ void VuePrincipale::afficher(const TypeListe type)
     QFormLayout* layoutForm = new QFormLayout;
     layoutForm->setFormAlignment(Qt::AlignHCenter | Qt::AlignTop);
     layoutForm->setLabelAlignment(Qt::AlignLeft);
-    QHBoxLayout* layoutHorizontal1 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal2 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal3 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal4 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal5 = new QHBoxLayout;
     QHBoxLayout* layoutHorizontal= new QHBoxLayout;
     QHBoxLayout* layoutHBoutons = new QHBoxLayout;
 
@@ -115,22 +111,21 @@ void VuePrincipale::afficher(const TypeListe type)
         texteT = new QLabel;
         description = new QLineEdit;
         imageFileName = new QLineEdit;
+        action = new QLineEdit;
+        priority = new QLineEdit;
+        deadline = new QLineEdit;
 
         // On interdit la modification des champs pour l'affichage de la note
-        /*titre->setEnabled(false);
-        id->setEnabled(false);
-        texte->setEnabled(false);
         statut->setEnabled(false);
         dateCreation->setEnabled(false);
-        dateLastModif->setEnabled(false);*/
+        dateLastModif->setEnabled(false);
 
         // Feuille de style
         id->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
-        statut->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
-        dateCreation->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
-        dateLastModif->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
+        statut->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
+        dateCreation->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
+        dateLastModif->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
         titre->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
-
     }
 
 
@@ -167,8 +162,20 @@ void VuePrincipale::afficher(const TypeListe type)
         layoutHorizontal->addWidget(texteT);
         layoutHorizontal->addWidget(texte);
 
-    } else if(note->getType() == "task") {
+    } else if(note->getType() == "task" && type == Taches) {
         // Tâches
+        action->setText(dynamic_cast<const Task*>(note)->getAction());
+        priority->setText(dynamic_cast<const Task*>(note)->getPriority());
+        deadline->setText(dynamic_cast<const Task*>(note)->getDeadline().toString("d MMMM yyyy"));
+        action->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
+        priority->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
+        deadline->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
+        action->show();
+        priority->show();
+        deadline->show();
+        layoutForm->addRow("Action", action);
+        layoutForm->addRow("Priorité", priority);
+        layoutForm->addRow("Deadline (optionnelle)", deadline);
 
     } else if(note->getType() == "aud") {
         // Audios
@@ -180,6 +187,7 @@ void VuePrincipale::afficher(const TypeListe type)
         imageFileName->show();
         layoutForm->addRow("Description", description);
         layoutForm->addRow("Nom du fichier audio", imageFileName);
+
     } else if(note->getType() == "vid") {
         // Vidéos
         description->setText(dynamic_cast<const Video*>(note)->getDescription());
@@ -190,6 +198,7 @@ void VuePrincipale::afficher(const TypeListe type)
         imageFileName->show();
         layoutForm->addRow("Description", description);
         layoutForm->addRow("Nom du fichier vidéo", imageFileName);
+
     } else if(note->getType() == "img") {
         // Images / Vidéos / Audios
         description->setText(dynamic_cast<const Image*>(note)->getDescription());
@@ -394,7 +403,7 @@ void VuePrincipale::actualiserLesDocks(){
     statusBar()->showMessage(tr("Docks à jour"));
 }
 
-// Fait pointer noteCourante sur la note selectionnée dans un dock
+// Fait pointer noteCourante sur la note selectionnée dans un dock et l'affiche
 void VuePrincipale::afficherNoteCourante(){
     QListWidgetItem* selectedItem = listeNotes->currentItem();
     QString selectedItemText = selectedItem->text();
@@ -406,16 +415,21 @@ void VuePrincipale::afficherNoteCourante(){
     afficher(Notes);
 }
 
+// Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
+void VuePrincipale::afficherTacheCourante(){
+    QListWidgetItem* selectedItem = listeTaches->currentItem();
+    QString selectedItemText = selectedItem->text();
+    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+
+    statusBar()->showMessage(tr("Affichage de la tâche ")+selectedItemText);
+
+    PluriNotes::getPluriNotesInstance()->setNoteCourante(noteCourante);
+    afficher(Taches);
+}
+
 /*void VuePrincipale::afficherNoteEditeur(){
     statusBar()->showMessage(tr("Création Article "));
     //statusBar()->showMessage(tr("Affichage de la note ")+noteCourante->getTitle());
     PluriNotes::getPluriNotesInstance()->noteCreator("art");
     afficher(Notes);
 }*/
-//void VuePrincipale::QuitApplication(){
-//    NotesManager& nm = NotesManager::getManager();
-//    nm.save();
-//    qApp->quit();
-//    nm.freeManager();
-//    MainWindow::libererInstance();
-//}
