@@ -4,12 +4,12 @@
         <id>0</id>
         <referencingNote>0</referencingNote>
         <referencingNote>0</referencingNote>
-        <relation></relation>
+        <label></label>
     </couple>
     <couple>
         <id>1</id>
         <referencingNote>1</referencingNote>
         <referencingNote>1</referencingNote>
-        <relation></relation>
+        <label></label>
     </couple>
 </couples>

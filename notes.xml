@@ -44,8 +44,7 @@
         <statut>active</statut>
         <title>image</title>
         <description>Cette image illustre l'article d'id 0</description>
-
-        <imageFilename>imageFileName.jpeg</imageFilename>
+        <imageFilename></imageFilename>
         <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>05-06-2017</dateLastModif>
     </image>
@@ -54,8 +53,7 @@
         <statut>active</statut>
         <title>audio</title>
         <description>Cet audio accompagne l'article d'id 0</description>
-
-        <imageFilename>imageFileName.jpeg</imageFilename>
+        <imageFilename></imageFilename>
         <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>05-06-2017</dateLastModif>
     </audio>
@@ -64,7 +62,7 @@
         <statut>active</statut>
         <title>video</title>
         <description>Cette vidéo accompagne l'article d'id 0</description>
-        <imageFilename>imageFileName.jpeg</imageFilename>
+        <imageFilename></imageFilename>
         <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>05-06-2017</dateLastModif>
     </video>
@@ -129,7 +127,6 @@
     <task>
         <id>idtask</id>
         <statut>active</statut>
-
         <title>TestTask</title>
         <action>manger</action>
         <priority>3</priority>

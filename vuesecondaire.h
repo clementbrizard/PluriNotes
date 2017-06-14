@@ -3,22 +3,32 @@
 
 #include "qt_include.h"
 #include "notes.h"
+
 #include "couples.h"
+
 
 // Vue secondaire de l'appli (deuxieme onglet)
 class VueSecondaire : public QMainWindow {
 public:
     VueSecondaire();
     ///Affichage de l'editeur de relation
-void CouplesEditeur();
-///Creation dock relations
-void createCouplesDock();
-///Charge le fichier XML
-void choixFichier();
-///Ajouter les couples dans le dock couple
-void remplirCouplesDock();
-///Actualiser le dock de couples
-void updateDockCouples();
+    void CouplesEditeur();
+
+    ///Creation dock relations
+    void createCouplesDock();
+
+    ///Charge le fichier XML
+    void choixFichier();
+
+    ///Ajouter les couples dans le dock couple
+    void remplirCouplesDock();
+
+    ///Actualiser le dock de couples
+    void updateDockCouples();
+
+    /// Enregistrer le CouplesManager
+    void enregistrerCouplesManager();
+
 private:
 
     Q_OBJECT
@@ -36,9 +46,7 @@ QListWidget* listeCouples;
     // Docks
       QDockWidget* dockListeCouples;
    // QDockWidget* dockRelation;
-
     CouplesManager& couplesManager = CouplesManager::getManager();
-
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :
@@ -47,6 +55,7 @@ signals :
         void addOrientedCouple();
         ///Ajoute un couple non orienté
         void addCoupleNotOriented();
+
 };
 
 

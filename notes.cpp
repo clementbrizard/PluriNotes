@@ -23,7 +23,6 @@ void NotesManager::freeManager(){
     handler.instance=nullptr;
 }
 
-
 Note* NotesManager::getNoteByTitle(QString title){
     for (unsigned int i=0; i<m_nbNotes; i++){
         if (title == m_notes[i]->getTitle()) return m_notes[i];
@@ -148,7 +147,8 @@ void NotesManager::load() {
     QFile fin(m_filename);
     // If we can't open it, let's show an error message.
     if (!fin.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        throw Exception("Erreur ouverture fichier notes");
+        QMessageBox msgBox(QMessageBox::Icon::Information, "Info", "Abandon de l'ouverture fichier notes.");
+        msgBox.exec();
     }
     // QXmlStreamReader takes any QIODevice.
     QXmlStreamReader xml(&fin);
@@ -173,7 +173,8 @@ void NotesManager::load() {
     }
     // Error handling.
     if(xml.hasError()) {
-        throw Exception("Erreur lecteur fichier notes, parser xml");
+        QMessageBox msgBox(QMessageBox::Icon::Information, "Info", "Abandon de l'ouverture du fichier notes.");
+        msgBox.exec();
     }
     // Removes any device() or data from the reader * and resets its internal state to the initial state.
     //xml.clear();
@@ -561,6 +562,7 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
 }
 
 /****************CORBEILLE**************************/
+
 Corbeille::Corbeille(){}
 
 ///Destructeur de la corbeille
@@ -670,6 +672,7 @@ void Corbeille::deleteNote(Note* n){
     ///Suppression de la note de notesmanager
     NotesManager::getManager().removeNote(n);
 }
+
 /*****************NOTE**************************/
 
 Note::Note(const QString& title, QString statut,const QString& id, const QDate &dateCreation, const QDate &dateLastModif):

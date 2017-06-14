@@ -31,7 +31,6 @@ private:
     QDate m_dateCreation;
     QDate m_dateLastModif;
 
-
 public:
     Note(const QString& title,QString statut="active",const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate());
     virtual ~Note(){}

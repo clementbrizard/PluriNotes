@@ -28,6 +28,7 @@ public:
     void setLabel(const QString& label);
 
     const QString& getId()const{return m_id; }
+    const QString& getLabel()const{return m_label; }
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
@@ -74,7 +75,10 @@ public:
 
     // supprime tous les couples contenant la note dont l'id est passé en paramètre
     // fonction appelée quand on supprime une note dans le NotesManager
-    void removeNote(Note* n);
+    void removeCouplesWithThisNote(Note* n);
+
+    /// Supprime le couple dont l'id est passé en paramètre
+    void removeCouple(const QString& idCouple);
 
     // charge le fichier XML contenant tous les couples
     void load();
