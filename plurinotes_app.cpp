@@ -13,6 +13,8 @@ PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     vuePrincipale->setMenuBar(createMenu());
     vueSecondaire = new VueSecondaire();
     vueSecondaire->setMenuBar(createMenu());
+    vueSecondaire->CouplesEditeur();
+
 
     barreOnglets = new QTabWidget();
     barreOnglets->setWindowTitle(name);
@@ -44,7 +46,6 @@ QMenuBar* PluriNotes::createMenu() {
 
     QAction* chargerRelations = fichier->addAction("&Charger les couples");
     QObject::connect(chargerRelations, SIGNAL(triggered()), this, SLOT(chargerXMLCouples()));
-
 
     QAction* sauver = fichier->addAction("&Enregistrer");
     sauver->setShortcut(Qt::Key_S | Qt::CTRL);

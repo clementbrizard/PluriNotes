@@ -220,50 +220,6 @@ public:
 
     };
 
-/************CORBEILLE************/
-/// Classe permettant le stockage lorsqu'une note est supprimée. La note devient en attente d'une éventuelle restauration
-class Corbeille{
-private :
-    /// vector d'objet pointeur sur Note
-    vector<Note*> poubelle;
-    /// Constructeur
-    Corbeille();
-    /// Constructeur de recopie
-    Corbeille(const Corbeille& c);
-     ///Surcharge de l'opérateur =
-    Corbeille& operator=(const Corbeille& c);
-    ///Destructeur
-    ~Corbeille();
 
-    ///static Corbeille *instance: Implantation du singleton
-    struct HandlerC{
-        Corbeille* instance;
-        HandlerC() : instance(0){}
-        ~HandlerC(){if(instance) delete instance; instance = 0;}
-    };
-    static HandlerC handlerC;
-
-public :
-    static Corbeille& getInstance();
-    static void libererInstance();
-    ///Permet de savoir le nombre d'éléments dans la corbeille
-    int getPoubelleSize() const {return poubelle.size();}
-    /// Restaurer une note
-    void RestoreNote(Note* n);
-    /// Trouver une note par son titre
-    Note* getNoteByTitle(QString title);
-    ///Trouver une note par son ID
-    Note* getNoteById(QString id);
-    /// Trouver une note par sa position dans la corbeille
-    Note* getNoteByPosition(unsigned int position);
-    ///Suppression d'une note de la corbeille
-    void deleteNote(Note* n);
-    ///Ajout d'une note dans la corbeille
-    void addNote(Note*n);
-    ///Retourne la position d'une note dans le vecteur dustbin
-    unsigned int getNotePosition(Note*n);
-    ///Vide le vecteur dustbin
-    void emptyDustBin(){poubelle.clear();}
-};
 
 #endif // NOTES_H

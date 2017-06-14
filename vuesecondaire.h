@@ -9,12 +9,16 @@
 class VueSecondaire : public QMainWindow {
 public:
     VueSecondaire();
-    //Affichage de l'editeur de relation
-void RelationEditeur();
-//Creation dock relations
-void createRelationDock();
-//Charge le fichier XML
+    ///Affichage de l'editeur de relation
+void CouplesEditeur();
+///Creation dock relations
+void createCouplesDock();
+///Charge le fichier XML
 void choixFichier();
+///Ajouter les couples dans le dock couple
+void remplirCouplesDock();
+///Actualiser le dock de couples
+void updateDockCouples();
 private:
 
     Q_OBJECT
@@ -26,19 +30,23 @@ private:
       QListWidget* listeNotesRight;
       QVBoxLayout* layer;
       QScrollArea* scroller;
-      QPushButton* add;
-      QPushButton* addNotOriented;
-      QPushButton* quit;
-QListWidget* listeRelations;
+      QPushButton* addCouple;
+      QPushButton* addNotOrientedCouple;
+QListWidget* listeCouples;
     // Docks
-      QDockWidget* dockListeRelations;
+      QDockWidget* dockListeCouples;
    // QDockWidget* dockRelation;
+
     CouplesManager& couplesManager = CouplesManager::getManager();
+
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :
     public slots :
-
+        ///Ajoute un Couple orienté
+        void addOrientedCouple();
+        ///Ajoute un couple non orienté
+        void addCoupleNotOriented();
 };
 
 

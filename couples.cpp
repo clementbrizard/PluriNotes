@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "couples.h"
 
 using namespace std;
@@ -81,6 +82,7 @@ void CouplesManager::setNbCouples(const int& nbCouples){
     m_couples[m_nbCouples++]=c;
  }
 
+
 //void CouplesManager::save() const {}
 
  void CouplesManager::load() {
@@ -162,7 +164,3 @@ void CouplesManager::setNbCouples(const int& nbCouples){
      //xml.clear();
      qDebug()<<"fin load\n";
  }
-
-
-
-

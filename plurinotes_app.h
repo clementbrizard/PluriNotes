@@ -58,7 +58,7 @@ public slots:
     // Actualiser les docks après qu'on ait créé une nouvelle Note
     void actualiserListes(){
         vuePrincipale->actualiserLesDocks();
-        vueSecondaire->RelationEditeur();
+        vueSecondaire->CouplesEditeur();
     }
     // Charge un fichier XML
     void chargerXML(){
@@ -66,9 +66,10 @@ public slots:
         vuePrincipale->remplirDockListeNotes();
         vuePrincipale->remplirDockTaches();
         vuePrincipale->remplirDockCorbeille();
-        vueSecondaire->RelationEditeur();
+        vueSecondaire->CouplesEditeur();
     }
-    //Charge le XML des relations
+
+    //Charge le XML des couples
     void chargerXMLCouples(){
         vueSecondaire->choixFichier();
     }
