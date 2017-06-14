@@ -70,13 +70,14 @@ void VueSecondaire::createCouplesDock()
 ///Fonction qui remplit le dock de couples
 void VueSecondaire::remplirCouplesDock(){
    QListWidgetItem* item;
+   QString temp;
    ///On utilise l'iterator de CouplesManager pour afficher les couples existants
-    /*for(CouplesManager::Iterator it=CouplesManager.getIterator(); !it.isDone(); it.next()){
+   for(CouplesManager::Iterator it=couplesManager.getIterator(); !it.isDone(); it.next()){
             ///On utilise un QString temporaire pour afficher les deux notes référencées
-            temp = (it.current()).getReferencingNote() + " -> " + (it.current()).getReferencedNote();
+            temp = (it.current()).getReferencingNote().getId() + " -> " + (it.current()).getReferencedNote().getId();
             ///On affiche le couple dans le dock
-            item= new QListWidgetItem(temp,listeRelations);
-    }*/
+            item= new QListWidgetItem(temp,listeCouples);
+    }
 }
 ///Fonction pour actualiser le dock de couples
 void VueSecondaire::updateDockCouples(){
@@ -89,9 +90,10 @@ void VueSecondaire::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     couplesManager.setFilename(filename);
     couplesManager.load();
+    remplirCouplesDock();
 
 }
-///Slot permettant d'ajouter une relation.
+///Slot permettant d'ajouter un couple orienté
 void VueSecondaire::addOrientedCouple(){
     ///On récupère la note n1 dans le QlistWidget listeNotesLeft
     QListWidgetItem* selectedItem1 = listeNotesLeft->currentItem();
@@ -101,18 +103,16 @@ void VueSecondaire::addOrientedCouple(){
     QListWidgetItem* selectedItem2 = listeNotesRight->currentItem();
     QString title2 = selectedItem2->text();
     Note* n2 = NotesManager::getManager().getNoteByTitle(title2);
-    ///Création d'une relation de n1 vers n2
-    //Relation* r = new Relation;
-    //(*r).addRelation(*n1,*n2);
-    ///Insertion de la relation dans RelationsManager
-    //RelationsManager& rm = RelationsManager::getInstance();
-    //if(!rm.isAlreadyPresent(*r)){rm.addRelation(r);}
+    ///Insertion du couple dans CouplesManager
+    CouplesManager& cm = CouplesManager::getManager();
+    cm.addCouple(*(n1),*(n2));
     updateDockCouples();
     ///MessageBox attestant du succès de l'ajout de la relation
     QMessageBox::information(this, "Succès", "Le couple a bien été ajouté");
 
 }
-///Slot permettant d'ajouter une relation non orientée.
+
+///Slot permettant d'ajouter un couple non orienté
 void VueSecondaire::addCoupleNotOriented(){
     ///On récupère la note n1 dans le QlistWidget listNotesLeft
     QListWidgetItem* selectedItem1 = listeNotesLeft->currentItem();
@@ -122,16 +122,11 @@ void VueSecondaire::addCoupleNotOriented(){
     QListWidgetItem* selectedItem2 = listeNotesRight->currentItem();
     QString title2 = selectedItem2->text();
     Note* n2 = NotesManager::getManager().getNoteByTitle(title2);
-    ///Création d'une relation de n1 vers n2
-    //Relation* r1 = new Relation;
-    //(*r1).addRelation(*n1,*n2);
-    ///Création d'une relation de n2 vers n1
-    //Relation* r2 = new Relation;
-    //(*r2).addRelation(*n2,*n1);
-    ///Insertion des deux relations dans RelationsManager
-    //RelationsManager& rm = RelationsManager::getInstance();
-    //if(!rm.isAlreadyPresent(*r1)){rm.addRelation(r1);}
-    //if(!rm.isAlreadyPresent(*r2)){rm.addRelation(r2);}
+    CouplesManager& cm = CouplesManager::getManager();
+    ///Ajout d'un couple de n1 vers n2 dans le CouplesManager
+    cm.addCouple(*(n1),*(n2));
+    ///Ajout d'un couple de n1 vers n2 dans le CouplesManager
+    cm.addCouple(*(n2),*(n1));
     updateDockCouples();
     ///MessageBox attestant du succès de l'ajout de la relation non orientée
     QMessageBox::information(this, "Succès", "Le couple non orienté a bien été ajouté");
