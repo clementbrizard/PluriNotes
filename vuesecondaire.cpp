@@ -89,6 +89,7 @@ void VueSecondaire::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     couplesManager.setFilename(filename);
     couplesManager.load();
+
 }
 ///Slot permettant d'ajouter une relation.
 void VueSecondaire::addOrientedCouple(){

@@ -3,9 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
-
 #include "couples.h"
-
 
 // Vue secondaire de l'appli (deuxieme onglet)
 class VueSecondaire : public QMainWindow {
@@ -38,7 +36,9 @@ QListWidget* listeCouples;
     // Docks
       QDockWidget* dockListeCouples;
    // QDockWidget* dockRelation;
-    //RelationsManager& relationsManager = RelationsManager::getManager();
+
+    CouplesManager& couplesManager = CouplesManager::getManager();
+
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :
@@ -47,7 +47,6 @@ signals :
         void addOrientedCouple();
         ///Ajoute un couple non orienté
         void addCoupleNotOriented();
-
 };
 
 
