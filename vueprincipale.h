@@ -31,7 +31,7 @@ public:
     void afficher(const TypeListe type);
 
     // Remplit les champs de note de la classe à partir d'une note passée en paramètre
-    void setNoteCourante(const Note& note);
+    //void updateNoteCourante(const Note& note);
 
     //Remplit le dock qui affiche la corbeille
     void remplirDockCorbeille();
@@ -41,8 +41,12 @@ public:
     //Actualise les notes affichées
     void actualiserLesDocks();
 
-    // Fait pointer noteCourante sur la note selectionnée dans un dock
+    // Fait pointer noteCourante sur la note selectionnée dans un dock et l'affiche
     void afficherNoteCourante();
+
+    // Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
+    void afficherTacheCourante();
+
     //void afficherNoteEditeur();
     //Affiche le createur de note
     //void noteCreator(const QString& type);
@@ -51,25 +55,27 @@ private:
 
     Q_OBJECT
 
-    //
+    // Fonctions de lancement de l'affichage
     void createToolbar();
     void createStatusBar();
     void createDockWindows();
 
+    // Message d'accueil
+    QLabel* messageAccueil;
 
     // Attributs de la note courante
-    QLabel* titreT;
-    QLabel* idT;
-    QLabel* texteT;
-    QLabel* statutT;
-    QLabel* dateCreationT;
-    QLabel* dateLastModifT;
     QLineEdit* titre;
     QLineEdit* id;
     QTextEdit* texte;
+    QLabel* texteT;
     QLineEdit* statut;
+    QLineEdit* description;
+    QLineEdit* imageFileName;
     QLineEdit* dateCreation;
     QLineEdit* dateLastModif;
+    QLineEdit* action;
+    QLineEdit* priority;
+    QLineEdit* deadline;
 
     // Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
@@ -86,7 +92,6 @@ private:
 
     // initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
-
     CouplesManager& couplesManager = CouplesManager::getManager();
 
 

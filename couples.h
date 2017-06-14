@@ -17,17 +17,18 @@ private:
     QString m_id;
     Note& m_referencingNote;
     Note& m_referencedNote;
-    QString m_label;
+    QString m_relation;
 public:
-    Couple(Note& referencingNote,Note& referencedNote,const QString& id="",const QString& label="");
+    Couple(Note& referencingNote, Note& referencedNote, const QString& id="", const QString& relation="");
     ~Couple(){};
 
     void setId(const QString& id);
     void setReferencingNote(const Note& referencingNote);
     void setReferencedNote(const Note& referencedNote);
-    void setLabel(const QString& label);
+    void setRelation(const QString& relation);
 
     const QString& getId()const{return m_id; }
+    const QString& getRelation()const{return m_relation; }
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
@@ -70,11 +71,14 @@ public:
     void setNbCouples(const int& nbCouples);
 
     // ajoute un couple au CouplesManager
-    void addCouple(Note& referencingNote,Note& referencedNote,const QString& id="",const QString& label="");
+    void addCouple(Note& referencingNote, Note& referencedNote, const QString& id="", const QString& relation="");
 
     // supprime tous les couples contenant la note dont l'id est passé en paramètre
     // fonction appelée quand on supprime une note dans le NotesManager
-    void removeNote(Note* n);
+    void removeCouplesWithThisNote(Note* n);
+
+    /// Supprime le couple dont l'id est passé en paramètre
+    void removeCouple(const QString& idCouple);
 
     // charge le fichier XML contenant tous les couples
     void load();
@@ -113,5 +117,4 @@ public:
         }
 };
 
-
-#endif */// RELATIONS_H
+#endif *// RELATIONS_H

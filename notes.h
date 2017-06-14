@@ -33,7 +33,6 @@ private:
     QDate m_dateCreation;
     QDate m_dateLastModif;
 
-
 public:
     Note(const QString& title,QString statut="active",const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(),const int& nVersion=1,const bool& isVersionActuelle=true);
     virtual ~Note(){}
@@ -85,7 +84,6 @@ public:
     QXmlStreamWriter& save(QXmlStreamWriter& stream) const;
     QString getType() const {return (QString)"task";}
 };
-
 
 /*****************MEDIA*******************/
 
@@ -227,6 +225,7 @@ public:
     };
 
 /************CORBEILLE************/
+
 /// Classe permettant le stockage lorsqu'une note est supprimée. La note devient en attente d'une éventuelle restauration
 class Corbeille{
 private :

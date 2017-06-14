@@ -72,16 +72,24 @@ public slots:
     //Charge le XML des couples
     void chargerXMLCouples(){
         vueSecondaire->choixFichier();
+        vueSecondaire->remplirCouplesDock();
     }
 
-    // Enregistre le NotesManager dans un XML
+    // Enregistre le NotesManager et le CouplesManager dans leur XML respectif
     void enregistrer(){
         vuePrincipale->enregistrerNotesManager();
+        vueSecondaire->enregistrerCouplesManager();
     }
-    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de note
-        void afficherNoteCourantePN(){
-            vuePrincipale->afficherNoteCourante();
-        }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de Note
+    void afficherNoteCourantePN(){
+        vuePrincipale->afficherNoteCourante();
+    }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de Task
+    void afficherTacheCourantePN(){
+        vuePrincipale->afficherTacheCourante();
+    }
 };
 
 #endif // PLURINOTES_APP_H
