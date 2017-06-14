@@ -74,43 +74,43 @@ void NotesManager::addLoadedNote(Note* n){
     m_notes[m_nbNotes++]=n;
 }
 
-void NotesManager::addArticle(const QString& title, QString statut, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif){
+void NotesManager::addArticle(const QString& title, QString statut, const QString& text, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : article déjà existant");
     }
-    Article* a=new Article(title,statut,text,id,dateCreation,dateLastModif);
+    Article* a=new Article(title,statut,text,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addNote(a);
 }
 
-void NotesManager::addTask(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif){
+void NotesManager::addTask(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : task déjà existante");
     }
-    Task* t=new Task(title,statut,action,priority,deadline,id,dateCreation,dateLastModif);
+    Task* t=new Task(title,statut,action,priority,deadline,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addNote(t);
 }
 
-void NotesManager::addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif){
+void NotesManager::addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
-    Image* i=new Image(title,statut,description,imageFileName,id,dateCreation,dateLastModif);
+    Image* i=new Image(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addNote(i);
 }
 
-void NotesManager::addAudio(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id, const QDate& dateCreation, const QDate &dateLastModif){
+void NotesManager::addAudio(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id, const QDate& dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
     }
-    Audio* au=new Audio(title,statut,description,imageFileName,id,dateCreation,dateLastModif);
+    Audio* au=new Audio(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addNote(au);
 }
 
-void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif){
+void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Video deja existante");
     }
-    Video* vi=new Video(title,statut,description,imageFileName,id,dateCreation,dateLastModif);
+    Video* vi=new Video(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addNote(vi);
 }
 
@@ -189,6 +189,8 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
     QDate dateCreation;
     QDate dateLastModif;
     QString statut;
+    int nVersion;
+    bool isVersionActuelle;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -206,7 +208,18 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
                 xml.readNext(); statut=xml.text().toString();
                 qDebug()<<"statut="<<statut<<"\n";
             }
-
+            // We've found nVersion.
+            if(xml.name() == "nVersion") {
+                xml.readNext(); temp=xml.text().toString();
+                nVersion=temp.toInt();
+                qDebug()<<"nVersion="<<nVersion<<"\n";
+            }
+            // We've found isVersionActuelle.
+            if(xml.name() == "isVersionActuelle") {
+                xml.readNext(); temp=xml.text().toString();
+                isVersionActuelle=(temp=="1" ? true : false);
+                qDebug()<<"isVersionActuelle="<<isVersionActuelle<<"\n";
+            }
             // We've found titre.
             if(xml.name() == "title") {
                 xml.readNext(); titre=xml.text().toString();
@@ -243,7 +256,7 @@ QXmlStreamReader& NotesManager::loadArticle(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout Article "<<identificateur<<"\n";
-    Article* a=new Article(titre,statut,text,identificateur,dateCreation,dateLastModif);
+    Article* a=new Article(titre,statut,text,identificateur,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addLoadedNote(a);
     return xml;
 }
@@ -258,6 +271,8 @@ QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
     QDate dateCreation;
     QDate dateLastModif;
     QString statut;
+    int nVersion;
+    bool isVersionActuelle;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -275,7 +290,18 @@ QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
                 xml.readNext(); statut=xml.text().toString();
                 qDebug()<<"statut="<<statut<<"\n";
             }
-
+            // We've found nVersion.
+            if(xml.name() == "nVersion") {
+                xml.readNext(); temp=xml.text().toString();
+                nVersion=temp.toInt();
+                qDebug()<<"nVersion="<<nVersion<<"\n";
+            }
+            // We've found isVersionActuelle.
+            if(xml.name() == "isVersionActuelle") {
+                xml.readNext(); temp=xml.text().toString();
+                isVersionActuelle=(temp=="1" ? true : false);
+                qDebug()<<"isVersionActuelle="<<isVersionActuelle<<"\n";
+            }
             // We've found titre.
             if(xml.name() == "title") {
                 xml.readNext(); titre=xml.text().toString();
@@ -319,7 +345,7 @@ QXmlStreamReader& NotesManager::loadImage(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout Image "<<identificateur<<"\n";
-    Image* i=new Image(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif);
+    Image* i=new Image(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addLoadedNote(i);
     return xml;
 }
@@ -334,6 +360,8 @@ QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
     QDate dateCreation;
     QDate dateLastModif;
     QString statut;
+    int nVersion;
+    bool isVersionActuelle;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -351,7 +379,18 @@ QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
                 xml.readNext(); statut=xml.text().toString();
                 qDebug()<<"statut="<<statut<<"\n";
             }
-
+            // We've found nVersion.
+            if(xml.name() == "nVersion") {
+                xml.readNext(); temp=xml.text().toString();
+                nVersion=temp.toInt();
+                qDebug()<<"nVersion="<<nVersion<<"\n";
+            }
+            // We've found isVersionActuelle.
+            if(xml.name() == "isVersionActuelle") {
+                xml.readNext(); temp=xml.text().toString();
+                isVersionActuelle=(temp=="1" ? true : false);
+                qDebug()<<"isVersionActuelle="<<isVersionActuelle<<"\n";
+            }
             // We've found titre.
             if(xml.name() == "title") {
                 xml.readNext(); titre=xml.text().toString();
@@ -396,7 +435,7 @@ QXmlStreamReader& NotesManager::loadAudio(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout Audio "<<identificateur<<"\n";
-    Audio* i=new Audio(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif);
+    Audio* i=new Audio(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addLoadedNote(i);
     return xml;
 }
@@ -411,6 +450,8 @@ QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
     QDate dateCreation;
     QDate dateLastModif;
     QString statut;
+    int nVersion;
+    bool isVersionActuelle;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -428,7 +469,18 @@ QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
                 xml.readNext(); statut=xml.text().toString();
                 qDebug()<<"statut="<<statut<<"\n";
             }
-
+            // We've found nVersion.
+            if(xml.name() == "nVersion") {
+                xml.readNext(); temp=xml.text().toString();
+                nVersion=temp.toInt();
+                qDebug()<<"nVersion="<<nVersion<<"\n";
+            }
+            // We've found isVersionActuelle.
+            if(xml.name() == "isVersionActuelle") {
+                xml.readNext(); temp=xml.text().toString();
+                isVersionActuelle=(temp=="1" ? true : false);
+                qDebug()<<"isVersionActuelle="<<isVersionActuelle<<"\n";
+            }
             // We've found titre.
             if(xml.name() == "title") {
                 xml.readNext(); titre=xml.text().toString();
@@ -472,7 +524,7 @@ QXmlStreamReader& NotesManager::loadVideo(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout video "<<identificateur<<"\n";
-    Video* v=new Video(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif);
+    Video* v=new Video(titre,statut,description,imageFileName,identificateur,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addLoadedNote(v);
     return xml;
 }
@@ -488,6 +540,8 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
     QDate dateCreation;
     QDate dateLastModif;
     QString statut;
+    int nVersion;
+    bool isVersionActuelle;
     QXmlStreamAttributes attributes = xml.attributes();
     xml.readNext();
     //We're going to loop over the things because the order might change.
@@ -504,6 +558,18 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
             if(xml.name() == "statut") {
                 xml.readNext(); statut=xml.text().toString();
                 qDebug()<<"statut="<<statut<<"\n";
+            }
+            // We've found nVersion.
+            if(xml.name() == "nVersion") {
+                xml.readNext(); temp=xml.text().toString();
+                nVersion=temp.toInt();
+                qDebug()<<"nVersion="<<nVersion<<"\n";
+            }
+            // We've found isVersionActuelle.
+            if(xml.name() == "isVersionActuelle") {
+                xml.readNext(); temp=xml.text().toString();
+                isVersionActuelle=(temp=="1" ? true : false);
+                qDebug()<<"isVersionActuelle="<<isVersionActuelle<<"\n";
             }
 
             // We've found titre.
@@ -555,7 +621,7 @@ QXmlStreamReader& NotesManager::loadTask(QXmlStreamReader& xml){
         xml.readNext();
     }
     qDebug()<<"ajout task "<<identificateur<<"\n";
-    Task* t=new Task(titre,statut,action,priority,deadline,identificateur,dateCreation,dateLastModif);
+    Task* t=new Task(titre,statut,action,priority,deadline,identificateur,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     addLoadedNote(t);
     return xml;
 }
@@ -672,8 +738,8 @@ void Corbeille::deleteNote(Note* n){
 }
 /*****************NOTE**************************/
 
-Note::Note(const QString& title, QString statut,const QString& id, const QDate &dateCreation, const QDate &dateLastModif):
-    m_id(id),m_title(title),m_statut(statut), m_dateCreation(dateCreation),m_dateLastModif(dateLastModif)
+Note::Note(const QString& title, QString statut, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle):
+    m_id(id),m_title(title),m_statut(statut), m_dateCreation(dateCreation),m_dateLastModif(dateLastModif),m_nVersion(nVersion),m_isVersionActuelle(isVersionActuelle)
 {}
 
 void Note::setId(const QString &id){
@@ -691,12 +757,18 @@ void Note::setDateLastModif(QDate dateLastModif){
  void Note::setStatut(QString statut){
      m_statut=statut;
  }
+ void Note::setNVersion(int nVersion){
+     m_nVersion=nVersion;
+ }
 
+ void Note::setIsVersionActuelle(bool isVersionActuelle){
+     m_isVersionActuelle=isVersionActuelle;
+ }
 
 /******************ARTICLE**********************/
 
-Article::Article(const QString& title, QString statut, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif):
-    Note(title,statut,id,dateCreation,dateLastModif),m_text(text)
+Article::Article(const QString& title, QString statut, const QString& text,const QString& id,const QDate &dateCreation, const QDate &dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+    Note(title,statut,id,dateCreation,dateLastModif,nVersion,isVersionActuelle),m_text(text)
 {}
 
 void Article::setText(const QString& text) {
@@ -707,6 +779,8 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("article");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("statut",getStatut());
+        stream.writeTextElement("nVersion",QString::number(getNVersion()));
+        stream.writeTextElement("isVersionActuelle",QString::number(getIsVersionActuelle()));
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("text",getText());
         stream.writeTextElement("dateCreation",getDateCreation().toString("dd-MM-yyyy"));
@@ -718,8 +792,8 @@ QXmlStreamWriter& Article::save(QXmlStreamWriter& stream) const {
 
 /******************TASK**********************/
 
-Task::Task(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif):
-    Note(title,statut,id,dateCreation,dateLastModif),m_action(action),m_priority(priority),m_deadline(deadline)
+Task::Task(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+    Note(title,statut,id,dateCreation,dateLastModif,nVersion,isVersionActuelle),m_action(action),m_priority(priority),m_deadline(deadline)
 {}
 
 void Task::setAction(const QString& action) {
@@ -736,6 +810,8 @@ QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("task");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("statut",getStatut());
+        stream.writeTextElement("nVersion",QString::number(getNVersion()));
+        stream.writeTextElement("isVersionActuelle",QString::number(getIsVersionActuelle()));
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("action",getAction());
         stream.writeTextElement("priority",getPriority());
@@ -748,8 +824,8 @@ QXmlStreamWriter& Task::save(QXmlStreamWriter& stream) const {
 
 /********************MEDIA********************/
 
-Media::Media(const QString& title, QString statut,const QString& description, const QString& imageFileName, const QString &id,const QDate &dateCreation, const QDate &dateLastModif):
-    Note(title,statut,id,dateCreation,dateLastModif),m_description(description),m_imageFileName(imageFileName)
+Media::Media(const QString& title, QString statut,const QString& description, const QString& imageFileName, const QString &id,const QDate &dateCreation, const QDate &dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+    Note(title,statut,id,dateCreation,dateLastModif,nVersion,isVersionActuelle),m_description(description),m_imageFileName(imageFileName)
 {}
 
 void Media::setDescription(const QString& description){
@@ -763,14 +839,16 @@ void Media::setImageFileName(const QString& imageFileName){
 
 /********************IMAGE********************/
 
-Image::Image(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
-    Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif)
+Image::Image(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+    Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle)
 {}
 
 QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("image");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("statut",getStatut());
+        stream.writeTextElement("nVersion",QString::number(getNVersion()));
+        stream.writeTextElement("isVersionActuelle",QString::number(getIsVersionActuelle()));
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
@@ -783,14 +861,16 @@ QXmlStreamWriter& Image::save(QXmlStreamWriter& stream) const {
 
 /********************AUDIO********************/
 
-Audio::Audio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif):
-Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif)
+Audio::Audio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id,const QDate& dateCreation,const QDate& dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle)
 {}
 
 QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("audio");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("statut",getStatut());
+        stream.writeTextElement("nVersion",QString::number(getNVersion()));
+        stream.writeTextElement("isVersionActuelle",QString::number(getIsVersionActuelle()));
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
@@ -803,14 +883,16 @@ QXmlStreamWriter& Audio::save(QXmlStreamWriter& stream) const {
 
 /********************VIDEO********************/
 
-Video::Video(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id, const QDate &dateCreation, const QDate &dateLastModif):
-    Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif)
+Video::Video(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString &id, const QDate &dateCreation, const QDate &dateLastModif,const int &nVersion, const bool &isVersionActuelle):
+    Media(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle)
 {}
 
 QXmlStreamWriter& Video::save(QXmlStreamWriter& stream) const {
         stream.writeStartElement("video");
         stream.writeTextElement("id",getId());
         stream.writeTextElement("statut",getStatut());
+        stream.writeTextElement("nVersion",QString::number(getNVersion()));
+        stream.writeTextElement("isVersionActuelle",QString::number(getIsVersionActuelle()));
         stream.writeTextElement("title",getTitle());
         stream.writeTextElement("description",getDescription());
         stream.writeTextElement("imageFilename",getImageFileName());
