@@ -132,7 +132,7 @@ public:
     void addRelation(const QString& title, const QString& description, Couple** couples=Q_NULLPTR, const int& nbCouples=0, const int& nbMaxCouples=0, const QString &id="", bool isOriented=1);
 
     // ajoute un couple à la relation dont on a passé l'id en paramètre
-    void addCouple(const QString& idRelation, Note& note1, Note& note2, const QString label="");
+    void addCouple(const QString& idRelation, Note& note1, Note& note2, const QString &id="", const QString label="");
 
     // supprimer une relation et tous les couples qu'elle contient
     void removeRelation(Relation *r);

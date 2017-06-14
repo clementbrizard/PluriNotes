@@ -68,10 +68,10 @@ public slots:
         vuePrincipale->remplirDockCorbeille();
         vueSecondaire->CouplesEditeur();
     }
-    //Charge le XML des relations
-    /*void chargerXMLRel(){
+    //Charge le XML des couples
+    void chargerXMLCouples(){
         vueSecondaire->choixFichier();
-    }*/
+    }
 
     // Enregistre le NotesManager dans un XML
     void enregistrer(){

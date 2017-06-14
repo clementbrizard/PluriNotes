@@ -14,12 +14,16 @@ public:
 
     // Message sur l'écran central initial
     void accueil();
+
     //Charge le fichier XML
     void choixFichier();
+
     // afficher les titres dans le dock à gauche
     void remplirDockListeNotes();
+
     //Remplit le dock avec les taches
     void remplirDockTaches();
+
     // Enregistre le NotesManager dans un fichier XML
     void enregistrerNotesManager();
 
@@ -28,6 +32,7 @@ public:
 
     // Remplit les champs de note de la classe à partir d'une note passée en paramètre
     void setNoteCourante(const Note& note);
+
     //Remplit le dock qui affiche la corbeille
     void remplirDockCorbeille();
 
