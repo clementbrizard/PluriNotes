@@ -79,7 +79,6 @@ public:
     QString getType() const {return (QString)"task";}
 };
 
-
 /*****************MEDIA*******************/
 
 class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
@@ -220,6 +219,7 @@ public:
     };
 
 /************CORBEILLE************/
+
 /// Classe permettant le stockage lorsqu'une note est supprimée. La note devient en attente d'une éventuelle restauration
 class Corbeille{
 private :

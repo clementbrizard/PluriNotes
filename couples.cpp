@@ -20,8 +20,8 @@ void Couple::setReferencedNote(const Note& referencedNote){
     m_referencedNote=referencedNote;
 }
 
-void Couple::setLabel(const QString& label){
-    m_label=label;
+void Couple::setRelation(const QString& relation){
+    m_relation=relation;
 }
 
 /*************COUPLESMANAGER************/
@@ -63,7 +63,7 @@ void CouplesManager::removeCouple(const QString& idCouple){
     int i=0;
     for (Iterator it=getIterator(); !it.isDone(); it.next()){
         if(it.current().getId()==idCouple)
-            m_couples[i]=m_couples[m_nbCouples--];
+            m_couples[i]=m_couples[--m_nbCouples];
         i++;
     }
 }
@@ -165,7 +165,7 @@ void CouplesManager::load() {
                          }
 
                          if(xml.name() == "relation") {
-                              xml.readNext(); label=xml.text().toString();
+                              xml.readNext(); relation=xml.text().toString();
                               qDebug()<<"relation="<<relation<<"\n";
                           }
 
