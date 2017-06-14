@@ -1,6 +1,6 @@
 #include "plurinotes_app.h"
 #include "vuesecondaire.h"
-
+#include "couples.h"
 
 VueSecondaire::VueSecondaire(): QMainWindow(),listeCouples(nullptr),dockListeCouples(new QDockWidget("Couples", this))
       /*listeNotesLeft(nullptr),

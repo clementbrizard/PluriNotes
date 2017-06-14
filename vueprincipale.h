@@ -3,7 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
-#include "relations.h"
+#include "couples.h"
 
 typedef enum {Notes, Taches, Archives} TypeListe;
 

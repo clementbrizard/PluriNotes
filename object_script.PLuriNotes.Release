@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\notes.o
+./release\vueprincipale.o
+./release\plurinotes_app.o
+./release\vuesecondaire.o
+./release\relations.o
+./release\couples.o
+./release\moc_vueprincipale.o
+./release\moc_plurinotes_app.o
+./release\moc_vuesecondaire.o
+);

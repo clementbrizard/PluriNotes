@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\notes.o
+./debug\vueprincipale.o
+./debug\plurinotes_app.o
+./debug\vuesecondaire.o
+./debug\relations.o
+./debug\couples.o
+./debug\moc_vueprincipale.o
+./debug\moc_plurinotes_app.o
+./debug\moc_vuesecondaire.o
+);
