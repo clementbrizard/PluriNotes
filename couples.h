@@ -117,5 +117,4 @@ public:
         }
 };
 
-
-#endif */// RELATIONS_H
+#endif *// RELATIONS_H
