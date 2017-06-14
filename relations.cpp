@@ -1,10 +1,10 @@
-#include "relations.h"
+/*#include "relations.h"
 
-using namespace std;
+using namespace std;*/
 
 /******************COUPLE************************/
 
-Couple::Couple(Note& referencingNote, Note& referencedNote, const QString &id, const QString& label):
+/*Couple::Couple(Note& referencingNote, Note& referencedNote, const QString &id, const QString& label):
     m_id(id),m_referencingNote(referencingNote),m_referencedNote(referencedNote),m_label(label)
 {}
 
@@ -22,10 +22,10 @@ void Couple::setReferencedNote(const Note& referencedNote){
 
 void Couple::setLabel(const QString& label){
     m_label=label;
-}
+}*/
 
 /*****************RELATION************************/
-
+/*
 Relation::Relation(const QString& title, const QString& description, Couple** couples, const int& nbCouples, const int& nbMaxCouples, const QString &id, bool isOriented):
     m_id(id),m_title(title),m_description(description),m_couples(couples), m_nbCouples(nbCouples), m_nbMaxCouples(nbMaxCouples),m_isOriented(isOriented)
 {}
@@ -81,10 +81,10 @@ void Relation::removeNote(Note *n){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==n->getId() || it.current().getReferencedNote().getId()==n->getId()) removeCouple(it.current().getId());
 }
-
+*/
 
 /*************RELATIONSMANAGER************/
-
+/*
 RelationsManager::RelationsManager():m_relations(nullptr),m_nbRelations(0),m_nbMaxRelations(0),m_filename("Relations.dat"){}
 
 RelationsManager::~RelationsManager(){
@@ -289,5 +289,5 @@ void RelationsManager::load() {
     //xml.clear();
     qDebug()<<"fin load\n";
 }
-
+*/
 

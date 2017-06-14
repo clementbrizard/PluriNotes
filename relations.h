@@ -1,4 +1,4 @@
-#ifndef RELATIONS_H
+/*#ifndef RELATIONS_H
 #define RELATIONS_H
 
 #include "qt_include.h"
@@ -8,11 +8,11 @@ using namespace std;
 
 class Couple;
 class Relation;
-class RelationsManager;
+class RelationsManager;*/
 
 /**************COUPLE*********************/
 
-class Couple{
+/*class Couple{
 private:
     QString m_id;
     Note& m_referencingNote;
@@ -31,10 +31,10 @@ public:
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
-
+*/
 /**************RELATION*******************/
 
-class Relation{
+/*class Relation{
 private:
     QString m_id;
     QString m_title;
@@ -94,12 +94,12 @@ public:
     Iterator getIterator()const {
             return Iterator(m_couples,m_nbCouples);
         }
-};
+};*/
 
 
 /*************RELATIONSMANAGER************/
 
-class RelationsManager{
+/*class RelationsManager{
 private:
 
     //tableau de relations
@@ -182,4 +182,4 @@ public:
 };
 
 
-#endif // RELATIONS_H
+#endif */// RELATIONS_H

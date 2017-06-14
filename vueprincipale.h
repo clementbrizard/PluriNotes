@@ -81,7 +81,7 @@ private:
 
     // initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
-    RelationsManager& relationsManager =RelationsManager::getManager();
+    //RelationsManager& relationsManager =RelationsManager::getManager();
 
 public slots :
   //void noteCreator(const QString& type);
