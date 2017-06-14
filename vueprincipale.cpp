@@ -337,7 +337,7 @@ VuePrincipale::VuePrincipale()
       arborescenceDescendants(nullptr),
       dockListeNotes(new QDockWidget("Notes", this)),
       dockListeTaches(new QDockWidget("Taches", this)),
-      dockListeArchives(new QDockWidget("Corbeille", this)),
+      dockListeArchives(new QDockWidget("Archives", this)),
       dockArborescence(new QDockWidget("Arborescence", this))
 {
     createToolbar();
@@ -360,7 +360,7 @@ void VuePrincipale::choixFichier(){
 void VuePrincipale::remplirDockListeNotes(){
     QListWidgetItem* item;
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-        if((it.current()).getType()!="task"){
+        if((it.current()).getType()!="task" && (it.current()).getStatut()=="active"){
             item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
     }
 }
@@ -369,7 +369,7 @@ void VuePrincipale::remplirDockTaches(){
 
     QListWidgetItem* item;
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-        if((it.current()).getType()=="task"){
+        if((it.current()).getType()=="task" && (it.current()).getStatut()=="active"){
             item= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
     }
 }
@@ -384,6 +384,17 @@ void VuePrincipale::remplirDockCorbeille(){
         }
     statusBar()->showMessage(tr("Chargement du fichier notes.xml"));
     QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier de notes ont été récupérées.");
+    msgBox.exec();
+}
+void VuePrincipale::remplirDockArchive(){
+
+    QListWidgetItem* item;
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+        if((it.current()).getStatut()=="archivee"){
+            item= new QListWidgetItem((it.current()).getTitle(),listeArchives);}
+    }
+    statusBar()->showMessage(tr("Chargement du fichier notes.xml"));
+    QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné dock archive", "Les données du fichier de notes ont été récupérées.");
     msgBox.exec();
 }
 

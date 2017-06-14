@@ -35,7 +35,8 @@ public:
 
     //Remplit le dock qui affiche la corbeille
     void remplirDockCorbeille();
-
+    //Remplit le dock archive
+    void remplirDockArchive();
     //***** Fonctions de slots *****//
 
     //Actualise les notes affichées
