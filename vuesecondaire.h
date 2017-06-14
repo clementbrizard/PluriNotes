@@ -3,7 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
-#include "relations.h"
+#include "couples.h"
 
 // Vue secondaire de l'appli (deuxieme onglet)
 class VueSecondaire : public QMainWindow {
@@ -33,7 +33,7 @@ QListWidget* listeRelations;
     // Docks
       QDockWidget* dockListeRelations;
    // QDockWidget* dockRelation;
-    RelationsManager& relationsManager = RelationsManager::getManager();
+    CouplesManager& couplesManager = CouplesManager::getManager();
     NotesManager& notesManager = NotesManager::getManager();
 
 signals :

@@ -7,7 +7,7 @@ SOURCES += \
     vueprincipale.cpp \
     plurinotes_app.cpp \
     vuesecondaire.cpp \
-    relations.cpp
+    couples.cpp
 
 HEADERS += \
     notes.h \
@@ -15,4 +15,4 @@ HEADERS += \
     vueprincipale.h \
     plurinotes_app.h \
     vuesecondaire.h \
-    relations.h
+    couples.h

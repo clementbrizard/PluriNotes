@@ -42,8 +42,8 @@ QMenuBar* PluriNotes::createMenu() {
     QAction* chargerNotes = fichier->addAction("&Charger les notes");
     QObject::connect(chargerNotes, SIGNAL(triggered()), this, SLOT(chargerXML()));
 
-    QAction* chargerRelations = fichier->addAction("&Charger les relations");
-    QObject::connect(chargerRelations, SIGNAL(triggered()), this, SLOT(chargerXMLRel()));
+    QAction* chargerRelations = fichier->addAction("&Charger les couples");
+    QObject::connect(chargerRelations, SIGNAL(triggered()), this, SLOT(chargerXMLCouples()));
 
 
     QAction* sauver = fichier->addAction("&Enregistrer");

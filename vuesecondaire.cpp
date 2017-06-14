@@ -1,6 +1,6 @@
 #include "plurinotes_app.h"
 #include "vuesecondaire.h"
-#include "relations.h"
+#include "couples.h"
 
 VueSecondaire::VueSecondaire(): QMainWindow(),listeRelations(nullptr),dockListeRelations(new QDockWidget("Relations", this))
       /*listeNotesLeft(nullptr),
@@ -68,8 +68,8 @@ void VueSecondaire::createRelationDock()
 
 void VueSecondaire::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
-    relationsManager.setFilename(filename);
-    relationsManager.load();
+    couplesManager.setFilename(filename);
+    couplesManager.load();
 }
 
 

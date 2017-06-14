@@ -3,7 +3,7 @@
 
 #include "qt_include.h"
 #include "notes.h"
-#include "relations.h"
+#include "couples.h"
 
 typedef enum {Notes, Taches, Archives} TypeListe;
 
@@ -86,7 +86,7 @@ private:
 
     // initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
-    RelationsManager& relationsManager =RelationsManager::getManager();
+    CouplesManager& couplesManager = CouplesManager::getManager();
 
 public slots :
   //void noteCreator(const QString& type);

@@ -69,7 +69,7 @@ public slots:
         vueSecondaire->RelationEditeur();
     }
     //Charge le XML des relations
-    void chargerXMLRel(){
+    void chargerXMLCouples(){
         vueSecondaire->choixFichier();
     }
 
