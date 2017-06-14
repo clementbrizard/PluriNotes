@@ -4,8 +4,8 @@ using namespace std;
 
 /******************COUPLE************************/
 
-Couple::Couple(Note& referencingNote, Note& referencedNote, const QString &id, const QString& label):
-    m_id(id),m_referencingNote(referencingNote),m_referencedNote(referencedNote),m_label(label)
+Couple::Couple(Note& referencingNote, Note& referencedNote, const QString &id, const QString& relation):
+    m_id(id),m_referencingNote(referencingNote),m_referencedNote(referencedNote),m_relation(relation)
 {}
 
 void Couple::setId(const QString &id){
@@ -54,17 +54,21 @@ void CouplesManager::setNbCouples(const int& nbCouples){
     m_nbCouples = nbCouples;
 }
 
-/*void CouplesManager::removeNote(Note* n){
-    for(Iterator it=getIterator(); !it.isDone(); it.next())
-        it.current().removeNote(n);
-}*/
-
-/*void Relation::removeNote(Note *n){
+void CouplesManager:: removeCouplesWithThisNote(Note* n){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==n->getId() || it.current().getReferencedNote().getId()==n->getId()) removeCouple(it.current().getId());
-}*/
+}
 
- void CouplesManager::addCouple(Note& referencingNote,Note& referencedNote,const QString& id,const QString& label){
+void CouplesManager::removeCouple(const QString& idCouple){
+    int i=0;
+    for (Iterator it=getIterator(); !it.isDone(); it.next()){
+        if(it.current().getId()==idCouple)
+            m_couples[i]=m_couples[m_nbCouples--];
+        i++;
+    }
+}
+
+void CouplesManager::addCouple(Note& referencingNote,Note& referencedNote,const QString& id,const QString& relation){
 
     if (m_nbCouples==m_nbMaxCouples){
         Couple** newM_couples= new Couple*[m_nbMaxCouples+5];
@@ -75,7 +79,7 @@ void CouplesManager::setNbCouples(const int& nbCouples){
         if (oldM_couples) delete[] oldM_couples;
     }
 
-    Couple* c=new Couple(referencingNote,referencedNote,id,label);
+    Couple* c=new Couple(referencingNote,referencedNote,id,relation);
     QString s = QString::number(m_nbCouples);
     c->setId(s);
     m_couples[m_nbCouples++]=c;
@@ -94,7 +98,7 @@ void CouplesManager::save() const {
          stream.writeTextElement("id",it.current().getId());
          stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
          stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
-         stream.writeTextElement("label",it.current().getLabel());
+         stream.writeTextElement("relation",it.current().getRelation());
          stream.writeEndElement();
      }
      stream.writeEndElement();
@@ -102,12 +106,14 @@ void CouplesManager::save() const {
      newfile.close();
 }
 
- void CouplesManager::load() {
+void CouplesManager::load() {
      QFile fin(m_filename);
      // If we can't open it, let's show an error message.
      if (!fin.open(QIODevice::ReadOnly | QIODevice::Text))
      {
-         throw Exception("Erreur ouverture fichier notes");
+         QMessageBox msgBox(QMessageBox::Icon::Information, "Info", "Abandon de l'ouverture du fichier de couples.");
+         msgBox.exec();
+
      }
      // QXmlStreamReader takes any QIODevice.
      QXmlStreamReader xml(&fin);
@@ -129,7 +135,7 @@ void CouplesManager::save() const {
               { // début de si on a trouvé un couple
                  qDebug()<<"new couple\n";
                  QString identificateur;
-                 QString label;
+                 QString relation;
                  QString referencingNote;
                  QString referencedNote;
                  QXmlStreamAttributes attributes = xml.attributes();
@@ -158,16 +164,16 @@ void CouplesManager::save() const {
                              qDebug()<<"referencedNote="<<referencedNote<<"\n";
                          }
 
-                         if(xml.name() == "label") {
+                         if(xml.name() == "relation") {
                               xml.readNext(); label=xml.text().toString();
-                              qDebug()<<"label="<<label<<"\n";
+                              qDebug()<<"relation="<<relation<<"\n";
                           }
 
                      } // fin de si on a trouvé un élément de couple
                      xml.readNext();
                  } // fin de tant que on n'est pas à la fin du couple
                  qDebug()<<"ajout couple "<<identificateur<<"\n";
-                 addCouple(*(nm.getNoteById(referencingNote)),*(nm.getNoteById(referencedNote)),identificateur,label);
+                 addCouple(*(nm.getNoteById(referencingNote)),*(nm.getNoteById(referencedNote)),identificateur,relation);
              } // fin de si on a trouvé un couple
 
          }// fin de si on a trouvé une balise de début
@@ -175,7 +181,8 @@ void CouplesManager::save() const {
 
      // Error handling.
      if(xml.hasError()) {
-         throw Exception("Erreur lecteur fichier relations, parser xml");
+         QMessageBox msgBox(QMessageBox::Icon::Information, "Info", "Abandon de l'ouverture du fichier de couples.");
+         msgBox.exec();
      }
      // Removes any device() or data from the reader * and resets its internal state to the initial state.
      //xml.clear();

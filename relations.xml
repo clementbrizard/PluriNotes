@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <couples>
-	<couple>
-		<id>0</id>
-		<referencingNote>0</referencingNote>
-		<referencedNote>1</referencedNote>
-	</couple>
-	<couple>
-		<id></id>
-		<referencingNote>1</referencingNote>
-		<referencedNote>2</referencedNote>
-	</couple>
+    <couple>
+        <id>0</id>
+        <referencingNote>0</referencingNote>
+        <referencingNote>0</referencingNote>
+        <relation></relation>
+    </couple>
+    <couple>
+        <id>1</id>
+        <referencingNote>1</referencingNote>
+        <referencingNote>1</referencingNote>
+        <relation></relation>
+    </couple>
 </couples>
-

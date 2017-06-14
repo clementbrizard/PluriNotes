@@ -19,7 +19,7 @@ PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     barreOnglets = new QTabWidget();
     barreOnglets->setWindowTitle(name);
     barreOnglets->addTab(vuePrincipale, "Notes");
-    barreOnglets->addTab(vueSecondaire,"Relations");
+    barreOnglets->addTab(vueSecondaire,"Couples");
     barreOnglets->showMaximized();
 }
 
