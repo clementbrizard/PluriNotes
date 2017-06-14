@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "couples.h"
 
 using namespace std;

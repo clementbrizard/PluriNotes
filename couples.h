@@ -1,4 +1,4 @@
-/*#ifndef RELATIONS_H
+#ifndef RELATIONS_H
 #define RELATIONS_H
 
 #include "qt_include.h"
@@ -8,12 +8,11 @@ using namespace std;
 
 class Couple;
 class Relation;
-<<<<<<< HEAD
 class CouplesManager;
 
 /**************COUPLE*********************/
 
-/*class Couple{
+class Couple{
 private:
     QString m_id;
     Note& m_referencingNote;
@@ -32,7 +31,7 @@ public:
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
-<<<<<<< HEAD
+
 
 
 /*************COUPLESMANAGER************/
