@@ -155,6 +155,7 @@ void NotesManager::addTask(const QString& title, QString statut,const QString& a
 }
 
 void NotesManager::addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+    qDebug()<<title<<"\nid:"<<id<<"\nnVersion:"<<nVersion;
     bool noteModified=false;
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
@@ -189,6 +190,7 @@ void NotesManager::addAudio(const QString& title, QString statut, const QString&
 }
 
 void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+    qDebug()<<title<<"\nid:"<<id<<"\nnVersion:"<<nVersion;
     bool noteModified=false;
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){

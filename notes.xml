@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <notes>
     <task>
-        <id>0</id>
+        <id>5</id>
         <statut>active</statut>
         <nVersion>1</nVersion>
         <isVersionActuelle>1</isVersionActuelle>
@@ -12,36 +12,61 @@
         <dateCreation>12-06-2017</dateCreation>
         <dateLastModif>12-06-2017</dateLastModif>
     </task>
-    <audio>
-        <id>1</id>
-        <statut>active</statut>
-        <nVersion>2</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>audio modifié</title>
-        <description>Cet audio accompagne l'article d'id 0</description>
+    <video>
+        <id>3</id>
+        <statut>archivee</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>0</isVersionActuelle>
+        <title>video</title>
+        <description>Cette vidéo accompagne l'article d'id 0</description>
         <imageFilename></imageFilename>
         <dateCreation>04-06-2017</dateCreation>
-        <dateLastModif>15-06-2017</dateLastModif>
-    </audio>
-    <article>
+        <dateLastModif>05-06-2017</dateLastModif>
+    </video>
+    <audio>
         <id>2</id>
         <statut>active</statut>
         <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>Article</title>
-        <text>Texte</text>
-        <dateCreation>15-06-2017</dateCreation>
-        <dateLastModif>15-06-2017</dateLastModif>
-    </article>
+        <isVersionActuelle>0</isVersionActuelle>
+        <title>audio</title>
+        <description>Cet audio accompagne l'article d'id 0</description>
+        <imageFilename></imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>05-06-2017</dateLastModif>
+    </audio>
     <image>
-        <id>3</id>
-        <statut>active</statut>
+        <id>4</id>
+        <statut>archivee</statut>
         <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>Image créée</title>
-        <description></description>
-        <imageFilename>fichier</imageFilename>
+        <isVersionActuelle>0</isVersionActuelle>
+        <title>Panda</title>
+        <description>Gros panda tout mignon</description>
+        <imageFilename></imageFilename>
         <dateCreation>15-06-2017</dateCreation>
         <dateLastModif>15-06-2017</dateLastModif>
     </image>
+    <image>
+
+        <id>3</id>
+        <statut>archivee</statut>
+        <nVersion>2</nVersion>
+        <isVersionActuelle>0</isVersionActuelle>
+        <title>video 1</title>
+        <description>Cette vidéo accompagne l'article d'id 0</description>
+        <imageFilename></imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
+    <image>
+        <id>3</id>
+        <statut>active</statut>
+        <nVersion>3</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>video 2</title>
+        <description>Cette vidéo accompagne l'article d'id 0</description>
+        <imageFilename></imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
 </notes>
+

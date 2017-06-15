@@ -33,7 +33,7 @@ private:
 
     Q_OBJECT
 
-    // Attributs affichage relation editeur
+    ///Attributs affichage relation editeur
       QWidget* centralContainer;
       QGridLayout *layout;
       QListWidget* listeNotesLeft;
@@ -44,9 +44,8 @@ private:
       QPushButton* addNotOrientedCouple;
       QListWidget* listeCouples;
       QPushButton* supprimer;
-    // Docks
+    ///Docks
       QDockWidget* dockListeCouples;
-   // QDockWidget* dockRelation;
     CouplesManager& couplesManager = CouplesManager::getManager();
     NotesManager& notesManager = NotesManager::getManager();
 

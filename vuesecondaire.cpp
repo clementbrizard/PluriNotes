@@ -156,9 +156,6 @@ void VueSecondaire::supprimerCouple(){
             QString temp = selectedItem->text();
             ///On split ce texte à chaque espace
             QStringList templist = temp.split(" ");
-            ///On récupère les note n1 et n2 grâce à leurs id qui correspondent à la permière et la troisième partie de la Qstringlist résultant du splitage.
-            //Note* n1 = NotesManager::getManager().getNoteActiveById(temp[0]);
-           // Note* n2 = NotesManager::getManager().getNoteActiveById(temp[2]);
 
             ///Appel d'une instance de CouplesManager
             CouplesManager& cm = CouplesManager::getManager();

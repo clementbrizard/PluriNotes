@@ -7,9 +7,10 @@
 
 typedef enum {Notes, Taches, Archives} TypeListe;
 
-// Fenêtre de création d'un article
+///Fenêtre de création d'un article
 class CreationArticleWindow : public QWidget {
 public:
+
     static CreationArticleWindow& getCreationArticleWindow(){
         static CreationArticleWindow instance;
         instance.show();
@@ -33,7 +34,7 @@ signals:
     void fermer();
 };
 
-// Fenêtre de création d'une tache
+/// Fenêtre de création d'une tache
 class CreationTacheWindow : public QWidget {
 public:
     static CreationTacheWindow& getCreationTacheWindow(){
@@ -61,7 +62,7 @@ signals:
     void fermer();
 };
 
-// Fenêtre de création d'un media
+/// Fenêtre de création d'un media
 class CreationMediaWindow : public QWidget {
 public:
     static CreationMediaWindow& getCreationMediaWindow(){
@@ -80,7 +81,7 @@ private:
 
     static QString m_type;
 
-    // Attributs de l'article à créer
+    ///Attributs de l'article à créer
     QLineEdit* titre;
     QLineEdit* description;
     QLineEdit* imageFileName;
@@ -95,72 +96,69 @@ signals:
     void fermer();
 };
 
-// Vue principale de l'appli (premier onglet)
+/// Vue principale de l'appli (premier onglet)
 class VuePrincipale : public QMainWindow {
 public:
     VuePrincipale();
 
-    // Message sur l'écran central initial
+    /// Message sur l'écran central initial
     void accueil();
 
-    //Charge le fichier XML
+    ///Charge le fichier XML
     void choixFichier();
 
-    // afficher les titres dans le dock à gauche
+    ///Afficher les titres dans le dock à gauche
     void remplirDockListeNotes();
 
-    //Remplit le dock avec les taches
+    ///Remplit le dock avec les taches
     void remplirDockTaches();
 
-    // Enregistre le NotesManager dans un fichier XML
+    ///Enregistre le NotesManager dans un fichier XML
     void enregistrerNotesManager();
 
-    // Fonction d'affichage dans la zone centrale dépendant du type entré en paramètre
+    ///Fonction d'affichage dans la zone centrale dépendant du type entré en paramètre
     void afficher(const TypeListe type);
 
-    // Remplit les champs de note de la classe à partir d'une note passée en paramètre
-    //void updateNoteCourante(const Note& note);
-
-    //Remplit le dock qui affiche la corbeille
+    ///Remplit le dock qui affiche la corbeille
     void remplirDockCorbeille();
 
-    //Remplit le dock archive
+    ///Remplit le dock archive
     void remplirDockArchive();
 
 
     //***** Fonctions de slots *****//
 
-    //Actualise les notes affichées
+    ///Actualise les notes affichées
     void actualiserLesDocks();
 
-    // Fait pointer noteCourante sur la note selectionnée dans un dock et l'affiche
+    ///Fait pointer noteCourante sur la note selectionnée dans un dock et l'affiche
     void afficherNoteCourante();
 
-    // Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
+    ///Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
     void afficherTacheCourante();
 
-    // Fait pointer noteCourante sur l'archive selectionnée dans un dock et l'affiche
+    ///Fait pointer noteCourante sur l'archive selectionnée dans un dock et l'affiche
     void afficherArchiveCourante();
-
+    ///Enregistre les modifications d'une note
     void enregistrerModifsOfNote();
-
+    ///Supprime une note
     void supprimerNote();
 
-    //void afficherVersions(Note *n);
+
 
 private:
 
     Q_OBJECT
 
-    // Fonctions de lancement de l'affichage
+    ///Fonctions de lancement de l'affichage
     void createToolbar();
     void createStatusBar();
     void createDockWindows();
 
-    // Message d'accueil
+    ///Message d'accueil
     QLabel* messageAccueil;
 
-    // Attributs de la note courante
+    ///Attributs de la note courante
     QLineEdit* titre;
     QLineEdit* id;
     QTextEdit* texte;
@@ -174,20 +172,20 @@ private:
     QLineEdit* priority;
     QLineEdit* deadline;
 
-    // Attributs pour l'affichage dans les docks
+    ///Attributs pour l'affichage dans les docks
     QListWidget* listeNotes;
     QListWidget* listeTaches;
     QListWidget* listeArchives;
     QTreeWidget* arborescenceAscendants;
     QTreeWidget* arborescenceDescendants;
 
-    // Docks
+    ///Docks
     QDockWidget* dockListeNotes;
     QDockWidget* dockListeTaches;
     QDockWidget* dockListeArchives;
     QDockWidget* dockArborescence;
 
-    // initialisation des Managers
+    ///initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
     CouplesManager& couplesManager = CouplesManager::getManager();
 
