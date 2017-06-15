@@ -26,6 +26,7 @@ public:
     // getters
     static PluriNotes* getPluriNotesInstance(){ return plurinotesUniqueInstance; }
     const Note* getNoteCourante() { return noteCourante; }
+    VueSecondaire* getVueSecondaire(){return vueSecondaire; }
 
     // setters
     void setNoteCourante(Note* noteC){ noteCourante = noteC; }

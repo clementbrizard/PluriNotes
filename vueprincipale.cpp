@@ -630,7 +630,7 @@ void VuePrincipale::supprimerNote(){
 
     // actualisation du dock des couples pour que les couples
     // qui comportaient la note n'apparaissent plus
-    pn->vueSecondaire->remplirCouplesDock();
+    pn->getVueSecondaire()->remplirCouplesDock();
 
     statusBar()->showMessage("Note supprimée");
     QMessageBox msgBox(QMessageBox::Icon::Information,"Suppression","La note a bien été supprimée");
