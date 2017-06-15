@@ -157,7 +157,12 @@ private:
 
 
 public slots :
-  //void noteCreator(const QString& type);
+  void enregistrerModifsOfNote();
+
+  void supprimerNote(Note* n);
+
+  //void afficherVersions(Note *n);
+
 };
 
 #endif // VUEPRINCIPALE_H

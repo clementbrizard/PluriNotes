@@ -1,5 +1,5 @@
-#ifndef RELATIONS_H
-#define RELATIONS_H
+#ifndef COUPLES_H
+#define COUPLES_H
 
 #include "qt_include.h"
 #include "notes.h"
@@ -32,8 +32,6 @@ public:
     const Note& getReferencingNote()const{return m_referencingNote; }
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
-
-
 
 /*************COUPLESMANAGER************/
 
@@ -70,28 +68,32 @@ public:
 
     void setNbCouples(const int& nbCouples);
 
-    // ajoute un couple au CouplesManager
+    ///Ajoute un couple au CouplesManager
     void addCouple(Note& referencingNote, Note& referencedNote, const QString& id="", const QString& relation="");
 
-    // supprime tous les couples contenant la note dont l'id est passé en paramètre
-    // fonction appelée quand on supprime une note dans le NotesManager
+    /// supprime tous les couples contenant la note dont l'id est passé en paramètre
     void removeCouplesWithThisNote(Note* n);
 
     /// Supprime le couple dont l'id est passé en paramètre
     void removeCouple(const QString& idCouple);
-
-    // charge le fichier XML contenant tous les couples
+    ///Supprime le couple à partir des ids des deux notes du couple
+    void removeCoupleById(const QString& id1,const QString& id2);
+    ///Charge le fichier XML contenant tous les couples
     void load();
 
-    // enregistre le CouplesManager dans le ficier XML chargé à l'ouverture de l'application
+    ///Enregistre le CouplesManager dans le ficier XML chargé à l'ouverture de l'application
     void save() const;
 
-    // initialise le CouplesManager
+    ///met à jour les couples qui comportent la note n
+    // car celle-ci a été modifiée
+    void upDateCouples(Note* n);
+
+    ///initialise le CouplesManager
     static CouplesManager& getManager();
 
-    // libère l'instance unique de CouplesManager
+    /// libère l'instance unique de CouplesManager
     static void freeManager();
-
+    ///Design pattern Iterator pour le CouplesManager
     class Iterator {
             friend class CouplesManager;
             Couple** m_currentR;

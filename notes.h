@@ -11,7 +11,7 @@ class Article;
 class NotesManager;
 
 /***************EXCEPTION***********************/
-
+///Gestion des exceptions
 class Exception{
 public:
     Exception(const QString& message):info(message){}
@@ -22,7 +22,7 @@ private:
 
 
 /******************NOTE*******************/
-
+///Classe abstraite Note
 class Note{
 private:
     QString m_id;
@@ -54,7 +54,7 @@ public:
 };
 
 /******************ARTICLE****************/
-
+///Classe Article
 class Article : public Note{
     QString m_text;
 public:
@@ -67,7 +67,7 @@ public:
 };
 
 /******************TASK****************/
-
+///Classe Task
 class Task : public Note{
     QString m_action;
     QString m_priority;
@@ -86,7 +86,7 @@ public:
 };
 
 /*****************MEDIA*******************/
-
+///Classe media qui définit les méthodes et attributs communs à vidéo, audio et image
 class Media : public Note{ // abstraite par construction car n'implémente pas la fonction show()
 private:
     QString m_description;
@@ -102,7 +102,7 @@ public:
 };
 
 /***************IMAGE*********************/
-
+///Classe Image
 class Image : public Media{
 public:
     Image(const QString& title, QString statut, const QString& description,const QString& imageFileName,const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
@@ -112,7 +112,7 @@ public:
 };
 
 /***************AUDIO*********************/
-
+///Classe Audio
 class Audio : public Media{
 public:
     Audio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id="", const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
@@ -122,7 +122,7 @@ public:
 };
 
 /***************VIDEO*********************/
-
+///Classe Video
 class Video : public Media{
 public:
     Video(const QString& title,QString statut,const QString& description,const QString& imageFileName,const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
@@ -132,28 +132,34 @@ public:
 };
 
 /************NOTESMANAGER*************/
-
+///Classe NotesManager
 class NotesManager {
 private:
     Note** m_notes;
     unsigned int m_nbNotes;
     unsigned int m_nbMaxNotes;
     QString m_filename;
-
+    ///Instance unique du NotesManager
     struct Handler {
         NotesManager* instance; // pointeur sur l'unique instance
         Handler():instance(nullptr){}
         ~Handler() { delete instance; }
     };
     static Handler handler;
-
+    ///Constructeur du NotesManager
     NotesManager();
+    ///Destructeur du NotesManager
     ~NotesManager();
     NotesManager(const NotesManager& nm);
+    ///Surchage de l'opérateur =
     NotesManager& operator=(const NotesManager& nm);
-
+    ///Ajoute une note au NotesManager
     void addNote(Note* n);
+    ///Ajoute une note qui est chargée du XML au NotesManager
     void addLoadedNote(Note* n);
+
+    /// ajoute un article au NotesManager sans incrémenter son id
+    void addModifiedNote(Note* n);
 
 public:
 
@@ -161,43 +167,51 @@ public:
     QString getFilename() const { return m_filename; }
 
     // Fonctions de manipulations des notes :
-
+    ///Ajoute un article
     void addArticle(const QString& title, QString statut, const QString& text, const QString& id="", const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
-
+    ///Ajoute une image
     void addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id="", const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
-
+    ///Ajoute un audio
     void addAudio(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
-
+    ///Ajoute une vidéo
     void addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
-
+    ///Ajoute une tache
     void addTask(const QString& title, QString statut, const QString& action,const QString& priority,const QDate& deadline, const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
-
+    ///Supprime les anciennes versions d'une note
+    void removeOldVersionsOfNote(const Note* n);
+    ///Supprime une note
     void removeNote(Note *n);
-
+    ///Appelle la fonction principale load qui appelle la fonction load nécessaire en fonction du type de la note
     void load();
-
+    ///Fonction load adaptée au type Article
     QXmlStreamReader& loadArticle(QXmlStreamReader& xml);
-
+    ///Fonction load adaptée au type Task
     QXmlStreamReader& loadTask(QXmlStreamReader& xml);
-
+    ///Fonction load adaptée au type Image
     QXmlStreamReader& loadImage(QXmlStreamReader& xml);
-
+    ///Fonction load adaptée au type Audio
     QXmlStreamReader& loadAudio(QXmlStreamReader& xml);
-
+    ///Fonction load adaptée au type Video
     QXmlStreamReader& loadVideo(QXmlStreamReader& xml);
-
+    ///Appel des fonctions save adaptée pour chaque type
     void save() const;
+    ///Retourne true si la note dont on a fourni l'id existe
+    bool NoteActiveExists(const QString& id);
 
     // getters
-	 Note* getNoteByTitle(QString title);
-     Note* getNoteById(QString id);
+    ///Retourne la derniere version de la note dont on a envoyé le titre
+     Note* getNoteActiveByTitle(const QString& title);
+     ///Retourne la derniere version de la note dont on a envoyé l'id
+     Note* getNoteActiveById(const QString& id);
 
         // setters
+     ///Permet de renseigner le nom du fichier XML utilisé
         void setFilename(const QString& filename) { m_filename=filename; }
-
+    ///Renvoie une instance de NotesManager
     static NotesManager& getManager();
+    ///Libère l'instance du NotesManager
     static void freeManager();
-
+    ///Design pattern iterator du NotesManager
     class Iterator {
             friend class NotesManager;
             Note** m_currentN;

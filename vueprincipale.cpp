@@ -238,13 +238,17 @@ void VuePrincipale::afficher(const TypeListe type)
     dateLastModif->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
     titre->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
 
-    // Positionnement des boutons modifier / supprimer / aficherVersions
-    QPushButton* modifier = new QPushButton("Modifier");
+    // Positionnement des boutons modifier / supprimer / afficherVersions
+    QPushButton* enregistrerModifs = new QPushButton("Enregistrer les modifications");
     QPushButton* supprimer = new QPushButton("Supprimer");
     QPushButton* afficherVersions = new QPushButton("Anciennes versions");
-    layoutHBoutons->addWidget(modifier);
+    layoutHBoutons->addWidget(enregistrerModifs);
     layoutHBoutons->addWidget(supprimer);
     layoutHBoutons->addWidget(afficherVersions);
+    // Slots des trois boutons
+    QObject::connect(enregistrerModifs,SIGNAL(clicked()),this,SLOT(enregistrerModifsOfNote()));
+    QObject::connect(supprimer, SIGNAL(clicked()),this, SLOT(supprimerNote(notesManager.getNoteActiveByTitle(title))));
+    //QObject::connect(afficherVersions,SIGNAL(clicked()),this,SLOT(afficherVersions(getNoteActiveByTitle(title))));
 
     layoutForm->addRow("Titre", titre);
 
@@ -565,7 +569,7 @@ void VuePrincipale::actualiserLesDocks(){
     createDockWindows();
     remplirDockListeNotes();
     remplirDockTaches();
-    remplirDockCorbeille();
+    remplirDockArchive();
     statusBar()->showMessage(tr("Docks à jour"));
 }
 
@@ -573,7 +577,7 @@ void VuePrincipale::actualiserLesDocks(){
 void VuePrincipale::afficherNoteCourante(){
     QListWidgetItem* selectedItem = listeNotes->currentItem();
     QString selectedItemText = selectedItem->text();
-    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+    Note* noteCourante = notesManager.getNoteActiveByTitle(selectedItemText);
 
     statusBar()->showMessage(tr("Affichage de la note ")+selectedItemText+(tr(" de type "))+noteCourante->getType());
 
@@ -585,7 +589,7 @@ void VuePrincipale::afficherNoteCourante(){
 void VuePrincipale::afficherTacheCourante(){
     QListWidgetItem* selectedItem = listeTaches->currentItem();
     QString selectedItemText = selectedItem->text();
-    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+    Note* noteCourante = notesManager.getNoteActiveByTitle(selectedItemText);
 
     statusBar()->showMessage(tr("Affichage de la tâche ")+selectedItemText);
 
