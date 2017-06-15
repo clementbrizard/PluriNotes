@@ -46,7 +46,6 @@
         <dateLastModif>15-06-2017</dateLastModif>
     </image>
     <image>
-
         <id>3</id>
         <statut>archivee</statut>
         <nVersion>2</nVersion>
@@ -68,5 +67,47 @@
         <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>15-06-2017</dateLastModif>
     </image>
+    <article>
+        <id>6</id>
+        <statut>active</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Article 1</title>
+        <text>bla bla bla</text>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </article>
+    <image>
+        <id>7</id>
+        <statut>active</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Image 1</title>
+        <description>img bla bla</description>
+        <imageFilename></imageFilename>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
+    <task>
+        <id>8</id>
+        <statut>active</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Dormir (très longtemps...)</title>
+        <action>Dodo</action>
+        <priority>1</priority>
+        <deadline>21-06-2017</deadline>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </task>
+    <article>
+        <id>9</id>
+        <statut>active</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Article 2 </title>
+        <text>encore du blabla</text>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </article>
 </notes>
-

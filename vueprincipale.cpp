@@ -40,6 +40,7 @@ void CreationArticleWindow::enregistrer()
         emit fermer();
 
         PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
+        PluriNotes::getPluriNotesInstance()->getVueSecondaire()->CouplesEditeur();
     }
 }
 
@@ -89,6 +90,7 @@ void CreationTacheWindow::enregistrer()
         emit fermer();
 
         PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
+        PluriNotes::getPluriNotesInstance()->getVueSecondaire()->CouplesEditeur();
     }
 }
 
@@ -147,6 +149,7 @@ void CreationMediaWindow::enregistrer()
         emit fermer();
 
         PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
+        PluriNotes::getPluriNotesInstance()->getVueSecondaire()->CouplesEditeur();
     }
 }
 

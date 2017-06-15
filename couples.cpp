@@ -59,7 +59,7 @@ void CouplesManager:: removeCouplesWithThisNote(Note* n){
         if(it.current().getReferencingNote().getId()==n->getId() || it.current().getReferencedNote().getId()==n->getId()) removeCouple(it.current().getId());
 }
 ///Supprime un couple à partir de l'id des deux notes du couple
-void CouplesManager:: removeCoupleByNoteId(const QString& id1,const QString& id2){
+void CouplesManager:: removeCoupleById(const QString& id1,const QString& id2){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==id1 && it.current().getReferencedNote().getId()==id2) removeCouple(it.current().getId());
 }
