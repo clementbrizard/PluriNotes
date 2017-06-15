@@ -386,107 +386,6 @@ void VuePrincipale::afficher(const TypeListe type)
     this->setCentralWidget(centralContainer);
 }
 
-// Remplit les champs de note de la classe à partir d'une note passée en paramètre
-/*void VuePrincipale::updateNoteCourante(const Note& note)
-{
-    titre->setText(note.getTitle());
-    id->setText("- ID : ");
-    dateCreation->setText("- Créée le "+note.getDateCreation().toString("d MMMM yyyy")+".");
-    dateLastModif->setText("- Modifiée dernièrement le "+(note.getDateLastModif().toString("d MMMM yyyy")+"."));
-    statusBar()->showMessage(note.getType());
-    QMessageBox msgBox(QMessageBox::Icon::Information, "  df", note.getType());
-    msgBox.exec();
-
-    //statut->setText("- Statut : "+note.getStatut());
-}*/
-
-/*void VuePrincipale::noteCreator(const QString& type)
-{
-    // Layouts et positionnement
-    QWidget* centralContainer = new QWidget;
-    QVBoxLayout* layoutVertical = new QVBoxLayout;
-    QHBoxLayout* layoutHorizontal1 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal2 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal3 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal4 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal5 = new QHBoxLayout;
-    QHBoxLayout* layoutHorizontal= new QHBoxLayout;
-    QHBoxLayout* layoutHBoutons = new QHBoxLayout;
-    //Affichage nom du widget
-    titreT = new QLabel;
-    idT = new QLabel;
-    if(type=="art"){
-    texteT = new QLabel;
-    texte = new QTextEdit;
-    }
-    statutT = new QLabel;
-    dateCreationT = new QLabel;
-    dateLastModifT = new QLabel;
-    //Affichage note dans zone édition
-    titre = new QLineEdit;
-    id = new QLineEdit;
-
-    statut = new QLineEdit;
-    dateCreation = new QLineEdit;
-    dateLastModif = new QLineEdit;
-    QPushButton* modifier = new QPushButton("Modifier");
-    QPushButton* supprimer = new QPushButton("Supprimer");
-    QPushButton* afficherVersions = new QPushButton("Anciennes versions");
-    layoutHBoutons->addWidget(modifier);
-    layoutHBoutons->addWidget(supprimer);
-    layoutHBoutons->addWidget(afficherVersions);
-
-    // Tests temp
-    titreT->setText("Titre");
-    titre->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getTitle());
-    idT->setText("ID");
-    id->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getId());
-    texteT->setText("Texte");
-    texte->setText("PluriNotes::getNoteCourante()->getfghd");
-    statutT->setText("Statut");
-    statut->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getStatut());
-    dateCreationT->setText("Créée le ");
-    dateCreation->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateCreation().toString("d MMMM yyyy"));
-    dateLastModifT->setText("Modifiée dernièrement le ");
-    dateLastModif->setText(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getDateLastModif().toString("d MMMM yyyy"));
-    titre->setStyleSheet("font:bold; font-size:25px; padding:30px; text-align:center;");
-    //on interdit la modification des champs pour l'affichage de la note
-    titre->setEnabled(true);
-    id->setEnabled(true);
-    texte->setEnabled(true);
-    statut->setEnabled(true);
-    dateCreation->setEnabled(true);
-    dateLastModif->setEnabled(true);
-
-    layoutHorizontal->addWidget(titreT);
-    layoutHorizontal->addWidget(titre);
-    layoutHorizontal1->addWidget(texteT);
-    layoutHorizontal1->addWidget(texte);
-    layoutHorizontal2->addWidget(idT);
-    layoutHorizontal2->addWidget(id);
-    layoutHorizontal3->addWidget(statutT);
-    layoutHorizontal3->addWidget(statut);
-    layoutHorizontal4->addWidget(dateCreationT);
-    layoutHorizontal4->addWidget(dateCreation);
-    layoutHorizontal5->addWidget(dateLastModifT);
-    layoutHorizontal5->addWidget(dateLastModif);
-
-    layoutVertical->addLayout(layoutHorizontal);
-    layoutVertical->addLayout(layoutHorizontal1);
-    layoutVertical->addLayout(layoutHorizontal2);
-    layoutVertical->addLayout(layoutHorizontal3);
-    layoutVertical->addLayout(layoutHorizontal4);
-    layoutVertical->addLayout(layoutHorizontal5);
-    layoutVertical->addLayout(layoutHBoutons,1);
-
-
-
-    layoutVertical->setAlignment(Qt::AlignTop);
-
-
-    centralContainer->setLayout(layoutVertical);
-    this->setCentralWidget(centralContainer);
-}*/
 VuePrincipale::VuePrincipale()
     : QMainWindow(),
       listeNotes(nullptr),
@@ -601,7 +500,7 @@ void VuePrincipale::afficherTacheCourante(){
 void VuePrincipale::afficherArchiveCourante(){
     QListWidgetItem* selectedItem = listeArchives->currentItem();
     QString selectedItemText = selectedItem->text();
-    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+    Note* noteCourante = notesManager.getNoteActiveByTitle(selectedItemText);
 
     statusBar()->showMessage(tr("Affichage de la note archivée ")+selectedItemText+(tr(" de type "))+noteCourante->getType());
 
@@ -609,9 +508,121 @@ void VuePrincipale::afficherArchiveCourante(){
     afficher(Archives);
 }
 
-/*void VuePrincipale::afficherNoteEditeur(){
-    statusBar()->showMessage(tr("Création Article "));
-    //statusBar()->showMessage(tr("Affichage de la note ")+noteCourante->getTitle());
-    PluriNotes::getPluriNotesInstance()->noteCreator("art");
-    afficher(Notes);
+/// Enregistre les modifs effectuées sur une note
+void VuePrincipale::enregistrerModifsOfNote(){
+
+    PluriNotes* pn=PluriNotes::getPluriNotesInstance();
+    const Note* noteCourante= pn->getNoteCourante();
+    QString type=noteCourante->getType();
+
+    // on incrémente le numéro de version pour que
+    // la nouvelle note soit la nouvelle version suivante de
+    // la note modifiée
+    int nVersionOfNewNote=noteCourante->getNVersion()+1;
+
+    if(type=="art"){
+        notesManager.addArticle(titre->text(),"active",texte->toPlainText(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+
+        // on change le statut de la note modifiée
+        (const_cast <Note*> (noteCourante))->setStatut("archivee");
+
+        // on change l'attribut isVersionActuelle de la note modifiée
+        (const_cast <Note*> (noteCourante))->setIsVersionActuelle(false);
+
+        // actualiser les couples qui comportent la note modifiée
+        couplesManager.upDateCouples(const_cast <Note*> (noteCourante));
+
+        statusBar()->showMessage("Article modifié");
+        QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","L'article a bien été modifié");
+        msgBox.exec();
+    }
+
+    if(type=="img"){
+        notesManager.addImage(titre->text(),"active",description->text(),imageFileName->text(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+
+        // on change le statut de la note modifiée
+        (const_cast <Note*> (noteCourante))->setStatut("archivee");
+
+        // on change l'attribut isVersionActuelle de la note modifiée
+        (const_cast <Note*> (noteCourante))->setIsVersionActuelle(false);
+
+        // actualiser les couples qui comportent la note modifiée
+        couplesManager.upDateCouples(const_cast <Note*> (noteCourante));
+
+        statusBar()->showMessage("Image modifiée");
+        QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","L'image a bien été modifiée");
+        msgBox.exec();
+    }
+
+    if(type=="aud"){
+        notesManager.addAudio(titre->text(),"active",description->text(),imageFileName->text(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+
+        // on change le statut de la note modifiée
+        (const_cast <Note*> (noteCourante))->setStatut("archivee");
+
+        // on change l'attribut isVersionActuelle de la note modifiée
+        (const_cast <Note*> (noteCourante))->setIsVersionActuelle(false);
+
+        // actualiser les couples qui comportent la note modifiée
+        couplesManager.upDateCouples(const_cast <Note*> (noteCourante));
+
+        statusBar()->showMessage("Audio modifié");
+        QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","L'audio a bien été modifié");
+        msgBox.exec();
+    }
+
+    if(type=="vid"){
+        notesManager.addImage(titre->text(),"active",description->text(),imageFileName->text(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+
+        // on change le statut de la note modifiée
+        (const_cast <Note*> (noteCourante))->setStatut("archivee");
+
+        // on change l'attribut isVersionActuelle de la note modifiée
+        (const_cast <Note*> (noteCourante))->setIsVersionActuelle(false);
+
+        // actualiser les couples qui comportent la note modifiée
+        couplesManager.upDateCouples(const_cast <Note*> (noteCourante));
+
+        statusBar()->showMessage("Vidéo modifiée");
+        QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","La vidéo a bien été modifiée");
+        msgBox.exec();
+    }
+
+    if(type=="task"){
+
+        notesManager.addTask(titre->text(),"active",action->text(),dynamic_cast<Task*>(const_cast <Note*> (noteCourante))->getPriority(),dynamic_cast<Task*>(const_cast <Note*> (noteCourante))->getDeadline(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+
+        // on change le statut de la note modifiée
+        (const_cast <Note*> (noteCourante))->setStatut("archivee");
+
+        // on change l'attribut isVersionActuelle de la note modifiée
+        (const_cast <Note*> (noteCourante))->setIsVersionActuelle(false);
+
+        // actualiser les couples qui comportent la note modifiée
+        couplesManager.upDateCouples(const_cast <Note*> (noteCourante));
+
+        statusBar()->showMessage("Tache modifiée");
+        QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","La tache a bien été modifiée");
+        msgBox.exec();
+    }
+}
+
+void VuePrincipale::supprimerNote(Note *n){
+
+    // suppression des couples comportant la note à supprimer
+    couplesManager.removeCouplesWithThisNote(n);
+
+    // on supprime toutes les anciennes versions de la note à supprimer
+    notesManager.removeOldVersionsOfNote(n);
+
+    // on supprime la note dans le NotesManager
+    notesManager.removeNote(n);
+}
+
+/*void VuePrincipale::afficherVersions(Note *n){
+
+    for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next())
+        if(it.current().getId()==n->getId())
+            // afficher le titre de la relation dans le dock qui va bien
 }*/
+

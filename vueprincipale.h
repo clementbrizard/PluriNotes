@@ -108,9 +108,11 @@ public:
     // Fait pointer noteCourante sur l'archive selectionnée dans un dock et l'affiche
     void afficherArchiveCourante();
 
-    //void afficherNoteEditeur();
-    //Affiche le createur de note
-    //void noteCreator(const QString& type);
+    void enregistrerModifsOfNote();
+
+    void supprimerNote(Note* n);
+
+    //void afficherVersions(Note *n);
 
 private:
 
@@ -154,14 +156,6 @@ private:
     // initialisation des Managers
     NotesManager& notesManager = NotesManager::getManager();
     CouplesManager& couplesManager = CouplesManager::getManager();
-
-
-public slots :
-  void enregistrerModifsOfNote();
-
-  void supprimerNote(Note* n);
-
-  //void afficherVersions(Note *n);
 
 };
 
