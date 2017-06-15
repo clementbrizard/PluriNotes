@@ -168,22 +168,19 @@ void VuePrincipale::createToolbar()
     QAction* ajouterAudio = new QAction("Créer un audio", this);
     toolBar->addAction(ajouterAudio);
     toolBar->addSeparator();
-    CreationMediaWindow::setType(tr("aud"));
-    QObject::connect(ajouterAudio, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
+    QObject::connect(ajouterAudio, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationAudioPN()));
 
     // Video
     QAction* ajouterVideo = new QAction("Créer une vidéo", this);
     toolBar->addAction(ajouterVideo);
     toolBar->addSeparator();
-    CreationMediaWindow::setType(tr("vid"));
-    QObject::connect(ajouterVideo, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
+    QObject::connect(ajouterVideo, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationVideoPN()));
 
     // Image
     QAction* ajouterImage = new QAction("Créer une image", this);
     toolBar->addAction(ajouterImage);
     toolBar->addSeparator();
-    CreationMediaWindow::setType(tr("img"));
-    QObject::connect(ajouterImage, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
+    QObject::connect(ajouterImage, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationImagePN()));
 
     // Tache
     QAction* ajouterTache = new QAction("Créer une tâche", this);

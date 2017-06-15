@@ -108,8 +108,21 @@ public slots:
         QObject::connect(&CreationTacheWindow::getCreationTacheWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
     }
 
-    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation de vidéo, d'image ou d'audio
-    void afficherCreationMediaPN(){
+    /// Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation d'images
+    void afficherCreationImagePN(){
+        CreationMediaWindow::setType(tr("img"));
+        QObject::connect(&CreationMediaWindow::getCreationMediaWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
+    }
+
+    /// Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation de vidéos
+    void afficherCreationVideoPN(){
+        CreationMediaWindow::setType(tr("vid"));
+        QObject::connect(&CreationMediaWindow::getCreationMediaWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
+    }
+
+    /// Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation d'audios
+    void afficherCreationAudioPN(){
+        CreationMediaWindow::setType(tr("aud"));
         QObject::connect(&CreationMediaWindow::getCreationMediaWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
     }
 
