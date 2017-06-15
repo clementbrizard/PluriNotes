@@ -135,11 +135,11 @@ void CreationMediaWindow::enregistrer()
     QString titreStr = titre->text();
     if(!titreStr.isEmpty() && !imageFileName->text().isEmpty()){
         if(CreationMediaWindow::m_type == "vid") {
-            NotesManager::getManager().addVideo(titreStr, tr("statut"), description->text(), imageFileName->text());
+            NotesManager::getManager().addVideo(titreStr, tr("active"), description->text(), imageFileName->text());
         } else if(CreationMediaWindow::m_type == "img") {
-            NotesManager::getManager().addImage(titreStr, tr("statut"), description->text(), imageFileName->text());
+            NotesManager::getManager().addImage(titreStr, tr("active"), description->text(), imageFileName->text());
         } else if(CreationMediaWindow::m_type == "aud") {
-            NotesManager::getManager().addAudio(titreStr, tr("statut"), description->text(), imageFileName->text());
+            NotesManager::getManager().addAudio(titreStr, tr("active"), description->text(), imageFileName->text());
         }
         NotesManager::getManager().save();
         this->close();

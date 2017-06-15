@@ -47,7 +47,7 @@
     </image>
     <image>
         <id>4</id>
-        <statut>statut</statut>
+        <statut>active</statut>
         <nVersion>1</nVersion>
         <isVersionActuelle>1</isVersionActuelle>
         <title>Panda</title>
