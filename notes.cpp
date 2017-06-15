@@ -107,7 +107,7 @@ void NotesManager::addModifiedNote(Note* n){
 
 void NotesManager::addArticle(const QString& title, QString statut, const QString& text, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
 
-    bool noteModified;
+    bool noteModified=false;
 
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
@@ -126,7 +126,7 @@ void NotesManager::addArticle(const QString& title, QString statut, const QStrin
 
 void NotesManager::addTask(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
 
-    bool noteModified;
+    bool noteModified=false;
 
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
@@ -144,7 +144,7 @@ void NotesManager::addTask(const QString& title, QString statut,const QString& a
 }
 
 void NotesManager::addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
-    bool noteModified;
+    bool noteModified=false;
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
             noteModified = true;
@@ -161,7 +161,7 @@ void NotesManager::addImage(const QString& title, QString statut, const QString&
 }
 
 void NotesManager::addAudio(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id, const QDate& dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
-    bool noteModified;
+    bool noteModified=false;
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
             noteModified = true;
@@ -178,7 +178,7 @@ void NotesManager::addAudio(const QString& title, QString statut, const QString&
 }
 
 void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
-    bool noteModified;
+    bool noteModified=false;
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==id){
             noteModified = true;
