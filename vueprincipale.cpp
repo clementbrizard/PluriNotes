@@ -2,6 +2,96 @@
 #include "vueprincipale.h"
 
 
+//***** CREATION ARTICLE *****//
+/// Constructeur de CreationArticleWindow
+CreationArticleWindow::CreationArticleWindow()
+    : titre(new QLineEdit(this)),
+      texte(new QTextEdit(this)),
+      creer(new QPushButton("Créer",this))
+{
+    QVBoxLayout* layoutV = new QVBoxLayout;
+    QFormLayout* layoutForm = new QFormLayout;
+
+    QLabel* nomFenetre = new QLabel;
+    nomFenetre->setText("Créer un article");
+    nomFenetre->setAlignment(Qt::AlignCenter);
+    nomFenetre->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
+
+    layoutForm->addRow("Titre", titre);
+    layoutForm->addRow("Texte", texte);
+
+    layoutV->addWidget(nomFenetre);
+    layoutV->addLayout(layoutForm);
+    layoutV->addWidget(creer, 0, Qt::AlignCenter);
+
+    QObject::connect(creer, SIGNAL(clicked()), this, SLOT(enregistrer()));
+
+    setLayout(layoutV);
+}
+
+/// Slot de CreationArticleWindow permettant d'enregistrer l'article créé dans le NoteManager
+void CreationArticleWindow::enregistrer()
+{
+    QString titreStr = titre->text();
+    if(!titreStr.isEmpty()){
+        NotesManager::getManager().addArticle(titreStr, tr("active"),texte->toPlainText());
+        NotesManager::getManager().save();
+        this->close();
+        emit fermer();
+    }
+}
+
+//***** CREATION TACHE *****//
+/// Constructeur de CreationTacheWIndow
+CreationTacheWindow::CreationTacheWindow()
+    : titre(new QLineEdit(this)),
+      action(new QLineEdit(this)),
+      priority(new QLineEdit(this)),
+      deadline(new QDateEdit(this)),
+      creer(new QPushButton("Créer",this))
+{
+    QVBoxLayout* layoutV = new QVBoxLayout;
+    QFormLayout* layoutForm = new QFormLayout;
+
+    QLabel* nomFenetre = new QLabel;
+    nomFenetre->setText("Créer une tâche");
+    nomFenetre->setAlignment(Qt::AlignCenter);
+    nomFenetre->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
+
+    deadline->setMinimumDate(QDate::currentDate());
+    deadline->calendarWidget();
+
+    layoutForm->addRow("Titre", titre);
+    layoutForm->addRow("Action", action);
+    layoutForm->addRow("Pirorité", priority);
+    layoutForm->addRow("Deadline (optionnel)", deadline);
+
+    layoutV->addWidget(nomFenetre);
+    layoutV->addLayout(layoutForm);
+    layoutV->addWidget(creer, 0, Qt::AlignCenter);
+
+    QObject::connect(creer, SIGNAL(clicked()), this, SLOT(enregistrer()));
+
+    setLayout(layoutV);
+}
+
+/// Slot de CreationArticleWindow permettant d'enregistrer la tâche créée dans le NoteManager
+void CreationTacheWindow::enregistrer()
+{
+    QString titreStr = titre->text();
+    if(!titreStr.isEmpty() && !action->text().isEmpty()){
+        NotesManager::getManager().addTask(titreStr, tr("active"), action->text(), priority->text(),deadline->date());
+        NotesManager::getManager().save();
+        this->close();
+        emit fermer();
+    }
+}
+
+//***** CREATION *****//
+
+
+//***** VUE PRINCIPALE *****//
+
 // Barre d'outils
 void VuePrincipale::createToolbar()
 {
@@ -13,22 +103,28 @@ void VuePrincipale::createToolbar()
     QAction* ajouterArticle = new QAction("Créer un article", this);
     toolBar->addAction(ajouterArticle);
     toolBar->addSeparator();
-    //QObject::connect(ajouterArticle, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherEditeurArticlePN()));
+    QObject::connect(ajouterArticle, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationArticlePN()));
 
-    // Article
+    // Audio
     QAction* ajouterAudio = new QAction("Créer un audio", this);
     toolBar->addAction(ajouterAudio);
     toolBar->addSeparator();
 
-    // Article
+    // Video
+    QAction* ajouterVideo = new QAction("Créer une vidéo", this);
+    toolBar->addAction(ajouterVideo);
+    toolBar->addSeparator();
+
+    // Image
     QAction* ajouterImage = new QAction("Créer une image", this);
     toolBar->addAction(ajouterImage);
     toolBar->addSeparator();
 
-    // Article
+    // Tache
     QAction* ajouterTache = new QAction("Créer une tâche", this);
     toolBar->addAction(ajouterTache);
     toolBar->addSeparator();
+    QObject::connect(ajouterTache, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationTachePN()));
 
 }
 
@@ -70,6 +166,8 @@ void VuePrincipale::createDockWindows()
     listeArchives = new QListWidget(dockListeArchives);
     dockListeArchives->setWidget(listeArchives);
     this->addDockWidget(Qt::LeftDockWidgetArea, dockListeArchives);
+    QObject::connect(listeArchives, SIGNAL(itemDoubleClicked(QListWidgetItem*)), PluriNotes::getPluriNotesInstance(), SLOT(afficherArchiveCourantePN()));
+
 
     // Dock des arborescences
     dockArborescence->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -98,36 +196,47 @@ void VuePrincipale::afficher(const TypeListe type)
     QHBoxLayout* layoutHorizontal= new QHBoxLayout;
     QHBoxLayout* layoutHBoutons = new QHBoxLayout;
 
-    if(centralWidget() == messageAccueil){
+    // Création des widgets attributs
+    titre = new QLineEdit;
+    id = new QLineEdit;
+    statut = new QLineEdit;
+    dateCreation = new QLineEdit;
+    dateLastModif = new QLineEdit;
 
-        // Création des widgets attributs
-        titre = new QLineEdit;
-        id = new QLineEdit;
-        statut = new QLineEdit;
-        dateCreation = new QLineEdit;
-        dateLastModif = new QLineEdit;
+    texte = new QTextEdit;
+    texteT = new QLabel;
+    description = new QLineEdit;
+    imageFileName = new QLineEdit;
+    action = new QLineEdit;
+    priority = new QLineEdit;
+    deadline = new QLineEdit;
 
-        texte = new QTextEdit;
-        texteT = new QLabel;
-        description = new QLineEdit;
-        imageFileName = new QLineEdit;
-        action = new QLineEdit;
-        priority = new QLineEdit;
-        deadline = new QLineEdit;
+    // On cache les attributs qui dépendent du type de la note
+    texte->hide();
+    action->hide();
+    priority->hide();
+    deadline->hide();
+    description->hide();
+    imageFileName->hide();
 
-        // On interdit la modification des champs pour l'affichage de la note
-        statut->setEnabled(false);
-        dateCreation->setEnabled(false);
-        dateLastModif->setEnabled(false);
+    // On interdit la modification des champs pour l'affichage de la note
+    id->setEnabled(false);
+    statut->setEnabled(false);
+    dateCreation->setEnabled(false);
+    dateLastModif->setEnabled(false);
 
-        // Feuille de style
-        id->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
-        statut->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
-        dateCreation->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
-        dateLastModif->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
-        titre->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
+    // On interdit la modification de tous les champs si la note est archivée
+    if(type == Archives) {
+        titre->setEnabled(false);
+        // Le reste des interdit se fait dans les conditions dépendant des types de Note
     }
 
+    // Feuille de style
+    id->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
+    statut->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
+    dateCreation->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
+    dateLastModif->setStyleSheet("font-size:13px; padding:30px; text-align:center;");
+    titre->setStyleSheet("font:bold; font-size:24px; padding:30px; text-align:center;");
 
     // Positionnement des boutons modifier / supprimer / aficherVersions
     QPushButton* modifier = new QPushButton("Modifier");
@@ -139,6 +248,19 @@ void VuePrincipale::afficher(const TypeListe type)
 
     layoutForm->addRow("Titre", titre);
 
+    // Gestion du risque de bad_cast à cause du polymorphisme
+    if(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getType() == tr("art")) {
+        const Note* note = new const Article("","","");
+    } else if(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getType() == tr("task")) {
+        const Note* note = new const Task("","","","",QDate::currentDate());
+    } else if(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getType() == tr("vid")) {
+        const Note* note = new const Video("","","","");
+    } else if(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getType() == tr("aud")) {
+        const Note* note = new const Audio("","","","");
+    } else if(PluriNotes::getPluriNotesInstance()->getNoteCourante()->getType() == tr("img")) {
+        const Note* note = new const Image("","","","");
+    }
+
     const Note* note = PluriNotes::getPluriNotesInstance()->getNoteCourante();
 
     // On definit et on positionne les widgets communs à tout type de note
@@ -148,21 +270,24 @@ void VuePrincipale::afficher(const TypeListe type)
     dateCreation->setText(note->getDateCreation().toString("d MMMM yyyy"));
     dateLastModif->setText(note->getDateLastModif().toString("d MMMM yyyy"));
 
-    // On cache les attributs qui dépendent du type de la note
-    texte->hide();
-
-
     // On complète les attributs en fonction du type de Note
     if(note->getType() == tr("art")) {
         // Articles
-        texte->setText(dynamic_cast<const Article*>(note)->getText());
+        const Article* article = dynamic_cast<const Article*>(note);
+        texte->setText(article->getText());
         texte->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
         texte->show();
         texteT->setText("Texte");
+
+        // On interdit la modification de tous les champs si la note est archivée
+        if(type == Archives) {
+            texte->setEnabled(false);
+        }
+
         layoutHorizontal->addWidget(texteT);
         layoutHorizontal->addWidget(texte);
 
-    } else if(note->getType() == "task" && type == Taches) {
+    } else if(note->getType() == "task" || type == Taches) {
         // Tâches
         action->setText(dynamic_cast<const Task*>(note)->getAction());
         priority->setText(dynamic_cast<const Task*>(note)->getPriority());
@@ -173,6 +298,14 @@ void VuePrincipale::afficher(const TypeListe type)
         action->show();
         priority->show();
         deadline->show();
+
+        // On interdit la modification de tous les champs si la note est archivée
+        if(type == Archives) {
+            action->setEnabled(false);
+            priority->setEnabled(false);
+            deadline->setEnabled(false);
+        }
+
         layoutForm->addRow("Action", action);
         layoutForm->addRow("Priorité", priority);
         layoutForm->addRow("Deadline (optionnelle)", deadline);
@@ -185,6 +318,13 @@ void VuePrincipale::afficher(const TypeListe type)
         imageFileName->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
         description->show();
         imageFileName->show();
+
+        // On interdit la modification de tous les champs si la note est archivée
+        if(type == Archives) {
+            description->setEnabled(false);
+            imageFileName->setEnabled(false);
+        }
+
         layoutForm->addRow("Description", description);
         layoutForm->addRow("Nom du fichier audio", imageFileName);
 
@@ -196,17 +336,31 @@ void VuePrincipale::afficher(const TypeListe type)
         imageFileName->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
         description->show();
         imageFileName->show();
+
+        // On interdit la modification de tous les champs si la note est archivée
+        if(type == Archives) {
+            description->setEnabled(false);
+            imageFileName->setEnabled(false);
+        }
+
         layoutForm->addRow("Description", description);
         layoutForm->addRow("Nom du fichier vidéo", imageFileName);
 
     } else if(note->getType() == "img") {
-        // Images / Vidéos / Audios
+        // Images
         description->setText(dynamic_cast<const Image*>(note)->getDescription());
         imageFileName->setText(dynamic_cast<const Image*>(note)->getImageFileName());
         description->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
         imageFileName->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
         description->show();
         imageFileName->show();
+
+        // On interdit la modification de tous les champs si la note est archivée
+        if(type == Archives) {
+            description->setEnabled(false);
+            imageFileName->setEnabled(false);
+        }
+
         layoutForm->addRow("Description", description);
         layoutForm->addRow("Nom du fichier image", imageFileName);
     }
@@ -218,7 +372,8 @@ void VuePrincipale::afficher(const TypeListe type)
     layoutForm->addRow("Dernière modification le", dateLastModif);
 
     layoutVertical->addLayout(layoutForm);
-    layoutVertical->addLayout(layoutHorizontal);
+    if(note->getType() == "art")
+        layoutVertical->addLayout(layoutHorizontal);
     layoutVertical->addLayout(layoutHBoutons);
 
     layoutVertical->setAlignment(Qt::AlignTop);
@@ -345,12 +500,11 @@ VuePrincipale::VuePrincipale()
     createDockWindows();
 
     accueil();
-
-    //noteCourante(notesManager.getNoteTitle("Avant Propos"));
 }
 
 
-/********* SLOTS **********/
+
+//***** SLOTS : VUE PRINCIPALE *****//
 void VuePrincipale::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     notesManager.setFilename(filename);
@@ -386,6 +540,7 @@ void VuePrincipale::remplirDockCorbeille(){
     QMessageBox msgBox(QMessageBox::Icon::Information, "Chargement du fichier sélectionné", "Les données du fichier de notes ont été récupérées.");
     msgBox.exec();
 }
+
 void VuePrincipale::remplirDockArchive(){
 
     QListWidgetItem* item;
@@ -436,6 +591,18 @@ void VuePrincipale::afficherTacheCourante(){
 
     PluriNotes::getPluriNotesInstance()->setNoteCourante(noteCourante);
     afficher(Taches);
+}
+
+// Fait pointer noteCourante sur l'archive selectionnée dans un dock et l'affiche
+void VuePrincipale::afficherArchiveCourante(){
+    QListWidgetItem* selectedItem = listeArchives->currentItem();
+    QString selectedItemText = selectedItem->text();
+    Note* noteCourante = notesManager.getNoteByTitle(selectedItemText);
+
+    statusBar()->showMessage(tr("Affichage de la note archivée ")+selectedItemText+(tr(" de type "))+noteCourante->getType());
+
+    PluriNotes::getPluriNotesInstance()->setNoteCourante(noteCourante);
+    afficher(Archives);
 }
 
 /*void VuePrincipale::afficherNoteEditeur(){

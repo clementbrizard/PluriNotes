@@ -90,6 +90,22 @@ public slots:
     void afficherTacheCourantePN(){
         vuePrincipale->afficherTacheCourante();
     }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de Task
+    void afficherArchiveCourantePN(){
+        vuePrincipale->afficherArchiveCourante();
+    }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation d'article
+    void afficherCreationArticlePN(){
+        QObject::connect(&CreationArticleWindow::getCreationArticleWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
+    }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation de tache
+    void afficherCreationTachePN(){
+        QObject::connect(&CreationTacheWindow::getCreationTacheWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
+    }
+
 };
 
 #endif // PLURINOTES_APP_H

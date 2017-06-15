@@ -7,6 +7,60 @@
 
 typedef enum {Notes, Taches, Archives} TypeListe;
 
+// Fenêtre de création d'un article
+class CreationArticleWindow : public QWidget {
+public:
+    static CreationArticleWindow& getCreationArticleWindow(){
+        static CreationArticleWindow instance;
+        instance.show();
+        return instance;
+    }
+
+private:
+    Q_OBJECT
+
+    // Attributs de l'article à créer
+    QLineEdit* titre;
+    QTextEdit* texte;
+
+    QPushButton* creer;
+
+    CreationArticleWindow();
+
+public slots:
+    void enregistrer();
+signals:
+    void fermer();
+};
+
+// Fenêtre de création d'une tache
+class CreationTacheWindow : public QWidget {
+public:
+    static CreationTacheWindow& getCreationTacheWindow(){
+        static CreationTacheWindow instance;
+        instance.show();
+        return instance;
+    }
+
+private:
+    Q_OBJECT
+
+    // Attributs de l'article à créer
+    QLineEdit* titre;
+    QLineEdit* action;
+    QLineEdit* priority;
+    QDateEdit* deadline;
+
+    QPushButton* creer;
+
+    CreationTacheWindow();
+
+public slots:
+    void enregistrer();
+signals:
+    void fermer();
+};
+
 // Vue principale de l'appli (premier onglet)
 class VuePrincipale : public QMainWindow {
 public:
@@ -35,8 +89,11 @@ public:
 
     //Remplit le dock qui affiche la corbeille
     void remplirDockCorbeille();
+
     //Remplit le dock archive
     void remplirDockArchive();
+
+
     //***** Fonctions de slots *****//
 
     //Actualise les notes affichées
@@ -47,6 +104,9 @@ public:
 
     // Fait pointer noteCourante sur la tache selectionnée dans un dock et l'affiche
     void afficherTacheCourante();
+
+    // Fait pointer noteCourante sur l'archive selectionnée dans un dock et l'affiche
+    void afficherArchiveCourante();
 
     //void afficherNoteEditeur();
     //Affiche le createur de note
