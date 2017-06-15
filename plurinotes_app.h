@@ -106,16 +106,17 @@ public slots:
         QObject::connect(&CreationTacheWindow::getCreationTacheWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
     }
 
+    /// Slot de PluriNotes(PN) gérant la modification d'une note
     void enregistrerModifsOfNotePN(){
         vuePrincipale->enregistrerModifsOfNote();
     }
 
-    void supprimerNotePN(Note* n){
-        vuePrincipale->supprimerNote(n);
+    /// Slot de PluriNotes (PN) gérant la suppression d'une note
+    void supprimerNotePN(){
+        vuePrincipale->supprimerNote();
     }
 
     //void afficherVersionsPN(Note *n);
-
 };
 
 #endif // PLURINOTES_APP_H

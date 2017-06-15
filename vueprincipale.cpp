@@ -246,8 +246,8 @@ void VuePrincipale::afficher(const TypeListe type)
     layoutHBoutons->addWidget(supprimer);
     layoutHBoutons->addWidget(afficherVersions);
     // Slots des trois boutons
-    QObject::connect(enregistrerModifs,SIGNAL(clicked()),this,SLOT(enregistrerModifsOfNote()));
-    QObject::connect(supprimer, SIGNAL(clicked()),this, SLOT(supprimerNote(notesManager.getNoteActiveByTitle(title))));
+    QObject::connect(enregistrerModifs,SIGNAL(clicked()),PluriNotes::getPluriNotesInstance(),SLOT(enregistrerModifsOfNotePN()));
+    QObject::connect(supprimer,SIGNAL(clicked()),PluriNotes::getPluriNotesInstance(), SLOT(supprimerNotePN()));
     //QObject::connect(afficherVersions,SIGNAL(clicked()),this,SLOT(afficherVersions(getNoteActiveByTitle(title))));
 
     layoutForm->addRow("Titre", titre);
@@ -605,18 +605,36 @@ void VuePrincipale::enregistrerModifsOfNote(){
         QMessageBox msgBox(QMessageBox::Icon::Information,"Modification","La tache a bien été modifiée");
         msgBox.exec();
     }
+
+    // actualisation des docks à gauche
+    actualiserLesDocks();
 }
 
-void VuePrincipale::supprimerNote(Note *n){
+void VuePrincipale::supprimerNote(){
+
+    PluriNotes* pn=PluriNotes::getPluriNotesInstance();
+    const Note* noteCourante= pn->getNoteCourante();
 
     // suppression des couples comportant la note à supprimer
-    couplesManager.removeCouplesWithThisNote(n);
+    couplesManager.removeCouplesWithThisNote(const_cast<Note*>(noteCourante));
 
     // on supprime toutes les anciennes versions de la note à supprimer
-    notesManager.removeOldVersionsOfNote(n);
+    notesManager.removeOldVersionsOfNote(const_cast<Note*>(noteCourante));
 
     // on supprime la note dans le NotesManager
-    notesManager.removeNote(n);
+    notesManager.removeNote(const_cast<Note*>(noteCourante));
+
+    // actualisation des docks à gauche pour que la note
+    // supprimée disparaisse de l'affichage
+    actualiserLesDocks();
+
+    // actualisation du dock des couples pour que les couples
+    // qui comportaient la note n'apparaissent plus
+    pn->vueSecondaire->remplirCouplesDock();
+
+    statusBar()->showMessage("Note supprimée");
+    QMessageBox msgBox(QMessageBox::Icon::Information,"Suppression","La note a bien été supprimée");
+    msgBox.exec();
 }
 
 /*void VuePrincipale::afficherVersions(Note *n){

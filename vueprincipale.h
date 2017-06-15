@@ -110,7 +110,7 @@ public:
 
     void enregistrerModifsOfNote();
 
-    void supprimerNote(Note* n);
+    void supprimerNote();
 
     //void afficherVersions(Note *n);
 

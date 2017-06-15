@@ -2,12 +2,6 @@
 <couples>
     <couple>
         <id>0</id>
-        <referencingNote>0</referencingNote>
-        <referencedNote>1</referencedNote>
-        <relation></relation>
-    </couple>
-    <couple>
-        <id>1</id>
         <referencingNote>1</referencingNote>
         <referencedNote>2</referencedNote>
         <relation></relation>

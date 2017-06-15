@@ -174,7 +174,7 @@ void NotesManager::addAudio(const QString& title, QString statut, const QString&
     }
     Audio* au=new Audio(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
     if(noteModified) addModifiedNote(au);
-    addNote(au);
+    else addNote(au);
 }
 
 void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
@@ -211,11 +211,7 @@ void NotesManager::removeNote(Note *n){
 void NotesManager::removeOldVersionsOfNote(const Note* n)
 {
     for (unsigned int i=0; i<m_nbNotes; i++)
-    {
         if (m_notes[i]->getId()==n->getId()&&m_notes[i]->getStatut()=="archivee") removeNote(const_cast <Note*>(n));
-        }
-    throw Exception ("Note non trouvee..");
-
 }
 
 
