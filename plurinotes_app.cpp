@@ -38,8 +38,8 @@ QMenuBar* PluriNotes::createMenu() {
     // Menu Fichier :
     QMenu* fichier = menubar->addMenu("&Fichier");
 
-    QAction* actualiser = fichier->addAction("&Actualiser les 3 listes de notes");
-    QObject::connect(actualiser, SIGNAL(triggered()), this, SLOT(actualiserListes()));
+    /*QAction* actualiser = fichier->addAction("&Actualiser les 3 listes de notes");
+    QObject::connect(actualiser, SIGNAL(triggered()), this, SLOT(actualiserListes()));*/
 
     QAction* chargerNotes = fichier->addAction("&Charger les notes");
     QObject::connect(chargerNotes, SIGNAL(triggered()), this, SLOT(chargerXML()));

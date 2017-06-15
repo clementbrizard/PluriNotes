@@ -54,6 +54,14 @@ Note* NotesManager::getNoteActiveById(const QString& id){
     throw Exception ("Note non trouvee..");
 }
 
+Note* NotesManager::getNoteArchiveeByTitle(const QString& title){
+    for (unsigned int i=0; i<m_nbNotes; i++)
+        if (title == m_notes[i]->getTitle()&&m_notes[i]->getStatut()=="archivee") return m_notes[i];
+
+    throw Exception ("Note non trouvee..");
+
+}
+
 void NotesManager::addNote(Note* n){
     for(unsigned int i=0; i<m_nbNotes; i++){
         if (m_notes[i]->getId()==m_nbNotes) throw Exception("error, creation of an already existent note");
@@ -73,19 +81,22 @@ void NotesManager::addNote(Note* n){
 }
 
 void NotesManager::addLoadedNote(Note* n){
-    for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getId()==n->getId()){
-            QMessageBox::information(Q_NULLPTR,"Erreur","error, creation of an already existent note");
-            return;
+    bool estDejaLa=false;
+    for(unsigned int i=0; i<m_nbNotes; i++)
+        if (m_notes[i]->getId()==n->getId() && m_notes[i]->getNVersion()==n->getNVersion()){
+            estDejaLa=true;
+            break;
         }
-    }
-    if (m_nbNotes==m_nbMaxNotes){
+    if (estDejaLa) return;
+    else{
+        if (m_nbNotes==m_nbMaxNotes){
         Note** newM_notes= new Note*[m_nbMaxNotes+5];
         for(unsigned int i=0; i<m_nbNotes; i++) newM_notes[i]=m_notes[i];
         Note** oldM_notes=m_notes;
         m_notes=newM_notes;
         m_nbMaxNotes+=5;
         if (oldM_notes) delete[] oldM_notes;
+        }
     }
     m_notes[m_nbNotes++]=n;
 }
@@ -213,7 +224,6 @@ void NotesManager::removeOldVersionsOfNote(const Note* n)
     for (unsigned int i=0; i<m_nbNotes; i++)
         if (m_notes[i]->getId()==n->getId()&&m_notes[i]->getStatut()=="archivee") removeNote(const_cast <Note*>(n));
 }
-
 
 void NotesManager::save() const {
     QFile newfile(m_filename);

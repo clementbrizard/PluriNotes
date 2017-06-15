@@ -22,13 +22,15 @@ void VueSecondaire::CouplesEditeur()
         QListWidgetItem* item1;
         ///Remplissage de listeNotesLeft
         for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
-            item1= new QListWidgetItem((it.current()).getTitle(),listeNotesLeft);
+            if(it.current().getStatut()=="active")
+                item1= new QListWidgetItem((it.current()).getTitle(),listeNotesLeft);
         }
         ///Second QlistWidget : listeNotesRight
         listeNotesRight = new QListWidget();
         QListWidgetItem* item2;
         ///Remplissage de listeNotesRight
         for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
+                 if(it.current().getStatut()=="active")
             item2= new QListWidgetItem((it.current()).getTitle(),listeNotesRight);
         }
         layer = new QVBoxLayout();
@@ -75,6 +77,7 @@ void VueSecondaire::remplirCouplesDock(){
    QString temp;
    qDebug()<<"dock couple";
    ///On utilise l'iterator de CouplesManager pour afficher les couples existants
+   listeCouples->clear();
    for(CouplesManager::Iterator it=couplesManager.getIterator(); !it.isDone(); it.next()){
             ///On utilise un QString temporaire pour afficher les deux notes référencées
             temp = (it.current()).getReferencingNote().getId() + " -> " + (it.current()).getReferencedNote().getId();

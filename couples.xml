@@ -2,8 +2,20 @@
 <couples>
     <couple>
         <id>0</id>
-        <referencingNote>1</referencingNote>
+        <referencingNote>2</referencingNote>
+        <referencedNote>6</referencedNote>
+        <relation></relation>
+    </couple>
+    <couple>
+        <id>1</id>
+        <referencingNote>3</referencingNote>
         <referencedNote>2</referencedNote>
+        <relation></relation>
+    </couple>
+    <couple>
+        <id>2</id>
+        <referencingNote>6</referencingNote>
+        <referencedNote>5</referencedNote>
         <relation></relation>
     </couple>
 </couples>

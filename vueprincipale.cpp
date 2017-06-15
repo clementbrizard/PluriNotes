@@ -43,6 +43,7 @@ void CreationArticleWindow::enregistrer()
     }
 }
 
+
 //***** CREATION TACHE *****//
 /// Constructeur de CreationTacheWIndow
 CreationTacheWindow::CreationTacheWindow()
@@ -65,7 +66,7 @@ CreationTacheWindow::CreationTacheWindow()
 
     layoutForm->addRow("Titre", titre);
     layoutForm->addRow("Action", action);
-    layoutForm->addRow("Pirorité", priority);
+    layoutForm->addRow("Priorité", priority);
     layoutForm->addRow("Deadline (optionnel)", deadline);
 
     layoutV->addWidget(nomFenetre);
@@ -306,10 +307,10 @@ void VuePrincipale::afficher(const TypeListe type)
     // Positionnement des boutons modifier / supprimer / afficherVersions
     QPushButton* enregistrerModifs = new QPushButton("Enregistrer les modifications");
     QPushButton* supprimer = new QPushButton("Supprimer");
-    QPushButton* afficherVersions = new QPushButton("Anciennes versions");
+    //QPushButton* afficherVersions = new QPushButton("Anciennes versions");
     layoutHBoutons->addWidget(enregistrerModifs);
     layoutHBoutons->addWidget(supprimer);
-    layoutHBoutons->addWidget(afficherVersions);
+    //layoutHBoutons->addWidget(afficherVersions);
     // Slots des trois boutons
     QObject::connect(enregistrerModifs,SIGNAL(clicked()),PluriNotes::getPluriNotesInstance(),SLOT(enregistrerModifsOfNotePN()));
     QObject::connect(supprimer,SIGNAL(clicked()),PluriNotes::getPluriNotesInstance(), SLOT(supprimerNotePN()));
@@ -460,7 +461,7 @@ VuePrincipale::VuePrincipale()
       arborescenceDescendants(nullptr),
       dockListeNotes(new QDockWidget("Notes", this)),
       dockListeTaches(new QDockWidget("Taches", this)),
-      dockListeArchives(new QDockWidget("Archives", this)),
+      dockListeArchives(new QDockWidget("Archives / Anciennes versions des notes", this)),
       dockArborescence(new QDockWidget("Arborescence", this))
 {
     createToolbar();
@@ -470,9 +471,8 @@ VuePrincipale::VuePrincipale()
     accueil();
 }
 
-
-
 //***** SLOTS : VUE PRINCIPALE *****//
+
 void VuePrincipale::choixFichier(){
     QString filename = QFileDialog::getOpenFileName();
     notesManager.setFilename(filename);
@@ -481,6 +481,7 @@ void VuePrincipale::choixFichier(){
 
 void VuePrincipale::remplirDockListeNotes(){
     QListWidgetItem* item;
+    listeNotes->clear();
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
         if((it.current()).getType()!="task" && (it.current()).getStatut()=="active"){
             item= new QListWidgetItem((it.current()).getTitle(),listeNotes);}
@@ -490,6 +491,7 @@ void VuePrincipale::remplirDockListeNotes(){
 void VuePrincipale::remplirDockTaches(){
 
     QListWidgetItem* item;
+    listeTaches->clear();
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
         if((it.current()).getType()=="task" && (it.current()).getStatut()=="active"){
             item= new QListWidgetItem((it.current()).getTitle(),listeTaches);}
@@ -499,6 +501,7 @@ void VuePrincipale::remplirDockTaches(){
 void VuePrincipale::remplirDockCorbeille(){
 
     QListWidgetItem* item;
+    listeArchives->clear();
     for(unsigned int i=0;i<Corbeille::getInstance().getPoubelleSize();i++){
             Note* n = Corbeille::getInstance().getNoteByPosition(i);
             QString title = n->getTitle();
@@ -512,6 +515,7 @@ void VuePrincipale::remplirDockCorbeille(){
 void VuePrincipale::remplirDockArchive(){
 
     QListWidgetItem* item;
+    listeArchives->clear();
     for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
         if((it.current()).getStatut()=="archivee"){
             item= new QListWidgetItem((it.current()).getTitle(),listeArchives);}
@@ -565,7 +569,8 @@ void VuePrincipale::afficherTacheCourante(){
 void VuePrincipale::afficherArchiveCourante(){
     QListWidgetItem* selectedItem = listeArchives->currentItem();
     QString selectedItemText = selectedItem->text();
-    Note* noteCourante = notesManager.getNoteActiveByTitle(selectedItemText);
+
+    Note* noteCourante = notesManager.getNoteArchiveeByTitle(selectedItemText);
 
     statusBar()->showMessage(tr("Affichage de la note archivée ")+selectedItemText+(tr(" de type "))+noteCourante->getType());
 
@@ -673,6 +678,7 @@ void VuePrincipale::enregistrerModifsOfNote(){
 
     // actualisation des docks à gauche
     actualiserLesDocks();
+    pn->getVueSecondaire()->CouplesEditeur();
 }
 
 void VuePrincipale::supprimerNote(){
@@ -692,6 +698,10 @@ void VuePrincipale::supprimerNote(){
     // actualisation des docks à gauche pour que la note
     // supprimée disparaisse de l'affichage
     actualiserLesDocks();
+
+    // actualisation des notes avec lesquelles on peut faire
+    // des couples dans vue secondaire
+    pn->getVueSecondaire()->CouplesEditeur();
 
     // actualisation du dock des couples pour que les couples
     // qui comportaient la note n'apparaissent plus

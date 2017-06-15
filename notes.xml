@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <notes>
     <task>
-        <id>5</id>
+        <id>0</id>
         <statut>active</statut>
         <nVersion>1</nVersion>
         <isVersionActuelle>1</isVersionActuelle>
@@ -12,47 +12,35 @@
         <dateCreation>12-06-2017</dateCreation>
         <dateLastModif>12-06-2017</dateLastModif>
     </task>
-    <video>
+    <audio>
+        <id>1</id>
+        <statut>active</statut>
+        <nVersion>2</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>audio modifié</title>
+        <description>Cet audio accompagne l'article d'id 0</description>
+        <imageFilename></imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </audio>
+    <article>
+        <id>2</id>
+        <statut>active</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Article</title>
+        <text>Texte</text>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </article>
+    <image>
         <id>3</id>
         <statut>active</statut>
         <nVersion>1</nVersion>
         <isVersionActuelle>1</isVersionActuelle>
-        <title>video</title>
-        <description>Cette vidéo accompagne l'article d'id 0</description>
-        <imageFilename></imageFilename>
-        <dateCreation>04-06-2017</dateCreation>
-        <dateLastModif>05-06-2017</dateLastModif>
-    </video>
-    <audio>
-        <id>2</id>
-        <statut>active</statut>
-        <nVersion>1</nVersion>
-        <isVersionActuelle>0</isVersionActuelle>
-        <title>audio</title>
-        <description>Cet audio accompagne l'article d'id 0</description>
-        <imageFilename></imageFilename>
-        <dateCreation>04-06-2017</dateCreation>
-        <dateLastModif>05-06-2017</dateLastModif>
-    </audio>
-    <image>
-        <id></id>
-        <statut>statut</statut>
-        <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>Panda</title>
-        <description>Gros panda tout mignon</description>
-        <imageFilename></imageFilename>
-        <dateCreation>15-06-2017</dateCreation>
-        <dateLastModif>15-06-2017</dateLastModif>
-    </image>
-    <image>
-        <id>4</id>
-        <statut>active</statut>
-        <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>Panda</title>
-        <description>Gros panda tout mignon</description>
-        <imageFilename></imageFilename>
+        <title>Image créée</title>
+        <description></description>
+        <imageFilename>fichier</imageFilename>
         <dateCreation>15-06-2017</dateCreation>
         <dateLastModif>15-06-2017</dateLastModif>
     </image>

@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <couples>
     <couple>
-        <id>1</id>
+        <id>0</id>
         <referencingNote>3</referencingNote>
-        <referencedNote>5</referencedNote>
+        <referencedNote>2</referencedNote>
+        <relation></relation>
+    </couple>
+    <couple>
+        <id>3</id>
+        <referencingNote>0</referencingNote>
+        <referencedNote>3</referencedNote>
+        <relation></relation>
+    </couple>
+    <couple>
+        <id>2</id>
+        <referencingNote>3</referencingNote>
+        <referencedNote>0</referencedNote>
         <relation></relation>
     </couple>
 </couples>

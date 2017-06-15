@@ -201,8 +201,12 @@ public:
     // getters
     ///Retourne la derniere version de la note dont on a envoyé le titre
      Note* getNoteActiveByTitle(const QString& title);
-     ///Retourne la derniere version de la note dont on a envoyé l'id
+    ///Retourne la derniere version de la note dont on a envoyé l'id
      Note* getNoteActiveById(const QString& id);
+
+     ///Retourne la note archivée dont le titre est celui
+     /// passé en paramètre
+     Note* getNoteArchiveeByTitle(const QString& title);
 
         // setters
      ///Permet de renseigner le nom du fichier XML utilisé
