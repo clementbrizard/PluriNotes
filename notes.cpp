@@ -23,18 +23,23 @@ void NotesManager::freeManager(){
     handler.instance=nullptr;
 }
 
-Note* NotesManager::getNoteByTitle(QString title){
-    for (unsigned int i=0; i<m_nbNotes; i++){
-        if (title == m_notes[i]->getTitle()) return m_notes[i];
-    }
+Note* NotesManager::getNoteActiveByTitle(const QString& title)
+{
+    for (unsigned int i=0; i<m_nbNotes; i++)
+    {
+        if (title == m_notes[i]->getTitle()&&m_notes[i]->getStatut()=="active") return m_notes[i];
+        }
     throw Exception ("Note non trouvee..");
 }
 
-Note* NotesManager::getNoteById(QString id){
-    for (unsigned int i=0; i<m_nbNotes; i++){
-        if (id == m_notes[i]->getId()) return m_notes[i];
-    }
+Note* NotesManager::getNoteActiveById(const QString& id){
+
+    for (unsigned int i=0; i<m_nbNotes; i++)
+    {
+        if (id == m_notes[i]->getId()&&m_notes[i]->getStatut()=="active") return m_notes[i];
+        }
     throw Exception ("Note non trouvee..");
+
 }
 
 void NotesManager::addNote(Note* n){
@@ -73,43 +78,107 @@ void NotesManager::addLoadedNote(Note* n){
     m_notes[m_nbNotes++]=n;
 }
 
-void NotesManager::addArticle(const QString& title, QString statut, const QString& text, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+void NotesManager::addModifiedNote(Note* n){
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : article déjà existant");
+        if (m_notes[i]->getId()==m_nbNotes) throw Exception("error, creation of an already existent note");
     }
-    Article* a=new Article(title,statut,text,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
-    addNote(a);
+    if (m_nbNotes==m_nbMaxNotes){
+        Note** newM_notes= new Note*[m_nbMaxNotes+5];
+        for(unsigned int i=0; i<m_nbNotes; i++) newM_notes[i]=m_notes[i];
+        Note** oldM_notes=m_notes;
+        m_notes=newM_notes;
+        m_nbMaxNotes+=5;
+        if (oldM_notes) delete[] oldM_notes;
+    }
+    m_notes[m_nbNotes++]=n;
+}
+
+void NotesManager::addArticle(const QString& title, QString statut, const QString& text, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+
+    bool noteModified;
+
+    for(unsigned int i=0; i<m_nbNotes; i++){
+        if (m_notes[i]->getId()==id){
+            noteModified = true;
+            if(m_notes[i]->getNVersion()==nVersion){
+                QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative d'ajout d'un article déjà existant");
+                msgBox.exec();
+                return;
+            }
+        }
+    }
+    Article *a =new Article(title,statut,text,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
+    if(noteModified) addModifiedNote(a);
+    else addNote(a);
 }
 
 void NotesManager::addTask(const QString& title, QString statut,const QString& action,const QString& priority,const QDate& deadline, const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+
+    bool noteModified;
+
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : task déjà existante");
+        if (m_notes[i]->getId()==id){
+            noteModified = true;
+            if(m_notes[i]->getNVersion()==nVersion){
+                QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative d'ajout d'une tache déjà existante");
+                msgBox.exec();
+                return;
+            }
+        }
     }
     Task* t=new Task(title,statut,action,priority,deadline,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
-    addNote(t);
+    if(noteModified) addModifiedNote(t);
+    else addNote(t);
 }
 
 void NotesManager::addImage(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id,const QDate& dateCreation,const QDate& dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+    bool noteModified;
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
+        if (m_notes[i]->getId()==id){
+            noteModified = true;
+            if(m_notes[i]->getNVersion()==nVersion){
+                QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative d'ajout d'une image déjà existant");
+                msgBox.exec();
+                return;
+            }
+        }
     }
     Image* i=new Image(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
-    addNote(i);
+    if(noteModified) addModifiedNote(i);
+    else addNote(i);
 }
 
 void NotesManager::addAudio(const QString& title, QString statut, const QString& description, const QString& imageFileName,const QString& id, const QDate& dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+    bool noteModified;
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Image deja existante");
+        if (m_notes[i]->getId()==id){
+            noteModified = true;
+            if(m_notes[i]->getNVersion()==nVersion){
+                QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative d'ajout d'un audio déjà existant");
+                msgBox.exec();
+                return;
+            }
+        }
     }
     Audio* au=new Audio(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
+    if(noteModified) addModifiedNote(au);
     addNote(au);
 }
 
 void NotesManager::addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id, const QDate &dateCreation, const QDate &dateLastModif, const int &nVersion, const bool &isVersionActuelle){
+    bool noteModified;
     for(unsigned int i=0; i<m_nbNotes; i++){
-        if (m_notes[i]->getTitle()==title) throw Exception("Erreur : Video deja existante");
+        if (m_notes[i]->getId()==id){
+            noteModified = true;
+            if(m_notes[i]->getNVersion()==nVersion){
+                QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative d'ajout d'une vidéo déjà existante");
+                msgBox.exec();
+                return;
+            }
+        }
     }
     Video* vi=new Video(title,statut,description,imageFileName,id,dateCreation,dateLastModif,nVersion,isVersionActuelle);
+    if(noteModified) addModifiedNote(vi);
     addNote(vi);
 }
 
@@ -126,6 +195,17 @@ void NotesManager::removeNote(Note *n){
     }
     else throw Exception("Note a supprimer non trouvee");
 }
+
+void NotesManager::removeOldVersionsOfNote(const Note* n)
+{
+    for (unsigned int i=0; i<m_nbNotes; i++)
+    {
+        if (m_notes[i]->getId()==n->getId()&&m_notes[i]->getStatut()=="archivee") removeNote(const_cast <Note*>(n));
+        }
+    throw Exception ("Note non trouvee..");
+
+}
+
 
 void NotesManager::save() const {
     QFile newfile(m_filename);
@@ -681,7 +761,6 @@ Note* Corbeille::getNoteByPosition(unsigned int position){
     ///Si la position passée en argument est supérieure à la taille du vecteur, on lance une exception
     else throw Exception ("La note n'a pas ete trouvee..");
 }
-
 
 
 /// Ajout d'une note via la fonction push_back de vector

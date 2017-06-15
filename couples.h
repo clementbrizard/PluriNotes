@@ -33,8 +33,6 @@ public:
     const Note& getReferencedNote()const{return m_referencedNote; }
 };
 
-
-
 /*************COUPLESMANAGER************/
 
 class CouplesManager{
@@ -85,6 +83,10 @@ public:
 
     // enregistre le CouplesManager dans le ficier XML chargé à l'ouverture de l'application
     void save() const;
+
+    // met à jour les couples qui comportent la note n
+    // car celle-ci a été modifiée
+    void upDateCouples(Note* n);
 
     // initialise le CouplesManager
     static CouplesManager& getManager();

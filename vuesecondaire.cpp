@@ -108,11 +108,11 @@ void VueSecondaire::addOrientedCouple(){
     ///On récupère la note n1 dans le QlistWidget listeNotesLeft
     QListWidgetItem* selectedItem1 = listeNotesLeft->currentItem();
     QString title1 = selectedItem1->text();
-    Note* n1 = NotesManager::getManager().getNoteByTitle(title1);
+    Note* n1 = NotesManager::getManager().getNoteActiveByTitle(title1);
     ///On récupère la note n2 dans le QlistWidget listeNotesRight
     QListWidgetItem* selectedItem2 = listeNotesRight->currentItem();
     QString title2 = selectedItem2->text();
-    Note* n2 = NotesManager::getManager().getNoteByTitle(title2);
+    Note* n2 = NotesManager::getManager().getNoteActiveByTitle(title2);
     ///Insertion du couple dans CouplesManager
     CouplesManager& cm = CouplesManager::getManager();
     cm.addCouple(*(n1),*(n2));
@@ -127,11 +127,11 @@ void VueSecondaire::addCoupleNotOriented(){
     ///On récupère la note n1 dans le QlistWidget listNotesLeft
     QListWidgetItem* selectedItem1 = listeNotesLeft->currentItem();
     QString title1 = selectedItem1->text();
-    Note* n1 = NotesManager::getManager().getNoteByTitle(title1);
+    Note* n1 = NotesManager::getManager().getNoteActiveByTitle(title1);
     ///On récupère la note n2 dans le QlistWidget listNotesRight
     QListWidgetItem* selectedItem2 = listeNotesRight->currentItem();
     QString title2 = selectedItem2->text();
-    Note* n2 = NotesManager::getManager().getNoteByTitle(title2);
+    Note* n2 = NotesManager::getManager().getNoteActiveByTitle(title2);
     CouplesManager& cm = CouplesManager::getManager();
     ///Ajout d'un couple de n1 vers n2 dans le CouplesManager
     cm.addCouple(*(n1),*(n2));

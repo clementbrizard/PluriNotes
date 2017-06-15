@@ -155,6 +155,9 @@ private:
     void addNote(Note* n);
     void addLoadedNote(Note* n);
 
+    /// ajoute un article au NotesManager sans incrémenter son id
+    void addModifiedNote(Note* n);
+
 public:
 
     Note** getM_notes()const{return m_notes; }
@@ -171,6 +174,8 @@ public:
     void addVideo(const QString& title, QString statut, const QString& description, const QString& imageFileName, const QString& id="",const QDate &dateCreation=QDate::currentDate(), const QDate &dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
 
     void addTask(const QString& title, QString statut, const QString& action,const QString& priority,const QDate& deadline, const QString& id="",const QDate& dateCreation=QDate::currentDate(),const QDate& dateLastModif=QDate::currentDate(), const int &nVersion=1, const bool &isVersionActuelle=true);
+
+    void removeOldVersionsOfNote(const Note* n);
 
     void removeNote(Note *n);
 
@@ -189,8 +194,8 @@ public:
     void save() const;
 
     // getters
-	 Note* getNoteByTitle(QString title);
-     Note* getNoteById(QString id);
+     Note* getNoteActiveByTitle(const QString& title);
+     Note* getNoteActiveById(const QString& id);
 
         // setters
         void setFilename(const QString& filename) { m_filename=filename; }

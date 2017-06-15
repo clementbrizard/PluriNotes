@@ -65,7 +65,7 @@ public slots:
         vuePrincipale->choixFichier();
         vuePrincipale->remplirDockListeNotes();
         vuePrincipale->remplirDockTaches();
-        vuePrincipale->remplirDockCorbeille();
+        vuePrincipale->remplirDockArchive();
         vueSecondaire->CouplesEditeur();
     }
 
