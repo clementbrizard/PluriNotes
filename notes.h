@@ -193,6 +193,8 @@ public:
 
     void save() const;
 
+    bool NoteActiveExists(const QString& id);
+
     // getters
      Note* getNoteActiveByTitle(const QString& title);
      Note* getNoteActiveById(const QString& id);

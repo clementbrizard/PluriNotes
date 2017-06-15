@@ -31,6 +31,7 @@
 #include <QScrollArea>
 #include <QStatusBar>
 #include <QString>
+#include <QStringList>
 #include <QTableWidget>
 #include <QTextCodec>
 #include <QTextEdit>

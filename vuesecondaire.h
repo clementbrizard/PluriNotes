@@ -43,6 +43,7 @@ private:
       QPushButton* addCouple;
       QPushButton* addNotOrientedCouple;
 QListWidget* listeCouples;
+QPushButton* supprimer;
     // Docks
       QDockWidget* dockListeCouples;
    // QDockWidget* dockRelation;
@@ -55,7 +56,8 @@ signals :
         void addOrientedCouple();
         ///Ajoute un couple non orienté
         void addCoupleNotOriented();
-
+        ///Supprime un couple
+        void supprimerCouple();
 };
 
 

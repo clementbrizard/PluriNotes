@@ -23,12 +23,25 @@ void NotesManager::freeManager(){
     handler.instance=nullptr;
 }
 
+bool NotesManager::NoteActiveExists(const QString& id)
+{
+    int found=0;
+    for (unsigned int i=0; i<m_nbNotes; i++)
+    {
+        if (id == m_notes[i]->getId() && m_notes[i]->getStatut()=="active"){
+            found=1;
+            return true;
+        }
+    }
+    if (found==0) return false;
+    throw Exception ("Note non trouvee..");
+}
+
 Note* NotesManager::getNoteActiveByTitle(const QString& title)
 {
     for (unsigned int i=0; i<m_nbNotes; i++)
-    {
         if (title == m_notes[i]->getTitle()&&m_notes[i]->getStatut()=="active") return m_notes[i];
-        }
+
     throw Exception ("Note non trouvee..");
 }
 
@@ -39,7 +52,6 @@ Note* NotesManager::getNoteActiveById(const QString& id){
         if (id == m_notes[i]->getId()&&m_notes[i]->getStatut()=="active") return m_notes[i];
         }
     throw Exception ("Note non trouvee..");
-
 }
 
 void NotesManager::addNote(Note* n){

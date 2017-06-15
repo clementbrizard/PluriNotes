@@ -3,13 +3,13 @@
     <couple>
         <id>0</id>
         <referencingNote>0</referencingNote>
-        <referencingNote>0</referencingNote>
-        <label></label>
+        <referencedNote>1</referencedNote>
+        <relation></relation>
     </couple>
     <couple>
         <id>1</id>
         <referencingNote>1</referencingNote>
-        <referencingNote>1</referencingNote>
-        <label></label>
+        <referencedNote>2</referencedNote>
+        <relation></relation>
     </couple>
 </couples>

@@ -1,5 +1,5 @@
-#ifndef RELATIONS_H
-#define RELATIONS_H
+#ifndef COUPLES_H
+#define COUPLES_H
 
 #include "qt_include.h"
 #include "notes.h"
@@ -68,7 +68,7 @@ public:
 
     void setNbCouples(const int& nbCouples);
 
-    // ajoute un couple au CouplesManager
+    ///joute un couple au CouplesManager
     void addCouple(Note& referencingNote, Note& referencedNote, const QString& id="", const QString& relation="");
 
     // supprime tous les couples contenant la note dont l'id est passé en paramètre
@@ -77,8 +77,9 @@ public:
 
     /// Supprime le couple dont l'id est passé en paramètre
     void removeCouple(const QString& idCouple);
-
-    // charge le fichier XML contenant tous les couples
+    ///Supprime le couple à partir des ids des deux notes du couple
+    void removeCoupleById(const QString& id1,const QString& id2);
+    ///Charge le fichier XML contenant tous les couples
     void load();
 
     // enregistre le CouplesManager dans le ficier XML chargé à l'ouverture de l'application

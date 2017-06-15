@@ -35,12 +35,13 @@ void VueSecondaire::CouplesEditeur()
         ///Ajouts des boutons
         addCouple = new QPushButton("Ajouter un couple");
         addNotOrientedCouple = new QPushButton("Ajouter un couple (NO)");
+        supprimer= new QPushButton("Supprimer un couple");
         ///Connexion des boutons aux slots
         QObject::connect(addCouple, SIGNAL(clicked()), this, SLOT(addOrientedCouple()));
         QObject::connect(addNotOrientedCouple, SIGNAL(clicked()), this, SLOT(addCoupleNotOriented()));
-        /*QObject::connect(add, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
+        QObject::connect(supprimer, SIGNAL(clicked()), this, SLOT(supprimerCouple()));
 
-        QObject::connect(addNotOriented, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
+        /*QObject::connect(addNotOriented, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
         */
         ///Ajout des boutons
        layout->addWidget(listeNotesLeft, 0, 0);
@@ -51,6 +52,7 @@ void VueSecondaire::CouplesEditeur()
 
         layout->addWidget(addNotOrientedCouple, 2, 1);
 
+        layout->addWidget(supprimer, 3, 1);
 
 
         centralContainer->setLayout(layout);
@@ -66,11 +68,13 @@ void VueSecondaire::createCouplesDock()
     listeCouples = new QListWidget(dockListeCouples); // listeRelations est le fils de dockListeRelations
     dockListeCouples->setWidget(listeCouples);
     this->addDockWidget(Qt::RightDockWidgetArea, dockListeCouples);
+
 }
 ///Fonction qui remplit le dock de couples
 void VueSecondaire::remplirCouplesDock(){
    QListWidgetItem* item;
    QString temp;
+   qDebug()<<"dock couple";
    ///On utilise l'iterator de CouplesManager pour afficher les couples existants
    for(CouplesManager::Iterator it=couplesManager.getIterator(); !it.isDone(); it.next()){
             ///On utilise un QString temporaire pour afficher les deux notes référencées
@@ -142,4 +146,22 @@ void VueSecondaire::addCoupleNotOriented(){
     QMessageBox::information(this, "Succès", "Le couple non orienté a bien été ajouté");
 }
 
+///Slot permettant de supprimer un couple
+void VueSecondaire::supprimerCouple(){
+    if(!listeCouples->currentItem() == 0){
+    QListWidgetItem* selectedItem = listeCouples->currentItem();
+    ///On récupère son texte
+            QString temp = selectedItem->text();
+            ///On split ce texte à chaque espace
+            QStringList templist = temp.split(" ");
+            ///On récupère les note n1 et n2 grâce à leurs id qui correspondent à la permière et la troisième partie de la Qstringlist résultant du splitage.
+            //Note* n1 = NotesManager::getManager().getNoteActiveById(temp[0]);
+           // Note* n2 = NotesManager::getManager().getNoteActiveById(temp[2]);
 
+            ///Appel d'une instance de CouplesManager
+            CouplesManager& cm = CouplesManager::getManager();
+            cm.removeCoupleById(templist[0],templist[2]);
+            qDebug()<<"Couple supprimé"<<templist[0]<<"->"<<templist[2];
+          updateDockCouples();
+    }
+}

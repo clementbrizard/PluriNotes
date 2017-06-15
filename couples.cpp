@@ -58,7 +58,10 @@ void CouplesManager:: removeCouplesWithThisNote(Note* n){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==n->getId() || it.current().getReferencedNote().getId()==n->getId()) removeCouple(it.current().getId());
 }
-
+void CouplesManager:: removeCoupleById(const QString& id1,const QString& id2){
+    for (Iterator it=getIterator(); !it.isDone(); it.next())
+        if(it.current().getReferencingNote().getId()==id1 && it.current().getReferencedNote().getId()==id2) removeCouple(it.current().getId());
+}
 void CouplesManager::removeCouple(const QString& idCouple){
     int i=0;
     for (Iterator it=getIterator(); !it.isDone(); it.next()){
@@ -117,7 +120,7 @@ void CouplesManager::save() const {
          stream.writeStartElement("couple");
          stream.writeTextElement("id",it.current().getId());
          stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
-         stream.writeTextElement("referencingNote",it.current().getReferencingNote().getId());
+         stream.writeTextElement("referencedNote",it.current().getReferencedNote().getId());
          stream.writeTextElement("relation",it.current().getRelation());
          stream.writeEndElement();
      }
@@ -184,7 +187,7 @@ void CouplesManager::load() {
                              qDebug()<<"referencedNote="<<referencedNote<<"\n";
                          }
 
-                         if(xml.name() == "relation") {
+                         if(xml.name() == "label") {
                               xml.readNext(); relation=xml.text().toString();
                               qDebug()<<"relation="<<relation<<"\n";
                           }
@@ -192,8 +195,18 @@ void CouplesManager::load() {
                      } // fin de si on a trouvé un élément de couple
                      xml.readNext();
                  } // fin de tant que on n'est pas à la fin du couple
-                 qDebug()<<"ajout couple "<<identificateur<<"\n";
-                 addCouple(*(nm.getNoteActiveById(referencingNote)),*(nm.getNoteActiveById(referencedNote)),identificateur,relation);
+
+                 if(nm.NoteActiveExists(referencingNote)&&nm.NoteActiveExists(referencedNote))
+                 {
+                     addCouple(*(nm.getNoteActiveById(referencingNote)),*(nm.getNoteActiveById(referencedNote)),identificateur,relation);
+                     qDebug()<<"ajout couple "<<identificateur<<"\n";
+                 }
+                 else
+                 {
+                     QMessageBox msgBox(QMessageBox::Icon::Information, "Erreur", "Tentative de création d'un couple comportant une note non active");
+                     msgBox.exec();
+                 }
+
              } // fin de si on a trouvé un couple
 
          }// fin de si on a trouvé une balise de début

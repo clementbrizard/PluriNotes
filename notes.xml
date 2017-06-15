@@ -23,7 +23,7 @@
     </image>
     <audio>
         <id>2</id>
-        <statut>archivee</statut>
+        <statut>active</statut>
         <nVersion>1</nVersion>
         <isVersionActuelle>0</isVersionActuelle>
         <title>audio</title>
