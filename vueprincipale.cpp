@@ -637,7 +637,7 @@ void VuePrincipale::enregistrerModifsOfNote(){
     }
 
     if(type=="vid"){
-        notesManager.addImage(titre->text(),"active",description->text(),imageFileName->text(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
+        notesManager.addVideo(titre->text(),"active",description->text(),imageFileName->text(),id->text(),noteCourante->getDateCreation(),QDate::currentDate(),nVersionOfNewNote);
 
         // on change le statut de la note modifiée
         (const_cast <Note*> (noteCourante))->setStatut("archivee");
