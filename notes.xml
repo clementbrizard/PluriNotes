@@ -14,9 +14,9 @@
     </task>
     <video>
         <id>3</id>
-        <statut>active</statut>
+        <statut>archivee</statut>
         <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
+        <isVersionActuelle>0</isVersionActuelle>
         <title>video</title>
         <description>Cette vidéo accompagne l'article d'id 0</description>
         <imageFilename></imageFilename>
@@ -35,10 +35,10 @@
         <dateLastModif>05-06-2017</dateLastModif>
     </audio>
     <image>
-        <id></id>
-        <statut>statut</statut>
+        <id>4</id>
+        <statut>archivee</statut>
         <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
+        <isVersionActuelle>0</isVersionActuelle>
         <title>Panda</title>
         <description>Gros panda tout mignon</description>
         <imageFilename></imageFilename>
@@ -46,14 +46,26 @@
         <dateLastModif>15-06-2017</dateLastModif>
     </image>
     <image>
-        <id>4</id>
-        <statut>active</statut>
-        <nVersion>1</nVersion>
-        <isVersionActuelle>1</isVersionActuelle>
-        <title>Panda</title>
-        <description>Gros panda tout mignon</description>
+
+        <id>3</id>
+        <statut>archivee</statut>
+        <nVersion>2</nVersion>
+        <isVersionActuelle>0</isVersionActuelle>
+        <title>video 1</title>
+        <description>Cette vidéo accompagne l'article d'id 0</description>
         <imageFilename></imageFilename>
-        <dateCreation>15-06-2017</dateCreation>
+        <dateCreation>04-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
+    <image>
+        <id>3</id>
+        <statut>active</statut>
+        <nVersion>3</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>video 2</title>
+        <description>Cette vidéo accompagne l'article d'id 0</description>
+        <imageFilename></imageFilename>
+        <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>15-06-2017</dateLastModif>
     </image>
 </notes>

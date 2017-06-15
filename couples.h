@@ -11,7 +11,7 @@ class Relation;
 class CouplesManager;
 
 /**************COUPLE*********************/
-
+///Classe Couple
 class Couple{
 private:
     QString m_id;
@@ -34,7 +34,7 @@ public:
 };
 
 /*************COUPLESMANAGER************/
-
+///Manager pour gérer les couples
 class CouplesManager{
 private:
 
@@ -45,7 +45,7 @@ private:
 
     // fichier contenant les relations
     QString m_filename;
-
+    ///Instance unique du CouplesManager
     struct Handler {
         CouplesManager* instance; // pointeur sur l'unique instance
         Handler():instance(nullptr){}
@@ -62,6 +62,7 @@ public:
 
     Couple** getM_couples()const{return m_couples; }
     QString getFilename() const { return m_filename; }
+    ///Permet de dire au CouplesManager le nom du fichier XML avec lequel il va travailler
     void setFilename(const QString& filename) {m_filename=filename; }
 
     void setNbMaxCouples(const int& nbMaxCouples);

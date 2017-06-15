@@ -1,7 +1,7 @@
 #ifndef QT_INCLUDE_H
 #define QT_INCLUDE_H
 
-// Fichier d'inclusion des paquet Qt :
+///Fichier d'inclusion des paquet Qt :
 
 // Veuillez trier les paquets par ordre alphabetique pour simplifier l'utilisation du fichier
 
