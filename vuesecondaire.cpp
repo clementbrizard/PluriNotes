@@ -1,7 +1,7 @@
 #include "plurinotes_app.h"
 #include "vuesecondaire.h"
 #include "couples.h"
-
+///Fonction qui genere la page de base des relations
 VueSecondaire::VueSecondaire(): QMainWindow(),listeCouples(nullptr),dockListeCouples(new QDockWidget("Couples", this))
       /*listeNotesLeft(nullptr),
       listeNotesRight(nullptr)*/
@@ -12,11 +12,12 @@ remplirCouplesDock();
     //noteCourante(notesManager.getNoteTitle("Avant Propos"));
 }
 
+///Affichage de la partie centrale de la page des relations
 void VueSecondaire::CouplesEditeur()
 {
         QWidget* centralContainer = new QWidget;
         QGridLayout *layout = new QGridLayout;
-        ///Premier QlistWidget : listNotesLeft
+        ///Premier QlistWidget : listeNotesLeft
         listeNotesLeft = new QListWidget();
         QListWidgetItem* item1;
         ///Remplissage de listeNotesLeft
@@ -26,7 +27,7 @@ void VueSecondaire::CouplesEditeur()
         ///Second QlistWidget : listeNotesRight
         listeNotesRight = new QListWidget();
         QListWidgetItem* item2;
-        ///Remplissage de listNotesRight
+        ///Remplissage de listeNotesRight
         for(NotesManager::Iterator it=notesManager.getIterator(); !it.isDone(); it.next()){
             item2= new QListWidgetItem((it.current()).getTitle(),listeNotesRight);
         }
@@ -41,8 +42,6 @@ void VueSecondaire::CouplesEditeur()
         QObject::connect(addNotOrientedCouple, SIGNAL(clicked()), this, SLOT(addCoupleNotOriented()));
         QObject::connect(supprimer, SIGNAL(clicked()), this, SLOT(supprimerCouple()));
 
-        /*QObject::connect(addNotOriented, SIGNAL(clicked()), this, SLOT(updateRelationManager()));
-        */
         ///Ajout des boutons
        layout->addWidget(listeNotesLeft, 0, 0);
 
@@ -59,7 +58,7 @@ void VueSecondaire::CouplesEditeur()
 
         this->setCentralWidget(centralContainer);
 }
-
+///Fonction pour créer le dock qui affiche les couples
 void VueSecondaire::createCouplesDock()
 
 {

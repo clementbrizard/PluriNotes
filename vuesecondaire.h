@@ -7,7 +7,7 @@
 #include "couples.h"
 
 
-// Vue secondaire de l'appli (deuxieme onglet)
+/// Vue secondaire de l'appli (deuxieme onglet - Partie Relations)
 class VueSecondaire : public QMainWindow {
 public:
     VueSecondaire();
@@ -34,16 +34,16 @@ private:
     Q_OBJECT
 
     // Attributs affichage relation editeur
-   QWidget* centralContainer;
-    QGridLayout *layout;
+      QWidget* centralContainer;
+      QGridLayout *layout;
       QListWidget* listeNotesLeft;
       QListWidget* listeNotesRight;
       QVBoxLayout* layer;
       QScrollArea* scroller;
       QPushButton* addCouple;
       QPushButton* addNotOrientedCouple;
-QListWidget* listeCouples;
-QPushButton* supprimer;
+      QListWidget* listeCouples;
+      QPushButton* supprimer;
     // Docks
       QDockWidget* dockListeCouples;
    // QDockWidget* dockRelation;
