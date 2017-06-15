@@ -3,7 +3,7 @@
 
 PluriNotes* PluriNotes::plurinotesUniqueInstance = nullptr;
 
-// Lancement de l'application :
+///Lancement de l'application :
 PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     : QApplication(argc,argv), name(_name)
 {
@@ -23,19 +23,19 @@ PluriNotes::PluriNotes(int &argc, char **argv, const QString& _name)
     barreOnglets->showMaximized();
 }
 
-// Fonction donneInstance du Design Pattern Singleton
+///Fonction donneInstance du Design Pattern Singleton
 PluriNotes& PluriNotes::donnePluriNotesInstance(int &argc, char **argv, const QString& _name) {
     if(plurinotesUniqueInstance == nullptr)
         plurinotesUniqueInstance = new PluriNotes(argc, argv,_name);
     return *plurinotesUniqueInstance;
 }
 
-// Création de la barre de menu :
+///Création de la barre de menu :
 QMenuBar* PluriNotes::createMenu() {
 
     QMenuBar* menubar = new QMenuBar();
 
-    // Menu Fichier :
+    ///Menu Fichier :
     QMenu* fichier = menubar->addMenu("&Fichier");
 
     QAction* actualiser = fichier->addAction("&Actualiser les 3 listes de notes");
@@ -56,17 +56,17 @@ QMenuBar* PluriNotes::createMenu() {
     QObject::connect(quit, SIGNAL(triggered()), this, SLOT(quit()));
 
 
-    // Menu Edition :
+    ///Menu Edition :
     QMenu* menuEdition = new QMenu;
     menuEdition = menubar->addMenu("&Edition");
 
-    // Menu Corbeille :
+    ///Menu Corbeille :
     QMenu* menuDustbin = new QMenu;
     menuDustbin = menubar->addMenu("&Corbeille");
 
     return menubar;
 }
-
+///Affichage de la vue principale ou secondaire
 void PluriNotes::focusOn(NomVue nom){
     switch (nom) {
         case Principale:

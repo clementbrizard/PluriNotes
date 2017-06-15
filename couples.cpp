@@ -35,12 +35,12 @@ CouplesManager::~CouplesManager(){
 }
 
 CouplesManager::Handler CouplesManager::handler=Handler();
-
+///Renvoie une instance unique du NotesManager
 CouplesManager& CouplesManager::getManager(){
     if (!handler.instance) handler.instance=new CouplesManager;
     return *handler.instance;
 }
-
+///libère l'instance
 void CouplesManager::freeManager(){
     delete handler.instance;
     handler.instance=nullptr;
@@ -53,15 +53,17 @@ void CouplesManager::setNbMaxCouples(const int& nbMaxCouples){
 void CouplesManager::setNbCouples(const int& nbCouples){
     m_nbCouples = nbCouples;
 }
-
+///Supprime tous les couples qui contiennent la note passée en argument
 void CouplesManager:: removeCouplesWithThisNote(Note* n){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==n->getId() || it.current().getReferencedNote().getId()==n->getId()) removeCouple(it.current().getId());
 }
-void CouplesManager:: removeCoupleById(const QString& id1,const QString& id2){
+///Supprime un couple à partir de l'id des deux notes du couple
+void CouplesManager:: removeCoupleByNoteId(const QString& id1,const QString& id2){
     for (Iterator it=getIterator(); !it.isDone(); it.next())
         if(it.current().getReferencingNote().getId()==id1 && it.current().getReferencedNote().getId()==id2) removeCouple(it.current().getId());
 }
+///Supprime un couple à partir de l'id du couple
 void CouplesManager::removeCouple(const QString& idCouple){
     int i=0;
     for (Iterator it=getIterator(); !it.isDone(); it.next()){
@@ -70,7 +72,7 @@ void CouplesManager::removeCouple(const QString& idCouple){
         i++;
     }
 }
-
+///Ajoute un couple
 void CouplesManager::addCouple(Note& referencingNote,Note& referencedNote,const QString& id,const QString& relation){
 
     if (m_nbCouples==m_nbMaxCouples){
@@ -88,18 +90,17 @@ void CouplesManager::addCouple(Note& referencingNote,Note& referencedNote,const 
     m_couples[m_nbCouples++]=c;
  }
 
-// met à jour les couples qui comportent la note n
-// car celle-ci a été modifiée
+///Met à jour les couples qui comportent la note n
 void CouplesManager::upDateCouples(Note* n){
 
-    // récupérer la nouvelle version de la note à remplacer
+    ///Récupére la nouvelle version de la note à remplacer
     Note* nouvelleVersion;
     NotesManager& nm=NotesManager::getManager();
     for (NotesManager::Iterator it=nm.getIterator(); !it.isDone(); it.next())
         if(it.current().getId()==n->getId() && it.current().getStatut()=="active")
             nouvelleVersion=&(it.current());
 
-    // remplacer l'ancienne version par la nouvelle dans les couples concernés
+    ///Remplace l'ancienne version par la nouvelle dans les couples concernés
     for (Iterator it=getIterator(); !it.isDone(); it.next()){
         if (&(it.current().getReferencingNote())==n)
             it.current().setReferencingNote(*nouvelleVersion);
@@ -187,7 +188,7 @@ void CouplesManager::load() {
                              qDebug()<<"referencedNote="<<referencedNote<<"\n";
                          }
 
-                         if(xml.name() == "label") {
+                         if(xml.name() == "relation") {
                               xml.readNext(); relation=xml.text().toString();
                               qDebug()<<"relation="<<relation<<"\n";
                           }
