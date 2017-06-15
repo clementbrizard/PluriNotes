@@ -38,6 +38,8 @@ void CreationArticleWindow::enregistrer()
         NotesManager::getManager().save();
         this->close();
         emit fermer();
+
+        PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
     }
 }
 
@@ -84,11 +86,68 @@ void CreationTacheWindow::enregistrer()
         NotesManager::getManager().save();
         this->close();
         emit fermer();
+
+        PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
     }
 }
 
-//***** CREATION *****//
+//***** CREATION MEDIA *****//
+/// Initialisation de l'attribut statique m_type
+QString CreationMediaWindow::m_type = tr("");
 
+/// Constructeur de CreationTacheWIndow
+CreationMediaWindow::CreationMediaWindow()
+    : titre(new QLineEdit(this)),
+      description(new QLineEdit(this)),
+      imageFileName(new QLineEdit(this)),
+      creer(new QPushButton("Créer",this))
+{
+    QVBoxLayout* layoutV = new QVBoxLayout;
+    QFormLayout* layoutForm = new QFormLayout;
+
+    QLabel* nomFenetre = new QLabel;
+    if(CreationMediaWindow::m_type == "vid") {
+        nomFenetre->setText("Créer une vidéo");
+    } else if(CreationMediaWindow::m_type == "img") {
+        nomFenetre->setText("Créer une image");
+    } else if(CreationMediaWindow::m_type == "aud") {
+        nomFenetre->setText("Créer un audio");
+    }
+    nomFenetre->setAlignment(Qt::AlignCenter);
+    nomFenetre->setStyleSheet("font-size:16px; padding:30px; text-align:center;");
+
+    layoutForm->addRow("Titre", titre);
+    layoutForm->addRow("Description", description);
+    layoutForm->addRow("Nom du fichier média", imageFileName);
+
+    layoutV->addWidget(nomFenetre);
+    layoutV->addLayout(layoutForm);
+    layoutV->addWidget(creer, 0, Qt::AlignCenter);
+
+    QObject::connect(creer, SIGNAL(clicked()), this, SLOT(enregistrer()));
+
+    setLayout(layoutV);
+}
+
+/// Slot de CreationArticleWindow permettant d'enregistrer la tâche créée dans le NoteManager
+void CreationMediaWindow::enregistrer()
+{
+    QString titreStr = titre->text();
+    if(!titreStr.isEmpty() && !imageFileName->text().isEmpty()){
+        if(CreationMediaWindow::m_type == "vid") {
+            NotesManager::getManager().addVideo(titreStr, tr("statut"), description->text(), imageFileName->text());
+        } else if(CreationMediaWindow::m_type == "img") {
+            NotesManager::getManager().addImage(titreStr, tr("statut"), description->text(), imageFileName->text());
+        } else if(CreationMediaWindow::m_type == "aud") {
+            NotesManager::getManager().addAudio(titreStr, tr("statut"), description->text(), imageFileName->text());
+        }
+        NotesManager::getManager().save();
+        this->close();
+        emit fermer();
+
+        PluriNotes::getPluriNotesInstance()->getVuePrincipale()->actualiserLesDocks();
+    }
+}
 
 //***** VUE PRINCIPALE *****//
 
@@ -109,16 +168,22 @@ void VuePrincipale::createToolbar()
     QAction* ajouterAudio = new QAction("Créer un audio", this);
     toolBar->addAction(ajouterAudio);
     toolBar->addSeparator();
+    CreationMediaWindow::setType(tr("aud"));
+    QObject::connect(ajouterAudio, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
 
     // Video
     QAction* ajouterVideo = new QAction("Créer une vidéo", this);
     toolBar->addAction(ajouterVideo);
     toolBar->addSeparator();
+    CreationMediaWindow::setType(tr("vid"));
+    QObject::connect(ajouterVideo, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
 
     // Image
     QAction* ajouterImage = new QAction("Créer une image", this);
     toolBar->addAction(ajouterImage);
     toolBar->addSeparator();
+    CreationMediaWindow::setType(tr("img"));
+    QObject::connect(ajouterImage, SIGNAL(triggered()), PluriNotes::getPluriNotesInstance(), SLOT(afficherCreationMediaPN()));
 
     // Tache
     QAction* ajouterTache = new QAction("Créer une tâche", this);

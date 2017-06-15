@@ -162,5 +162,7 @@ void VueSecondaire::supprimerCouple(){
             cm.removeCoupleById(templist[0],templist[2]);
             qDebug()<<"Couple supprimé"<<templist[0]<<"->"<<templist[2];
           updateDockCouples();
+          statusBar()->showMessage(tr("Couple supprimé"));
+
     }
 }

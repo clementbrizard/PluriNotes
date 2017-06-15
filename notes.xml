@@ -34,4 +34,26 @@
         <dateCreation>04-06-2017</dateCreation>
         <dateLastModif>05-06-2017</dateLastModif>
     </audio>
+    <image>
+        <id></id>
+        <statut>statut</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Panda</title>
+        <description>Gros panda tout mignon</description>
+        <imageFilename></imageFilename>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
+    <image>
+        <id>4</id>
+        <statut>statut</statut>
+        <nVersion>1</nVersion>
+        <isVersionActuelle>1</isVersionActuelle>
+        <title>Panda</title>
+        <description>Gros panda tout mignon</description>
+        <imageFilename></imageFilename>
+        <dateCreation>15-06-2017</dateCreation>
+        <dateLastModif>15-06-2017</dateLastModif>
+    </image>
 </notes>

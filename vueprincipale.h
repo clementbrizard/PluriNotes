@@ -61,6 +61,40 @@ signals:
     void fermer();
 };
 
+// Fenêtre de création d'un media
+class CreationMediaWindow : public QWidget {
+public:
+    static CreationMediaWindow& getCreationMediaWindow(){
+        static CreationMediaWindow instance;
+        instance.show();
+        return instance;
+    }
+
+    // setters
+    static void setType(const QString type) { CreationMediaWindow::m_type = type; }
+
+    // getters
+    const QString& getType() const { return CreationMediaWindow::m_type; }
+private:
+    Q_OBJECT
+
+    static QString m_type;
+
+    // Attributs de l'article à créer
+    QLineEdit* titre;
+    QLineEdit* description;
+    QLineEdit* imageFileName;
+
+    QPushButton* creer;
+
+    CreationMediaWindow();
+
+public slots:
+    void enregistrer();
+signals:
+    void fermer();
+};
+
 // Vue principale de l'appli (premier onglet)
 class VuePrincipale : public QMainWindow {
 public:

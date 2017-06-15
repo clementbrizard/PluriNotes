@@ -26,7 +26,8 @@ public:
     // getters
     static PluriNotes* getPluriNotesInstance(){ return plurinotesUniqueInstance; }
     const Note* getNoteCourante() { return noteCourante; }
-    VueSecondaire* getVueSecondaire(){return vueSecondaire; }
+    VueSecondaire* getVueSecondaire(){ return vueSecondaire; }
+    VuePrincipale* getVuePrincipale(){ return vuePrincipale; }
 
     // setters
     void setNoteCourante(Note* noteC){ noteCourante = noteC; }
@@ -105,6 +106,11 @@ public slots:
     // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation de tache
     void afficherCreationTachePN(){
         QObject::connect(&CreationTacheWindow::getCreationTacheWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
+    }
+
+    // Slot de PluriNotes (PN) gérant l'appel de la fonction d'affichage de la fenetre de creation de vidéo, d'image ou d'audio
+    void afficherCreationMediaPN(){
+        QObject::connect(&CreationMediaWindow::getCreationMediaWindow(), SIGNAL(fermer()), vuePrincipale, SLOT(actualiserListes()));
     }
 
     /// Slot de PluriNotes(PN) gérant la modification d'une note
